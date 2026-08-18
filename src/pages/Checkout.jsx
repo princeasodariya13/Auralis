@@ -10,12 +10,12 @@ import './Checkout.css';
 
 const Checkout = () => {
     const navigate = useNavigate();
-    const { cartItems, clearCart } = useCart();
+    const { cart, clearCart } = useCart();
     const { user } = useAuth();
     
     // Redirect if cart is empty
     useEffect(() => {
-        if (!cartItems || cartItems.length === 0) {
+        if (!cart || cart.length === 0) {
             navigate('/cart');
         } else {
             // Log Analytics: Checkout Started
@@ -23,7 +23,7 @@ const Checkout = () => {
                 mod.analyticsService.logEvent('CHECKOUT_STARTED');
             });
         }
-    }, [cartItems, navigate]);
+    }, [cart, navigate]);
 
     const [refreshKey, setRefreshKey] = useState(0);
     const [couponCode, setCouponCode] = useState('');
@@ -166,7 +166,7 @@ const Checkout = () => {
         );
     }
 
-    if (!cartItems || cartItems.length === 0) return null; // Wait for redirect
+    if (!cart || cart.length === 0) return null; // Wait for redirect
 
     return (
         <div className="section container checkout-page">
