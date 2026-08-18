@@ -4,9 +4,7 @@ import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-router.use(protect);
-
 router.route('/orders/:orderNumber/shipments')
-    .get(getShipmentsByOrder);
+    .get(protect, getShipmentsByOrder);
 
 export default router;
