@@ -200,7 +200,7 @@ export const orderService = {
         const payload = {};
         if (couponCode) payload.couponCode = couponCode;
         if (pointsToRedeem) payload.pointsToRedeem = pointsToRedeem;
-        const response = await fetch(`${API_URL}/checkout/preview`, getFetchOptions('POST', payload));
+        const response = await fetch(`${API_URL}/orders/preview`, getFetchOptions('POST', payload));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to preview checkout');
         return json.data;
