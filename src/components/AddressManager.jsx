@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAddresses } from '../hooks/useData';
 import { addressService } from '../services/apiService';
 import { Plus, Edit2, Trash2, MapPin, CheckCircle2, AlertCircle } from 'lucide-react';
@@ -118,6 +118,14 @@ const AddressManager = ({ onSelectAddress, selectedAddressId, selectionMode = fa
     const { data: addresses, loading, error, refetch } = useAddresses();
     const [isAdding, setIsAdding] = useState(false);
     const [editingId, setEditingId] = useState(null);
+
+    // Auto-select address if in selection mode and none is selected
+    useEffect(() => {
+        if (selectionMode && addresses && addresses.length > 0 && !selectedAddressId && onSelectAddress) {
+            const defaultAddr = addresses.find(a => a.isDefault) || addresses[0];
+            onSelectAddress(defaultAddr);
+        }
+    }, [addresses, selectionMode, selectedAddressId, onSelectAddress]);
 
     const handleDelete = async (id) => {
         if (!window.confirm('Are you sure you want to delete this address?')) return;
