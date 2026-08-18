@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { adminService } from '../../services/apiService';
 import { ArrowLeft, User, MapPin, Package, CreditCard, Clock, FileText, Send } from 'lucide-react';
+import AdminShipmentPanel from '../../components/AdminShipmentPanel';
 import './AdminOrders.css';
 
 const VALID_TRANSITIONS = {
@@ -215,6 +216,8 @@ const AdminOrderDetails = () => {
                             </div>
                         </div>
                     </div>
+
+                    <AdminShipmentPanel order={order} onStatusChange={fetchData} />
 
                     <div className="admin-panel">
                         <div className="panel-header">

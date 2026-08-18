@@ -13,13 +13,17 @@ const Shop = () => {
     // Read from URL initially
     const urlCategory = searchParams.get('category') || 'All';
     const urlSearch = searchParams.get('search') || '';
-    const urlMaxPrice = searchParams.get('maxPrice') ? Number(searchParams.get('maxPrice')) : 5000;
+    const urlMinPrice = searchParams.get('minPrice') ? Number(searchParams.get('minPrice')) : 0;
+    const urlMaxPrice = searchParams.get('maxPrice') ? Number(searchParams.get('maxPrice')) : 10000;
+    const urlAvailability = searchParams.get('availability') || 'all';
     const urlSort = searchParams.get('sort') || 'default';
     const urlPage = searchParams.get('page') ? Number(searchParams.get('page')) : 1;
 
     // Filter States
     const [selectedCategory, setSelectedCategory] = useState(urlCategory);
-    const [priceRange, setPriceRange] = useState(urlMaxPrice);
+    const [minPrice, setMinPrice] = useState(urlMinPrice);
+    const [maxPrice, setMaxPrice] = useState(urlMaxPrice);
+    const [availability, setAvailability] = useState(urlAvailability);
     const [searchInput, setSearchInput] = useState(urlSearch);
     const [debouncedSearch, setDebouncedSearch] = useState(urlSearch);
     const [sortOption, setSortOption] = useState(urlSort);
@@ -43,12 +47,14 @@ const Shop = () => {
         const params = new URLSearchParams();
         if (selectedCategory !== 'All') params.set('category', selectedCategory);
         if (debouncedSearch) params.set('search', debouncedSearch);
-        if (priceRange < 5000) params.set('maxPrice', priceRange);
+        if (minPrice > 0) params.set('minPrice', minPrice);
+        if (maxPrice < 10000) params.set('maxPrice', maxPrice);
+        if (availability !== 'all') params.set('availability', availability);
         if (sortOption !== 'default') params.set('sort', sortOption);
         if (currentPage > 1) params.set('page', currentPage);
         
-        setSearchParams(params);
-    }, [selectedCategory, debouncedSearch, priceRange, sortOption, currentPage, setSearchParams]);
+        setSearchParams(params, { replace: true });
+    }, [selectedCategory, debouncedSearch, minPrice, maxPrice, availability, sortOption, currentPage, setSearchParams]);
 
     // Reset page to 1 if category, price, or sort changes
     const handleCategoryChange = (cat) => {
@@ -57,8 +63,13 @@ const Shop = () => {
         setIsMobileFilterOpen(false);
     };
 
-    const handlePriceChange = (e) => {
-        setPriceRange(Number(e.target.value));
+    const handleMaxPriceChange = (e) => {
+        setMaxPrice(Number(e.target.value));
+        setCurrentPage(1);
+    };
+
+    const handleAvailabilityChange = (e) => {
+        setAvailability(e.target.value);
         setCurrentPage(1);
     };
 
@@ -71,7 +82,9 @@ const Shop = () => {
     const { data: products, pagination, loading, error } = useProducts({
         search: debouncedSearch,
         category: selectedCategory,
-        maxPrice: priceRange,
+        minPrice,
+        maxPrice,
+        availability,
         sort: sortOption,
         page: currentPage,
         limit: 12
@@ -81,7 +94,9 @@ const Shop = () => {
 
     const handleClearFilters = () => {
         setSelectedCategory('All');
-        setPriceRange(5000);
+        setMinPrice(0);
+        setMaxPrice(10000);
+        setAvailability('all');
         setSearchInput('');
         setDebouncedSearch('');
         setSortOption('default');
@@ -91,10 +106,11 @@ const Shop = () => {
     const removeFilter = (type) => {
         if (type === 'category') handleCategoryChange('All');
         if (type === 'search') { setSearchInput(''); setDebouncedSearch(''); setCurrentPage(1); }
-        if (type === 'price') { setPriceRange(5000); setCurrentPage(1); }
+        if (type === 'price') { setMinPrice(0); setMaxPrice(10000); setCurrentPage(1); }
+        if (type === 'availability') { setAvailability('all'); setCurrentPage(1); }
     };
 
-    const hasActiveFilters = selectedCategory !== 'All' || debouncedSearch !== '' || priceRange < 5000;
+    const hasActiveFilters = selectedCategory !== 'All' || debouncedSearch !== '' || maxPrice < 10000 || minPrice > 0 || availability !== 'all';
 
     return (
         <div className="shop-page container section">
@@ -129,6 +145,7 @@ const Shop = () => {
                             onChange={handleSortChange}
                         >
                             <option value="default">Featured</option>
+                            <option value="newest">Newest Arrivals</option>
                             <option value="price_asc">Price: Low to High</option>
                             <option value="price_desc">Price: High to Low</option>
                             <option value="name_asc">Name: A-Z</option>
@@ -150,9 +167,14 @@ const Shop = () => {
                                 "{debouncedSearch}" <X size={14} onClick={() => removeFilter('search')} />
                             </span>
                         )}
-                        {priceRange < 5000 && (
+                        {(minPrice > 0 || maxPrice < 10000) && (
                             <span className="filter-chip">
-                                Up to ${priceRange} <X size={14} onClick={() => removeFilter('price')} />
+                                ${minPrice} - ${maxPrice} <X size={14} onClick={() => removeFilter('price')} />
+                            </span>
+                        )}
+                        {availability !== 'all' && (
+                            <span className="filter-chip">
+                                {availability === 'in_stock' ? 'In Stock' : 'Out of Stock'} <X size={14} onClick={() => removeFilter('availability')} />
                             </span>
                         )}
                         <button className="clear-all-btn" onClick={handleClearFilters}>
@@ -188,19 +210,60 @@ const Shop = () => {
                     </div>
 
                     <div className="filter-group">
-                        <h3>Max Price: ${priceRange.toLocaleString()}</h3>
-                        <input
-                            type="range"
-                            min="0"
-                            max="5000"
-                            step="100"
-                            value={priceRange}
-                            onChange={handlePriceChange}
-                            className="price-range"
-                        />
-                        <div className="price-labels">
-                            <span>$0</span>
-                            <span>$5,000+</span>
+                        <h3>Availability</h3>
+                        <div className="category-list">
+                            <button
+                                className={`category-btn ${availability === 'all' ? 'active' : ''}`}
+                                onClick={() => handleAvailabilityChange({ target: { value: 'all' }})}
+                            >
+                                Any Availability
+                            </button>
+                            <button
+                                className={`category-btn ${availability === 'in_stock' ? 'active' : ''}`}
+                                onClick={() => handleAvailabilityChange({ target: { value: 'in_stock' }})}
+                            >
+                                In Stock
+                            </button>
+                            <button
+                                className={`category-btn ${availability === 'out_of_stock' ? 'active' : ''}`}
+                                onClick={() => handleAvailabilityChange({ target: { value: 'out_of_stock' }})}
+                            >
+                                Out of Stock
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="filter-group">
+                        <h3>Price Range</h3>
+                        <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                            <div style={{ flex: 1 }}>
+                                <label className="text-sm text-muted" htmlFor="min-price">Min ($)</label>
+                                <input
+                                    id="min-price"
+                                    type="number"
+                                    min="0"
+                                    value={minPrice}
+                                    onChange={(e) => {
+                                        setMinPrice(Number(e.target.value));
+                                        setCurrentPage(1);
+                                    }}
+                                    className="price-input"
+                                    style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid var(--color-slate-700)', backgroundColor: 'var(--color-slate-800)', color: 'var(--color-slate-100)' }}
+                                />
+                            </div>
+                            <span style={{ marginTop: '1.5rem' }}>-</span>
+                            <div style={{ flex: 1 }}>
+                                <label className="text-sm text-muted" htmlFor="max-price">Max ($)</label>
+                                <input
+                                    id="max-price"
+                                    type="number"
+                                    min="0"
+                                    value={maxPrice}
+                                    onChange={handleMaxPriceChange}
+                                    className="price-input"
+                                    style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid var(--color-slate-700)', backgroundColor: 'var(--color-slate-800)', color: 'var(--color-slate-100)' }}
+                                />
+                            </div>
                         </div>
                     </div>
                     

@@ -1,5 +1,6 @@
 import Coupon from '../models/Coupon.js';
 import CouponUsage from '../models/CouponUsage.js';
+import { getAvailablePoints, calculateLoyaltyDiscount } from './loyaltyService.js';
 
 // Calculate Shipping
 export const calculateShipping = (subtotal, discountAmount = 0) => {
@@ -13,8 +14,8 @@ export const calculateTax = (subtotal, discountAmount = 0) => {
     return Number((discountedSubtotal * 0.08).toFixed(2));
 };
 
-// Calculate Final Checkout Totals with optional Coupon
-export const calculateCheckoutTotals = async (subtotal, couponCode, userId) => {
+// Calculate Final Checkout Totals with optional Coupon and Loyalty Points
+export const calculateCheckoutTotals = async (subtotal, couponCode, userId, pointsToRedeem = 0, session = null) => {
     let discountAmount = 0;
     let coupon = null;
 
@@ -71,16 +72,35 @@ export const calculateCheckoutTotals = async (subtotal, couponCode, userId) => {
         // Prevent discount from exceeding subtotal
         discountAmount = Math.min(discountAmount, subtotal);
         discountAmount = Number(discountAmount.toFixed(2));
+        discountAmount = Number(discountAmount.toFixed(2));
     }
 
     const discountedSubtotal = Math.max(0, subtotal - discountAmount);
-    const shippingCost = calculateShipping(subtotal, discountAmount);
-    const tax = calculateTax(subtotal, discountAmount);
-    const total = Number((discountedSubtotal + shippingCost + tax).toFixed(2));
+    
+    let loyaltyDiscount = 0;
+    let loyaltyPointsRedeemed = 0;
+    
+    if (pointsToRedeem > 0 && userId) {
+        const availablePoints = await getAvailablePoints(userId, session);
+        const actualPointsToUse = Math.min(pointsToRedeem, availablePoints);
+        
+        const loyaltyCalc = calculateLoyaltyDiscount(discountedSubtotal, actualPointsToUse);
+        loyaltyDiscount = loyaltyCalc.discountAmount;
+        loyaltyPointsRedeemed = loyaltyCalc.pointsUsed;
+    }
+
+    const finalSubtotal = Math.max(0, discountedSubtotal - loyaltyDiscount);
+    const totalDiscount = discountAmount + loyaltyDiscount;
+
+    const shippingCost = calculateShipping(subtotal, totalDiscount);
+    const tax = calculateTax(subtotal, totalDiscount);
+    const total = Number((finalSubtotal + shippingCost + tax).toFixed(2));
 
     return {
         subtotal: Number(subtotal.toFixed(2)),
         discountAmount,
+        loyaltyDiscount,
+        loyaltyPointsRedeemed,
         shippingCost,
         tax,
         total,

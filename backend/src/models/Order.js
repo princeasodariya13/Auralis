@@ -96,6 +96,16 @@ const orderSchema = new mongoose.Schema({
         default: 0,
         min: 0
     },
+    loyaltyPointsRedeemed: {
+        type: Number,
+        default: 0,
+        min: 0
+    },
+    loyaltyDiscount: {
+        type: Number,
+        default: 0,
+        min: 0
+    },
     paymentStatus: {
         type: String,
         enum: ['pending', 'paid', 'failed', 'refunded', 'partially_refunded'],
@@ -114,7 +124,13 @@ const orderSchema = new mongoose.Schema({
     },
     paymentVerifiedAt: {
         type: Date
-    }
+    },
+    refunds: [{
+        refundId: { type: String, required: true },
+        amount: { type: Number, required: true },
+        reason: { type: String },
+        createdAt: { type: Date, default: Date.now }
+    }]
 }, {
     timestamps: true
 });

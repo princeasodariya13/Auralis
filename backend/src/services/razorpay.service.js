@@ -51,7 +51,14 @@ export const verifyRazorpaySignature = (orderId, paymentId, signature) => {
         .update(`${orderId}|${paymentId}`)
         .digest('hex');
 
-    return generatedSignature === signature;
+    try {
+        const generatedBuffer = Buffer.from(generatedSignature, 'hex');
+        const signatureBuffer = Buffer.from(signature, 'hex');
+        if (generatedBuffer.length !== signatureBuffer.length) return false;
+        return crypto.timingSafeEqual(generatedBuffer, signatureBuffer);
+    } catch (error) {
+        return false;
+    }
 };
 
 export const verifyWebhookSignature = (reqBody, signature) => {
@@ -60,5 +67,12 @@ export const verifyWebhookSignature = (reqBody, signature) => {
         .update(reqBody)
         .digest('hex');
         
-    return generatedSignature === signature;
+    try {
+        const generatedBuffer = Buffer.from(generatedSignature, 'hex');
+        const signatureBuffer = Buffer.from(signature, 'hex');
+        if (generatedBuffer.length !== signatureBuffer.length) return false;
+        return crypto.timingSafeEqual(generatedBuffer, signatureBuffer);
+    } catch (error) {
+        return false;
+    }
 };

@@ -9,6 +9,7 @@ const Account = () => {
     const navigate = useNavigate();
     
     const [name, setName] = useState(user?.name || '');
+    const [emailMarketing, setEmailMarketing] = useState(user?.preferences?.emailMarketing ?? true);
     const [isUpdating, setIsUpdating] = useState(false);
     const [message, setMessage] = useState({ type: '', text: '' });
 
@@ -25,11 +26,11 @@ const Account = () => {
         e.preventDefault();
         setMessage({ type: '', text: '' });
         
-        if (name === user.name) return;
+        if (name === user.name && emailMarketing === (user.preferences?.emailMarketing ?? true)) return;
         
         setIsUpdating(true);
         try {
-            await updateProfile(name);
+            await updateProfile(name, { emailMarketing });
             setMessage({ type: 'success', text: 'Profile updated successfully' });
         } catch (err) {
             setMessage({ type: 'error', text: err.message || 'Failed to update profile' });
@@ -121,10 +122,23 @@ const Account = () => {
                                 <p className="text-sm text-muted" style={{ marginTop: '0.25rem' }}>Email cannot be changed.</p>
                             </div>
 
+                            <div className="form-group" style={{ marginTop: '0.5rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                                <input
+                                    type="checkbox"
+                                    id="emailMarketing"
+                                    checked={emailMarketing}
+                                    onChange={(e) => setEmailMarketing(e.target.checked)}
+                                    style={{ width: 'auto', margin: 0, cursor: 'pointer' }}
+                                />
+                                <label htmlFor="emailMarketing" style={{ margin: 0, cursor: 'pointer', fontWeight: 400, color: 'var(--color-slate-300)' }}>
+                                    Receive marketing and abandoned cart reminder emails
+                                </label>
+                            </div>
+
                             <button 
                                 type="submit" 
                                 className="btn btn-primary" 
-                                disabled={isUpdating || name === user?.name}
+                                disabled={isUpdating || (name === user?.name && emailMarketing === (user?.preferences?.emailMarketing ?? true))}
                                 style={{ alignSelf: 'flex-start', marginTop: 'var(--spacing-xs)' }}
                             >
                                 {isUpdating ? 'Saving...' : 'Save Changes'}
@@ -188,6 +202,34 @@ const Account = () => {
                                 <button onClick={() => navigate('/account/returns')} className="btn btn-outline btn-sm">View All</button>
                             </div>
                             <p style={{ fontSize: '0.875rem' }}>Track your return requests and refunds.</p>
+                        </div>
+                        
+                        <div style={{ 
+                            backgroundColor: 'rgba(255,255,255,0.01)', 
+                            padding: 'var(--spacing-lg)', 
+                            borderRadius: 'var(--radius-lg)',
+                            border: '1px solid rgba(255,255,255,0.03)',
+                            color: 'var(--color-slate-400)'
+                        }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                                <h3 style={{ fontSize: '1rem', color: 'var(--color-slate-300)', margin: 0 }}>Customer Support</h3>
+                                <button onClick={() => navigate('/account/support')} className="btn btn-outline btn-sm">View Tickets</button>
+                            </div>
+                            <p style={{ fontSize: '0.875rem' }}>Get help with orders, products, and more.</p>
+                        </div>
+
+                        <div style={{ 
+                            backgroundColor: 'rgba(255,255,255,0.01)', 
+                            padding: 'var(--spacing-lg)', 
+                            borderRadius: 'var(--radius-lg)',
+                            border: '1px solid rgba(255,255,255,0.03)',
+                            color: 'var(--color-slate-400)'
+                        }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                                <h3 style={{ fontSize: '1rem', color: 'var(--color-slate-300)', margin: 0 }}>Auralis Rewards</h3>
+                                <button onClick={() => navigate('/account/loyalty')} className="btn btn-outline btn-sm">View Points</button>
+                            </div>
+                            <p style={{ fontSize: '0.875rem' }}>Track your loyalty points and transaction history.</p>
                         </div>
                     </div>
                 </div>

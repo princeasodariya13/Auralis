@@ -3,6 +3,7 @@ import Product from '../models/Product.js';
 import InventoryLog from '../models/InventoryLog.js';
 import { createRazorpayRefund } from './razorpay.service.js';
 import mongoose from 'mongoose';
+import { logger } from '../utils/logger.js';
 
 /**
  * Execute a full refund and inventory restock for a cancelled order
@@ -12,10 +13,19 @@ export const executeFullRefundAndRestock = async (orderId, adminId = null) => {
     session.startTransaction();
     
     try {
-        const order = await Order.findById(orderId).session(session);
+        // Atomic lock to prevent concurrent full refunds
+        const order = await Order.findOneAndUpdate(
+            { _id: orderId, paymentStatus: 'paid' },
+            { $set: { paymentStatus: 'refunding' } },
+            { new: true, session }
+        );
+        
         if (!order) {
-            throw new Error('Order not found');
+            // Already refunding or not paid
+            throw new Error('Order is already refunding, refunded, or not paid');
         }
+
+        logger.info(`Executing full refund and restock for order ${order.orderNumber}`, { event: 'REFUND_EXECUTION_STARTED', orderId, adminId });
 
         // Only restock if order was 'processing' or beyond, meaning stock was deducted
         if (['processing', 'shipped', 'delivered'].includes(order.orderStatus)) {
@@ -42,8 +52,8 @@ export const executeFullRefundAndRestock = async (orderId, adminId = null) => {
             }
         }
 
-        // Refund payment if paid
-        if (order.paymentStatus === 'paid' && order.razorpayPaymentId) {
+        // Refund payment
+        if (order.razorpayPaymentId) {
             // Important: Call Razorpay API outside of transaction to avoid blocking,
             // or inside if we know it's fast. Razorpay calls can take time.
             // Better to commit transaction if Razorpay succeeds.
@@ -54,17 +64,28 @@ export const executeFullRefundAndRestock = async (orderId, adminId = null) => {
             );
             
             order.paymentStatus = 'refunded';
+            if (!order.refunds) order.refunds = [];
+            order.refunds.push({
+                refundId: refund.id,
+                amount: order.total,
+                reason: 'Order Cancelled'
+            });
             // order.orderStatus = 'cancelled'; // Handled by caller
             await order.save({ session });
+            
+            // Reverse loyalty points
+            await reversePointsForCancellation(order, session);
         }
 
         await session.commitTransaction();
         session.endSession();
+        
+        logger.info(`Full refund and restock completed for order ${order.orderNumber}`, { event: 'REFUND_EXECUTION_COMPLETED', orderId });
         return true;
     } catch (error) {
         await session.abortTransaction();
         session.endSession();
-        console.error('executeFullRefundAndRestock Error:', error);
+        logger.error(`Full refund execution failed for order ID ${orderId}`, { event: 'REFUND_EXECUTION_FAILED', orderId, error: error.message });
         throw error;
     }
 };

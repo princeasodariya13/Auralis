@@ -10,12 +10,19 @@ import {
 import { calculateCheckoutTotals } from '../services/discountService.js';
 import Cart from '../models/Cart.js';
 import Product from '../models/Product.js';
+import rateLimit from 'express-rate-limit';
 
 const router = express.Router();
 
+const couponLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 10, // limit each IP to 10 requests per windowMs
+    message: { success: false, error: { message: 'Too many coupon validation attempts from this IP, please try again after 15 minutes' }}
+});
+
 // CUSTOMER COUPON VALIDATION endpoint
 // POST /api/v1/coupons/validate
-router.post('/validate', protect, async (req, res) => {
+router.post('/validate', protect, couponLimiter, async (req, res) => {
     try {
         const { couponCode } = req.body;
         

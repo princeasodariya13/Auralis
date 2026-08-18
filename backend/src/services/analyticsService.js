@@ -113,6 +113,26 @@ export const getBusinessAnalytics = async (range) => {
         { $sort: { _id: 1 } }
     ]);
 
+    // 6. Funnel Analytics
+    const { default: AnalyticsEvent } = await import('../models/AnalyticsEvent.js');
+    const funnelEvents = await AnalyticsEvent.aggregate([
+        { $match: { createdAt: { $gte: startDate } } },
+        { $group: { _id: "$eventType", count: { $sum: 1 } } }
+    ]);
+    
+    const funnelMap = funnelEvents.reduce((acc, curr) => {
+        acc[curr._id] = curr.count;
+        return acc;
+    }, {});
+    
+    const funnel = {
+        productViews: funnelMap['PRODUCT_VIEWED'] || 0,
+        addToCart: funnelMap['ADD_TO_CART'] || 0,
+        checkoutStarted: funnelMap['CHECKOUT_STARTED'] || 0,
+        paymentInitiated: funnelMap['PAYMENT_INITIATED'] || 0,
+        paidOrders: orderMetrics[0]?.successfulOrders || 0
+    };
+
     // 6. Operational Health
     const dbStatus = mongoose.connection.readyState === 1 ? 'connected' : 'disconnected';
     const uptime = process.uptime();
@@ -139,6 +159,7 @@ export const getBusinessAnalytics = async (range) => {
             lowStock: productsStats[0]?.lowStock[0]?.count || 0,
             outOfStock: productsStats[0]?.outOfStock[0]?.count || 0
         },
+        funnel,
         bestSellers,
         revenueOverTime,
         health: {

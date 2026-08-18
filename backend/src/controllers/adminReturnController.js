@@ -4,6 +4,8 @@ import Product from '../models/Product.js';
 import InventoryLog from '../models/InventoryLog.js';
 import { createRazorpayRefund } from '../services/razorpay.service.js';
 import { createCustomerNotification } from '../services/customerNotificationService.js';
+import { recordAdminAction } from '../services/adminAuditService.js';
+import { reversePointsForReturn } from '../services/loyaltyService.js';
 import mongoose from 'mongoose';
 
 const VALID_TRANSITIONS = {
@@ -193,23 +195,65 @@ export const updateReturnStatus = async (req, res) => {
                 if (returnReq.refundReference) {
                     throw new Error('Refund has already been processed (reference exists)');
                 }
-
-                const refundResult = await createRazorpayRefund(
-                    order.razorpayPaymentId,
-                    returnReq.refundAmount,
-                    `RET_${returnReq._id}`
+                
+                // Atomic lock to prevent concurrent refund attempts (Race condition fix)
+                const atomicLock = await ReturnRequest.updateOne(
+                    { _id: returnReq._id, status: 'refund_pending', refundReference: { $exists: false } },
+                    { $set: { status: 'processing_refund' } }
                 );
+                
+                if (atomicLock.modifiedCount === 0) {
+                    return res.status(409).json({ success: false, error: { message: 'Refund is already processing or has been processed.' } });
+                }
+
+                let refundResult;
+                try {
+                    refundResult = await createRazorpayRefund(
+                        order.razorpayPaymentId,
+                        returnReq.refundAmount,
+                        `RET_${returnReq._id}`
+                    );
+                } catch (gatewayErr) {
+                    // Revert lock on gateway failure
+                    await ReturnRequest.updateOne({ _id: returnReq._id }, { $set: { status: 'refund_pending' } });
+                    
+                    await recordAdminAction({
+                        adminUserId: req.user._id,
+                        action: 'RETURN_REFUND_FAILED',
+                        resourceType: 'ReturnRequest',
+                        resourceId: returnReq._id,
+                        success: false,
+                        failureReason: gatewayErr.message,
+                        metadata: { orderNumber: returnReq.orderNumber, amount: returnReq.refundAmount }
+                    });
+                    
+                    throw gatewayErr;
+                }
 
                 returnReq.refundReference = refundResult.id;
                 returnReq.refundedAt = now;
+                returnReq.status = 'refunded';
                 
                 // Update Order payment status safely
                 order.paymentStatus = 'partially_refunded'; // Or refunded if full amount
-                // Check if full refund
-                if (returnReq.refundAmount >= order.total) {
+                
+                // Calculate total refunded across all returns/cancellations
+                const existingRefundsTotal = order.refunds ? order.refunds.reduce((acc, curr) => acc + curr.amount, 0) : 0;
+                
+                if (!order.refunds) order.refunds = [];
+                order.refunds.push({
+                    refundId: refundResult.id,
+                    amount: returnReq.refundAmount,
+                    reason: `Return Request ${returnReq._id}`
+                });
+
+                if (existingRefundsTotal + returnReq.refundAmount >= order.total) {
                     order.paymentStatus = 'refunded';
                 }
                 await order.save();
+                
+                // Reverse loyalty points safely outside transaction but before response
+                await reversePointsForReturn(order, returnReq, returnReq.refundAmount);
 
                 createCustomerNotification({
                     userId: returnReq.userId,
@@ -220,14 +264,43 @@ export const updateReturnStatus = async (req, res) => {
                     idempotencyKey: `RETURN_REF_${returnReq._id}`
                 }).catch(console.error);
 
+                // We send the response here early because we manually set status
+                await returnReq.save();
+                
+                await recordAdminAction({
+                    adminUserId: req.user._id,
+                    action: 'RETURN_REFUNDED',
+                    resourceType: 'ReturnRequest',
+                    resourceId: returnReq._id,
+                    previousState: { status: 'refund_pending' },
+                    newState: { status: 'refunded' },
+                    metadata: { orderNumber: returnReq.orderNumber, amount: returnReq.refundAmount, refundReference: refundResult.id }
+                });
+                
+                return res.json({ success: true, data: returnReq });
+
             } catch (err) {
                 console.error('Refund Execution Error:', err);
                 return res.status(500).json({ success: false, error: { message: 'Gateway error processing refund' } });
             }
         }
 
+        const previousStatus = returnReq.status;
         returnReq.status = status;
         await returnReq.save();
+
+        await recordAdminAction({
+            adminUserId: req.user._id,
+            action: 'RETURN_STATE_CHANGED',
+            resourceType: 'ReturnRequest',
+            resourceId: returnReq._id,
+            previousState: { status: previousStatus },
+            newState: { status: status },
+            metadata: {
+                orderNumber: returnReq.orderNumber,
+                adminNote: adminNote || null
+            }
+        });
 
         res.json({ success: true, data: returnReq });
 

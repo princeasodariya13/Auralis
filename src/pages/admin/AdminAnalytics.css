@@ -112,3 +112,42 @@
 .admin-metric-card.highlight .metric-subtext {
     color: rgba(255, 255, 255, 0.9);
 }
+
+.funnel-visualization {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem 0;
+}
+
+.funnel-stage {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.funnel-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-md);
+    color: white;
+    min-width: 150px;
+    transition: width 0.5s ease-out;
+}
+
+.funnel-label {
+    font-weight: 500;
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+.funnel-value {
+    font-weight: 700;
+}
+
+.funnel-conversion {
+    min-width: 60px;
+    text-align: right;
+}

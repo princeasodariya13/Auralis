@@ -20,7 +20,11 @@ const cartSchema = new mongoose.Schema({
         required: true,
         unique: true // One cart per user
     },
-    items: [cartItemSchema]
+    items: [cartItemSchema],
+    recovery: {
+        stage: { type: Number, default: 0 },
+        lastSentAt: { type: Date, default: null }
+    }
 }, {
     timestamps: true
 });

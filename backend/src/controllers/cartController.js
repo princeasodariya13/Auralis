@@ -1,5 +1,6 @@
 import Cart from '../models/Cart.js';
 import Product from '../models/Product.js';
+import AnalyticsEvent from '../models/AnalyticsEvent.js';
 
 const MAX_QTY = 20;
 
@@ -104,8 +105,16 @@ export const addToCart = async (req, res) => {
             cart.items.push({ productId, quantity: Math.min(quantity, MAX_QTY) });
         }
 
+        cart.recovery = { stage: 0, lastSentAt: null };
         await cart.save();
         
+        // Log Analytics (Fire-and-forget)
+        AnalyticsEvent.create({
+            eventType: 'ADD_TO_CART',
+            productId,
+            userId: req.user._id
+        }).catch(err => console.error('Analytics ADD_TO_CART error:', err.message));
+
         const cartData = await populateCart(cart.items);
         res.json({ success: true, data: cartData });
     } catch (error) {
@@ -145,6 +154,7 @@ export const updateCartItem = async (req, res) => {
         }
 
         cart.items[itemIndex].quantity = quantity;
+        cart.recovery = { stage: 0, lastSentAt: null };
         await cart.save();
         
         const cartData = await populateCart(cart.items);
@@ -166,6 +176,7 @@ export const removeFromCart = async (req, res) => {
         }
 
         cart.items = cart.items.filter(item => item.productId !== productId);
+        cart.recovery = { stage: 0, lastSentAt: null };
         await cart.save();
         
         const cartData = await populateCart(cart.items);
@@ -182,6 +193,7 @@ export const clearCart = async (req, res) => {
         const cart = await Cart.findOne({ userId: req.user._id });
         if (cart) {
             cart.items = [];
+            cart.recovery = { stage: 0, lastSentAt: null };
             await cart.save();
         }
         res.json({ success: true, data: { items: [], totalItems: 0, subtotal: 0 } });
@@ -238,6 +250,7 @@ export const mergeCart = async (req, res) => {
             }
         }
 
+        cart.recovery = { stage: 0, lastSentAt: null };
         await cart.save();
         
         const cartData = await populateCart(cart.items);

@@ -1,0 +1,219 @@
+.admin-audit-logs {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.audit-filters {
+    background-color: var(--color-slate-800);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    border: 1px solid var(--color-slate-700);
+}
+
+.audit-table th {
+    white-space: nowrap;
+}
+
+.audit-time {
+    display: flex;
+    flex-direction: column;
+}
+
+.audit-admin {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+}
+
+.audit-action {
+    background-color: var(--color-slate-700);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-family: monospace;
+    font-size: 0.75rem;
+    color: var(--color-indigo-400);
+    white-space: nowrap;
+}
+
+.audit-resource {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.resource-type {
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.resource-id {
+    font-family: monospace;
+    font-size: 0.75rem;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.badge-success {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.badge-error {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+/* Modal Styles */
+.audit-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.audit-modal {
+    background-color: var(--color-slate-900);
+    border: 1px solid var(--color-slate-700);
+    border-radius: 0.75rem;
+    width: 100%;
+    max-width: 800px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+}
+
+.audit-modal-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--color-slate-800);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--color-slate-800);
+}
+
+.audit-modal-header h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: var(--color-slate-100);
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: var(--color-slate-400);
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.close-btn:hover {
+    color: var(--color-slate-100);
+}
+
+.audit-modal-body {
+    padding: 1.5rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.audit-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    background-color: var(--color-slate-800);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--color-slate-700);
+}
+
+.info-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.info-block label {
+    font-size: 0.75rem;
+    color: var(--color-slate-400);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+}
+
+.info-block div {
+    font-size: 0.875rem;
+    color: var(--color-slate-200);
+}
+
+.audit-action-large {
+    font-family: monospace;
+    color: var(--color-indigo-400) !important;
+    font-weight: 600;
+}
+
+.audit-json-section h3 {
+    font-size: 1rem;
+    color: var(--color-slate-200);
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.json-block {
+    background-color: var(--color-slate-950);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.875rem;
+    color: var(--color-slate-300);
+    overflow-x: auto;
+    border: 1px solid var(--color-slate-800);
+    margin: 0;
+}
+
+.json-block.diff-old {
+    border-left: 4px solid #ef4444;
+}
+
+.json-block.diff-new {
+    border-left: 4px solid #10b981;
+}
+
+.text-muted {
+    color: var(--color-slate-400);
+}
+
+.font-mono {
+    font-family: monospace;
+}
+
+.text-sm {
+    font-size: 0.875rem;
+}

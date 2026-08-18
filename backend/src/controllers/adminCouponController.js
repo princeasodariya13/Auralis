@@ -1,4 +1,5 @@
 import Coupon from '../models/Coupon.js';
+import { recordAdminAction, getChangedFields } from '../services/adminAuditService.js';
 
 // @desc    Get all coupons
 // @route   GET /api/v1/admin/coupons
@@ -70,6 +71,20 @@ export const createCoupon = async (req, res) => {
             createdBy: req.user._id
         });
 
+        // Audit Log
+        await recordAdminAction({
+            adminUserId: req.user._id,
+            action: 'COUPON_CREATED',
+            resourceType: 'Coupon',
+            resourceId: coupon._id,
+            newState: {
+                code: coupon.code,
+                discountType: coupon.discountType,
+                discountValue: coupon.discountValue,
+                isActive: coupon.isActive
+            }
+        });
+
         res.status(201).json({ success: true, data: coupon });
 
     } catch (error) {
@@ -100,14 +115,32 @@ export const updateCoupon = async (req, res) => {
              return res.status(400).json({ success: false, error: { message: 'Start date must be before expiration date' }});
         }
 
+        const oldCoupon = await Coupon.findById(req.params.id);
+        if (!oldCoupon) {
+            return res.status(404).json({ success: false, error: { message: 'Coupon not found' }});
+        }
+        
+        const oldState = oldCoupon.toObject();
+
         const coupon = await Coupon.findByIdAndUpdate(
             req.params.id,
             updates,
             { new: true, runValidators: true }
         );
 
-        if (!coupon) {
-            return res.status(404).json({ success: false, error: { message: 'Coupon not found' }});
+        // Audit Log
+        const allowedUpdates = ['description', 'discountType', 'discountValue', 'minimumOrderValue', 'maximumDiscount', 'startsAt', 'expiresAt', 'usageLimit', 'perUserLimit', 'isActive'];
+        const changes = getChangedFields(oldState, coupon, allowedUpdates);
+        
+        if (Object.keys(changes.new).length > 0) {
+            await recordAdminAction({
+                adminUserId: req.user._id,
+                action: 'COUPON_UPDATED',
+                resourceType: 'Coupon',
+                resourceId: coupon._id,
+                previousState: changes.previous,
+                newState: changes.new
+            });
         }
 
         res.json({ success: true, data: coupon });
@@ -126,6 +159,17 @@ export const deleteCoupon = async (req, res) => {
         }
         
         await coupon.deleteOne();
+        
+        // Audit Log
+        await recordAdminAction({
+            adminUserId: req.user._id,
+            action: 'COUPON_DELETED',
+            resourceType: 'Coupon',
+            resourceId: coupon._id,
+            previousState: { code: coupon.code, isActive: coupon.isActive },
+            newState: { deleted: true }
+        });
+        
         res.json({ success: true, message: 'Coupon deleted successfully' });
     } catch (error) {
         res.status(500).json({ success: false, error: { message: 'Server error deleting coupon' }});

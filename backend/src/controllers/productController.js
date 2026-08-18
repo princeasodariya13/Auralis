@@ -4,7 +4,7 @@ import Product from '../models/Product.js';
 // @route   GET /api/v1/products
 export const getProducts = async (req, res) => {
     try {
-        const { search, category, minPrice, maxPrice, sort, ids } = req.query;
+        const { search, category, minPrice, maxPrice, sort, ids, availability } = req.query;
 
         let query = {};
 
@@ -39,17 +39,31 @@ export const getProducts = async (req, res) => {
         // 3. Price filter
         if (minPrice || maxPrice) {
             query.price = {};
-            if (minPrice && !isNaN(minPrice)) query.price.$gte = Number(minPrice);
-            if (maxPrice && !isNaN(maxPrice)) query.price.$lte = Number(maxPrice);
+            const minNum = Number(minPrice);
+            const maxNum = Number(maxPrice);
+            if (minPrice && !isNaN(minNum) && minNum >= 0) query.price.$gte = minNum;
+            if (maxPrice && !isNaN(maxNum) && maxNum >= 0) query.price.$lte = maxNum;
+            if (Object.keys(query.price).length === 0) delete query.price;
+        }
+
+        // 3b. Availability filter
+        if (availability) {
+            if (availability === 'in_stock') {
+                query.stockQuantity = { $gt: 0 };
+            } else if (availability === 'out_of_stock') {
+                query.stockQuantity = 0;
+            }
         }
 
         // 4. Sort
         let sortOption = {};
         switch (sort) {
             case 'price_asc':
+            case 'price_low':
                 sortOption = { price: 1 };
                 break;
             case 'price_desc':
+            case 'price_high':
                 sortOption = { price: -1 };
                 break;
             case 'name_asc':
@@ -58,8 +72,15 @@ export const getProducts = async (req, res) => {
             case 'name_desc':
                 sortOption = { name: -1 };
                 break;
+            case 'newest':
+                sortOption = { createdAt: -1 };
+                break;
+            case 'relevance':
             default:
-                sortOption = { id: 1 }; // Default deterministic sort
+                // If there's a search term and we want relevance, we'll sort deterministic for now
+                // Alternatively could use MongoDB $text for real relevance but requires text index.
+                // We'll stick to a deterministic default (newest + id)
+                sortOption = { createdAt: -1, id: 1 }; 
         }
 
         // 5. Pagination

@@ -1,0 +1,116 @@
+.admin-reconciliation {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.reconciliation-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.summary-card {
+    background-color: var(--color-slate-800);
+    border: 1px solid var(--color-slate-700);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.summary-card.critical-alert {
+    border-color: rgba(239, 68, 68, 0.5);
+    background-color: rgba(239, 68, 68, 0.1);
+}
+
+.summary-card.critical-alert .summary-icon {
+    color: #ef4444;
+    background-color: rgba(239, 68, 68, 0.1);
+}
+
+.summary-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(99, 102, 241, 0.1);
+    color: var(--color-indigo-400);
+}
+
+.summary-icon.check {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+}
+
+.summary-icon.warning {
+    background-color: rgba(245, 158, 11, 0.1);
+    color: #f59e0b;
+}
+
+.summary-info h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-slate-100);
+    margin: 0;
+}
+
+.summary-info p {
+    font-size: 0.875rem;
+    color: var(--color-slate-400);
+    margin: 0;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.badge-critical {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.badge-high {
+    background-color: rgba(245, 158, 11, 0.1);
+    color: #f59e0b;
+    border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.badge-warning {
+    background-color: rgba(234, 179, 8, 0.1);
+    color: #eab308;
+    border: 1px solid rgba(234, 179, 8, 0.2);
+}
+
+.badge-info {
+    background-color: rgba(56, 189, 248, 0.1);
+    color: #38bdf8;
+    border: 1px solid rgba(56, 189, 248, 0.2);
+}
+
+.anomaly-type {
+    font-family: monospace;
+    background-color: var(--color-slate-900);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    color: var(--color-slate-300);
+}
+
+.anomaly-desc {
+    max-width: 400px;
+    white-space: normal;
+    line-height: 1.4;
+    color: var(--color-slate-300);
+}

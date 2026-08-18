@@ -8,14 +8,26 @@ import CouponUsage from '../models/CouponUsage.js';
 import { createRazorpayOrder, verifyRazorpaySignature, verifyWebhookSignature } from '../services/razorpay.service.js';
 import { sendOrderConfirmation, sendPaymentFailedNotification, sendInventoryAlert } from '../services/notificationService.js';
 import { notifyPaymentSuccess, notifyPaymentFailed } from '../services/customerNotificationService.js';
+import { awardPointsForOrder, redeemPointsForOrder } from '../services/loyaltyService.js';
 import mongoose from 'mongoose';
+import { logger } from '../utils/logger.js';
 
-// Helper function to safely fulfill an order
-const fulfillOrder = async (order, razorpay_payment_id) => {
+const fulfillOrder = async (orderParam, razorpay_payment_id) => {
     const session = await mongoose.startSession();
     session.startTransaction();
 
     try {
+        // Lock the order to prevent concurrent webhook/verification fulfillment
+        const order = await Order.findById(orderParam._id).session(session);
+        if (order.paymentStatus === 'paid') {
+            await session.abortTransaction();
+            session.endSession();
+            logger.info(`Duplicate fulfillment attempt for order ${order.orderNumber} ignored`, { event: 'PAYMENT_FULFILLMENT_DUPLICATE', orderId: order._id });
+            return { success: true, inventoryIssue: false, alreadyPaid: true };
+        }
+
+        logger.info(`Starting fulfillment for order ${order.orderNumber}`, { event: 'PAYMENT_FULFILLMENT_START', orderId: order._id, paymentId: razorpay_payment_id });
+
         // Atomic Inventory Deduction
         const productIds = order.items.map(item => item.productId);
         const products = await Product.find({ id: { $in: productIds } }).session(session);
@@ -44,6 +56,7 @@ const fulfillOrder = async (order, razorpay_payment_id) => {
             orderNoTx.orderStatus = 'processing';
             await orderNoTx.save();
             
+            logger.warn(`Payment successful but inventory insufficient for order ${order.orderNumber}`, { event: 'PAYMENT_FULFILLMENT_INVENTORY_ISSUE', orderId: order._id, failingProduct });
             return { success: true, inventoryIssue: true, message: `Payment successful but ${failingProduct} is out of stock. Support will contact you.` };
         }
         
@@ -111,17 +124,24 @@ const fulfillOrder = async (order, razorpay_payment_id) => {
             { session }
         );
         
+        // Award and Redeem Loyalty Points
+        await redeemPointsForOrder(order, session);
+        await awardPointsForOrder(order, session);
+        
         await session.commitTransaction();
         session.endSession();
         
         // Fire confirmation email safely in background
-        sendOrderConfirmation(order, order.userId).catch(console.error);
-        notifyPaymentSuccess(order).catch(console.error);
+        sendOrderConfirmation(order, order.userId).catch(err => logger.error('Order confirmation email failed', { event: 'NOTIFICATION_ERROR', error: err.message }));
+        notifyPaymentSuccess(order).catch(err => logger.error('Payment success notification failed', { event: 'NOTIFICATION_ERROR', error: err.message }));
+
+        logger.info(`Fulfillment completed for order ${order.orderNumber}`, { event: 'PAYMENT_FULFILLMENT_SUCCESS', orderId: order._id });
 
         return { success: true, inventoryIssue: false };
     } catch (error) {
         await session.abortTransaction();
         session.endSession();
+        logger.error(`Fulfillment failed for order ${orderParam.orderNumber}`, { event: 'PAYMENT_FULFILLMENT_FAILED', orderId: orderParam._id, error: error.message });
         throw error;
     }
 };
@@ -168,6 +188,18 @@ export const createPaymentOrder = async (req, res) => {
         order.razorpayOrderId = rzpOrder.id;
         await order.save();
         
+        // Log Analytics (Fire-and-forget)
+        import('../models/AnalyticsEvent.js')
+            .then(mod => {
+                mod.default.create({
+                    eventType: 'PAYMENT_INITIATED',
+                    userId: req.user._id
+                }).catch(err => logger.warn('Analytics PAYMENT_INITIATED error', { error: err.message }));
+            })
+            .catch(err => logger.error('Failed to import AnalyticsEvent', { error: err.message }));
+
+        logger.info(`Razorpay order created for ${orderNumber}`, { event: 'PAYMENT_ORDER_CREATED', orderId: order._id, razorpayOrderId: rzpOrder.id });
+
         res.json({
             success: true,
             data: {
@@ -209,9 +241,11 @@ export const verifyPayment = async (req, res) => {
         
         const isValid = verifyRazorpaySignature(razorpay_order_id, razorpay_payment_id, razorpay_signature);
         if (!isValid) {
+            logger.warn(`Invalid payment signature for order ${orderNumber}`, { event: 'PAYMENT_SIGNATURE_INVALID', orderId: order._id });
             return res.status(400).json({ success: false, error: { message: 'Invalid payment signature' }});
         }
         
+        logger.info(`Payment signature verified for order ${orderNumber}`, { event: 'PAYMENT_SIGNATURE_VALID', orderId: order._id });
         const result = await fulfillOrder(order, razorpay_payment_id);
         
         if (result.inventoryIssue) {
@@ -240,17 +274,20 @@ export const handleWebhook = async (req, res) => {
         const signature = req.headers['x-razorpay-signature'];
         
         if (!signature) {
+            logger.warn('Webhook received without signature', { event: 'WEBHOOK_MISSING_SIGNATURE' });
             return res.status(400).send('Missing signature');
         }
         
         const isValid = verifyWebhookSignature(req.body, signature);
         
         if (!isValid) {
+            logger.warn('Webhook signature validation failed', { event: 'WEBHOOK_INVALID_SIGNATURE' });
             return res.status(400).send('Invalid signature');
         }
         
         // Since body is raw buffer, parse it now
         const payload = JSON.parse(req.body.toString());
+        logger.info('Webhook received and verified', { event: 'WEBHOOK_RECEIVED', webhookEvent: payload.event, paymentId: payload.payload?.payment?.entity?.id });
         
         if (payload.event === 'payment.captured' || payload.event === 'order.paid') {
             const paymentEntity = payload.payload.payment.entity;
@@ -281,14 +318,15 @@ export const handleWebhook = async (req, res) => {
                     userType: 'customer'
                 });
                 
-                sendPaymentFailedNotification(order, order.userId).catch(console.error);
-                notifyPaymentFailed(order).catch(console.error);
+                logger.info(`Payment failed via webhook for order ${order.orderNumber}`, { event: 'WEBHOOK_PAYMENT_FAILED', orderId: order._id });
+                sendPaymentFailedNotification(order, order.userId).catch(err => logger.error('Payment failed email failed', { error: err.message }));
+                notifyPaymentFailed(order).catch(err => logger.error('Payment failed notification failed', { error: err.message }));
             }
         }
         
         res.status(200).send('OK');
     } catch (error) {
-        console.error('Webhook Error:', error);
+        logger.error('Webhook processing failed', { event: 'WEBHOOK_ERROR', error: error.message });
         res.status(500).send('Server Error');
     }
 };

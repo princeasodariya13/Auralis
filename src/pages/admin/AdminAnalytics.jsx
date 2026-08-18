@@ -126,6 +126,54 @@ const AdminAnalytics = () => {
                         </div>
                     </div>
 
+                    <div className="admin-panel mb-8">
+                        <div className="panel-header">
+                            <h2>Conversion Funnel</h2>
+                        </div>
+                        <div className="panel-body">
+                            {data.funnel ? (
+                                <div className="funnel-visualization">
+                                    <div className="funnel-stage">
+                                        <div className="funnel-bar" style={{ width: '100%', backgroundColor: 'var(--color-slate-700)' }}>
+                                            <span className="funnel-label">Product Views</span>
+                                            <span className="funnel-value">{data.funnel.productViews}</span>
+                                        </div>
+                                    </div>
+                                    <div className="funnel-stage">
+                                        <div className="funnel-bar" style={{ width: data.funnel.productViews > 0 ? `${Math.max(5, (data.funnel.addToCart / data.funnel.productViews) * 100)}%` : '0%', backgroundColor: 'var(--color-primary)' }}>
+                                            <span className="funnel-label">Added to Cart</span>
+                                            <span className="funnel-value">{data.funnel.addToCart}</span>
+                                        </div>
+                                        {data.funnel.productViews > 0 && <span className="funnel-conversion text-muted text-sm">{((data.funnel.addToCart / data.funnel.productViews) * 100).toFixed(1)}%</span>}
+                                    </div>
+                                    <div className="funnel-stage">
+                                        <div className="funnel-bar" style={{ width: data.funnel.productViews > 0 ? `${Math.max(5, (data.funnel.checkoutStarted / data.funnel.productViews) * 100)}%` : '0%', backgroundColor: 'var(--color-primary)' }}>
+                                            <span className="funnel-label">Checkout Started</span>
+                                            <span className="funnel-value">{data.funnel.checkoutStarted}</span>
+                                        </div>
+                                        {data.funnel.addToCart > 0 && <span className="funnel-conversion text-muted text-sm">{((data.funnel.checkoutStarted / data.funnel.addToCart) * 100).toFixed(1)}%</span>}
+                                    </div>
+                                    <div className="funnel-stage">
+                                        <div className="funnel-bar" style={{ width: data.funnel.productViews > 0 ? `${Math.max(5, (data.funnel.paymentInitiated / data.funnel.productViews) * 100)}%` : '0%', backgroundColor: 'var(--color-primary)' }}>
+                                            <span className="funnel-label">Payment Initiated</span>
+                                            <span className="funnel-value">{data.funnel.paymentInitiated}</span>
+                                        </div>
+                                        {data.funnel.checkoutStarted > 0 && <span className="funnel-conversion text-muted text-sm">{((data.funnel.paymentInitiated / data.funnel.checkoutStarted) * 100).toFixed(1)}%</span>}
+                                    </div>
+                                    <div className="funnel-stage">
+                                        <div className="funnel-bar" style={{ width: data.funnel.productViews > 0 ? `${Math.max(5, (data.funnel.paidOrders / data.funnel.productViews) * 100)}%` : '0%', backgroundColor: 'var(--color-success)' }}>
+                                            <span className="funnel-label">Paid Orders</span>
+                                            <span className="funnel-value">{data.funnel.paidOrders}</span>
+                                        </div>
+                                        {data.funnel.paymentInitiated > 0 && <span className="funnel-conversion text-success text-sm font-medium">{((data.funnel.paidOrders / data.funnel.paymentInitiated) * 100).toFixed(1)}%</span>}
+                                    </div>
+                                </div>
+                            ) : (
+                                <p className="text-muted">Funnel data not available.</p>
+                            )}
+                        </div>
+                    </div>
+
                     <div className="dashboard-columns">
                         {/* Best Sellers */}
                         <div className="dashboard-col main-col">

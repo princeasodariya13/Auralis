@@ -191,7 +191,7 @@ export const useAddresses = () => {
     return { data, loading, error, refetch: fetchAddresses };
 };
 
-export const useCheckoutPreview = (refreshKey, couponCode = null) => {
+export const useCheckoutPreview = (refreshKey, couponCode = null, pointsToRedeem = 0) => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -202,7 +202,7 @@ export const useCheckoutPreview = (refreshKey, couponCode = null) => {
             try {
                 setLoading(true);
                 setError(null);
-                const result = await orderService.previewCheckout(couponCode);
+                const result = await orderService.previewCheckout(couponCode, pointsToRedeem);
                 if (isMounted) setData(result);
             } catch (err) {
                 if (isMounted) setError(err.message || 'Failed to generate checkout preview');
@@ -213,7 +213,7 @@ export const useCheckoutPreview = (refreshKey, couponCode = null) => {
 
         fetchPreview();
         return () => { isMounted = false; };
-    }, [refreshKey, couponCode]);
+    }, [refreshKey, couponCode, pointsToRedeem]);
 
     return { data, loading, error };
 };

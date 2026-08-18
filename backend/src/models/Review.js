@@ -32,6 +32,16 @@ const reviewSchema = new mongoose.Schema({
     isEdited: {
         type: Boolean,
         default: false
+    },
+    verifiedPurchase: {
+        type: Boolean,
+        default: false
+    },
+    moderationStatus: {
+        type: String,
+        enum: ['approved', 'pending', 'rejected', 'flagged'],
+        default: 'approved',
+        index: true
     }
 }, {
     timestamps: true
@@ -39,6 +49,7 @@ const reviewSchema = new mongoose.Schema({
 
 // Ensure one review per user per product
 reviewSchema.index({ userId: 1, productId: 1 }, { unique: true });
+reviewSchema.index({ productId: 1, moderationStatus: 1, createdAt: -1 });
 
 const Review = mongoose.model('Review', reviewSchema);
 

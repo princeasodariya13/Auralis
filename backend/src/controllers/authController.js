@@ -21,7 +21,8 @@ const sendTokenResponse = (user, statusCode, res) => {
         _id: user._id,
         name: user.name,
         email: user.email,
-        role: user.role
+        role: user.role,
+        preferences: user.preferences
     };
 
     res
@@ -119,7 +120,8 @@ export const getMe = async (req, res) => {
         _id: req.user._id,
         name: req.user.name,
         email: req.user.email,
-        role: req.user.role
+        role: req.user.role,
+        preferences: req.user.preferences
     };
 
     res.status(200).json({ success: true, data: { user: userPayload } });

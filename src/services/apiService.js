@@ -1,6 +1,6 @@
 import { testimonials } from '../data/mockData';
 
-const API_URL = import.meta.env.PROD ? '/api/v1' : (import.meta.env.VITE_API_URL || 'http://localhost:5000/api/v1');
+const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '/api/v1' : 'http://localhost:5000/api/v1');
 
 export const productService = {
     async getProducts(params = {}) {
@@ -11,6 +11,7 @@ export const productService = {
         if (params.category && params.category !== 'All') urlParams.append('category', params.category);
         if (params.minPrice) urlParams.append('minPrice', params.minPrice);
         if (params.maxPrice) urlParams.append('maxPrice', params.maxPrice);
+        if (params.availability && params.availability !== 'all') urlParams.append('availability', params.availability);
         if (params.sort) urlParams.append('sort', params.sort);
         if (params.page) urlParams.append('page', params.page);
         if (params.limit) urlParams.append('limit', params.limit);
@@ -131,7 +132,26 @@ export const reviewService = {
         return json.data;
     },
     async deleteReview(productId, reviewId) {
-        const response = await fetch(`${API_URL}/products/${productId}/reviews/${reviewId}`, getFetchOptions('DELETE'));
+        // Fallback for older components that might use the old path (although our backend expects /api/v1/reviews/:reviewId for delete)
+        const response = await fetch(`${API_URL}/reviews/${reviewId}`, getFetchOptions('DELETE'));
+        const json = await response.json();
+        if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to delete review');
+        return json.data;
+    },
+    async reportReview(reviewId, reason) {
+        const response = await fetch(`${API_URL}/reviews/${reviewId}/report`, getFetchOptions('POST', { reason }));
+        const json = await response.json();
+        if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to report review');
+        return json.data;
+    },
+    async voteReview(reviewId, value) {
+        const response = await fetch(`${API_URL}/reviews/${reviewId}/helpful`, getFetchOptions('POST', { value }));
+        const json = await response.json();
+        if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to vote on review');
+        return json.data;
+    },
+    async adminDeleteReview(reviewId) {
+        const response = await fetch(`${API_URL}/admin/reviews/${reviewId}`, getFetchOptions('DELETE'));
         const json = await response.json();
         if (!response.ok || !json.success) {
             const error = new Error(json?.error?.message || 'Failed to delete review');
@@ -176,16 +196,19 @@ export const addressService = {
 };
 
 export const orderService = {
-    async previewCheckout(couponCode = null) {
-        const payload = couponCode ? { couponCode } : {};
-        const response = await fetch(`${API_URL}/orders/preview`, getFetchOptions('POST', payload));
+    async previewCheckout(couponCode = null, pointsToRedeem = 0) {
+        const payload = {};
+        if (couponCode) payload.couponCode = couponCode;
+        if (pointsToRedeem) payload.pointsToRedeem = pointsToRedeem;
+        const response = await fetch(`${API_URL}/checkout/preview`, getFetchOptions('POST', payload));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to preview checkout');
         return json.data;
     },
-    async createOrder(addressId, couponCode = null) {
+    async createOrder(addressId, couponCode = null, pointsToRedeem = 0) {
         const payload = { addressId };
         if (couponCode) payload.couponCode = couponCode;
+        if (pointsToRedeem) payload.pointsToRedeem = pointsToRedeem;
         const response = await fetch(`${API_URL}/orders`, getFetchOptions('POST', payload));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to create order');
@@ -207,6 +230,15 @@ export const orderService = {
         const response = await fetch(`${API_URL}/orders/${orderNumber}/cancel`, getFetchOptions('POST'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to cancel order');
+        return json.data;
+    },
+    async getOrderShipments(orderNumber) {
+        const response = await fetch(`${API_URL}/orders/${orderNumber}/shipments`, getFetchOptions('GET'));
+        const json = await response.json();
+        if (!response.ok || !json.success) {
+            if (response.status === 404) return []; // No shipments yet
+            throw new Error(json?.error?.message || 'Failed to fetch shipments');
+        }
         return json.data;
     }
 };
@@ -347,10 +379,100 @@ export const adminService = {
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch order notes');
         return json.data;
     },
-    async addOrderNote(orderNumber, note) {
+    async addNote(orderNumber, note) {
         const response = await fetch(`${API_URL}/admin/orders/${orderNumber}/notes`, getFetchOptions('POST', { note }));
         const json = await response.json();
-        if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to add order note');
+        if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to add note');
+        return json.data;
+    },
+    async getShipments(orderNumber) {
+        const response = await fetch(`${API_URL}/admin/orders/${orderNumber}/shipments`, getFetchOptions('GET'));
+        const json = await response.json();
+        if (!response.ok || !json.success) {
+            if (response.status === 404) return [];
+            throw new Error(json?.error?.message || 'Failed to fetch shipments');
+        }
+        return json.data;
+    },
+    async createShipment(orderNumber, shipmentData) {
+        const response = await fetch(`${API_URL}/admin/orders/${orderNumber}/shipments`, getFetchOptions('POST', shipmentData));
+        const json = await response.json();
+        if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to create shipment');
+        return json.data;
+    },
+    async updateShipment(shipmentId, updates) {
+        const response = await fetch(`${API_URL}/admin/shipments/${shipmentId}`, getFetchOptions('PATCH', updates));
+        const json = await response.json();
+        if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to update shipment');
+        return json.data;
+    },
+    async getShipmentExceptions(params = {}) {
+        const urlParams = new URLSearchParams();
+        if (params.status && params.status !== 'ALL') urlParams.append('status', params.status);
+        if (params.severity && params.severity !== 'ALL') urlParams.append('severity', params.severity);
+        if (params.type && params.type !== 'ALL') urlParams.append('type', params.type);
+        if (params.page) urlParams.append('page', params.page);
+        if (params.limit) urlParams.append('limit', params.limit);
+
+        const queryString = urlParams.toString();
+        const endpoint = queryString ? `${API_URL}/admin/shipment-exceptions?${queryString}` : `${API_URL}/admin/shipment-exceptions`;
+
+        const response = await fetch(endpoint, getFetchOptions('GET'));
+        const json = await response.json();
+        if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch shipment exceptions');
+        return json; // returning full response for pagination
+    },
+    async getExceptionsSummary() {
+        const response = await fetch(`${API_URL}/admin/shipment-exceptions/summary`, getFetchOptions('GET'));
+        const json = await response.json();
+        if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch exceptions summary');
+        return json.data;
+    },
+    async acknowledgeException(id) {
+        const response = await fetch(`${API_URL}/admin/shipment-exceptions/${id}/acknowledge`, getFetchOptions('PATCH'));
+        const json = await response.json();
+        if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to acknowledge exception');
+        return json.data;
+    },
+    async resolveException(id, resolutionNote) {
+        const response = await fetch(`${API_URL}/admin/shipment-exceptions/${id}/resolve`, getFetchOptions('PATCH', { resolutionNote }));
+        const json = await response.json();
+        if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to resolve exception');
+        return json.data;
+    },
+    async getCustomers(params = {}) {
+        const urlParams = new URLSearchParams();
+        if (params.search) urlParams.append('search', params.search);
+        if (params.segment && params.segment !== 'ALL') urlParams.append('segment', params.segment);
+        if (params.page) urlParams.append('page', params.page);
+        if (params.limit) urlParams.append('limit', params.limit);
+        if (params.sortField) urlParams.append('sortField', params.sortField);
+        if (params.sortOrder) urlParams.append('sortOrder', params.sortOrder);
+
+        const queryString = urlParams.toString();
+        const endpoint = queryString ? `${API_URL}/admin/customers?${queryString}` : `${API_URL}/admin/customers`;
+
+        const response = await fetch(endpoint, getFetchOptions('GET'));
+        const json = await response.json();
+        if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch customers');
+        return json;
+    },
+    async getCustomerDetails(id) {
+        const response = await fetch(`${API_URL}/admin/customers/${id}`, getFetchOptions('GET'));
+        const json = await response.json();
+        if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch customer details');
+        return json.data;
+    },
+    async getCustomerLoyalty(id, page = 1, limit = 20) {
+        const response = await fetch(`${API_URL}/admin/customers/${id}/loyalty?page=${page}&limit=${limit}`, getFetchOptions('GET'));
+        const json = await response.json();
+        if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch customer loyalty');
+        return json.data;
+    },
+    async adjustCustomerLoyalty(id, adjustmentData) {
+        const response = await fetch(`${API_URL}/admin/customers/${id}/loyalty-adjustment`, getFetchOptions('POST', adjustmentData));
+        const json = await response.json();
+        if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to adjust loyalty');
         return json.data;
     },
     async getCoupons() {
@@ -415,6 +537,49 @@ export const adminService = {
         if (!response.ok || !json.success) {
             throw new Error(json?.error?.message || 'Failed to update return status');
         }
+        return json.data;
+    },
+    async getReconciliationSummary() {
+        const response = await fetch(`${API_URL}/admin/reconciliation/summary`, getFetchOptions('GET'));
+        const json = await response.json();
+        if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch reconciliation summary');
+        return json.data;
+    },
+    async getReconciliationAnomalies(params = {}) {
+        const urlParams = new URLSearchParams();
+        if (params.severity && params.severity !== 'ALL') urlParams.append('severity', params.severity);
+        if (params.type && params.type !== 'ALL') urlParams.append('type', params.type);
+        if (params.page) urlParams.append('page', params.page);
+        if (params.limit) urlParams.append('limit', params.limit);
+
+        const queryString = urlParams.toString();
+        const endpoint = queryString ? `${API_URL}/admin/reconciliation/anomalies?${queryString}` : `${API_URL}/admin/reconciliation/anomalies`;
+
+        const response = await fetch(endpoint, getFetchOptions('GET'));
+        const json = await response.json();
+        if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch anomalies');
+    },
+    async getAuditLogs(params = {}) {
+        const urlParams = new URLSearchParams();
+        if (params.action && params.action !== 'ALL') urlParams.append('action', params.action);
+        if (params.resourceType && params.resourceType !== 'ALL') urlParams.append('resourceType', params.resourceType);
+        if (params.adminUserId && params.adminUserId !== 'ALL') urlParams.append('adminUserId', params.adminUserId);
+        if (params.success !== undefined && params.success !== 'ALL') urlParams.append('success', params.success);
+        if (params.page) urlParams.append('page', params.page);
+        if (params.limit) urlParams.append('limit', params.limit);
+
+        const queryString = urlParams.toString();
+        const endpoint = queryString ? `${API_URL}/admin/audit-logs?${queryString}` : `${API_URL}/admin/audit-logs`;
+
+        const response = await fetch(endpoint, getFetchOptions('GET'));
+        const json = await response.json();
+        if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch audit logs');
+        return json.data;
+    },
+    async getAuditFilters() {
+        const response = await fetch(`${API_URL}/admin/audit-logs/filters`, getFetchOptions('GET'));
+        const json = await response.json();
+        if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch audit filters');
         return json.data;
     }
 };
@@ -513,6 +678,134 @@ export const returnService = {
         const response = await fetch(`${API_URL}/returns/${id}/cancel`, getFetchOptions('PATCH'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to cancel return');
+        return json.data;
+    }
+};
+
+export const analyticsService = {
+    async logEvent(eventType, productId = null) {
+        const payload = { eventType };
+        if (productId) payload.productId = productId;
+        
+        // Fire and forget
+        fetch(`${API_URL}/analytics/events`, getFetchOptions('POST', payload))
+            .catch(console.error);
+    }
+};
+
+export const supportService = {
+    async createTicket(payload) {
+        const response = await fetch(`${API_URL}/support`, getFetchOptions('POST', payload));
+        const json = await response.json();
+        if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to create ticket');
+        return json.data;
+    },
+    async getTickets(page = 1, limit = 10) {
+        const response = await fetch(`${API_URL}/support?page=${page}&limit=${limit}`, getFetchOptions('GET'));
+        const json = await response.json();
+        if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch tickets');
+        return json.data;
+    },
+    async getTicketDetails(ticketNumber) {
+        const response = await fetch(`${API_URL}/support/${ticketNumber}`, getFetchOptions('GET'));
+        const json = await response.json();
+        if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch ticket details');
+        return json.data;
+    },
+    async replyToTicket(ticketNumber, message) {
+        const response = await fetch(`${API_URL}/support/${ticketNumber}/messages`, getFetchOptions('POST', { message }));
+        const json = await response.json();
+        if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to reply to ticket');
+        return json.data;
+    }
+};
+
+export const adminSupportService = {
+    async getTickets(params = {}) {
+        const urlParams = new URLSearchParams();
+        if (params.search) urlParams.append('search', params.search);
+        if (params.status && params.status !== 'ALL') urlParams.append('status', params.status);
+        if (params.priority && params.priority !== 'ALL') urlParams.append('priority', params.priority);
+        if (params.category && params.category !== 'ALL') urlParams.append('category', params.category);
+        if (params.assignedAdminId) urlParams.append('assignedAdminId', params.assignedAdminId);
+        if (params.sort) urlParams.append('sort', params.sort);
+        if (params.page) urlParams.append('page', params.page);
+        if (params.limit) urlParams.append('limit', params.limit);
+
+        const queryString = urlParams.toString();
+        const endpoint = queryString ? `${API_URL}/admin/support?${queryString}` : `${API_URL}/admin/support`;
+
+        const response = await fetch(endpoint, getFetchOptions('GET'));
+        const json = await response.json();
+        if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch tickets');
+        return json.data;
+    },
+    async getTicketDetails(ticketNumber) {
+        const response = await fetch(`${API_URL}/admin/support/${ticketNumber}`, getFetchOptions('GET'));
+        const json = await response.json();
+        if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch ticket details');
+        return json.data;
+    },
+    async updateTicketStatus(ticketNumber, status) {
+        const response = await fetch(`${API_URL}/admin/support/${ticketNumber}/status`, getFetchOptions('PATCH', { status }));
+        const json = await response.json();
+        if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to update ticket status');
+        return json.data;
+    },
+    async updateTicketPriority(ticketNumber, priority) {
+        const response = await fetch(`${API_URL}/admin/support/${ticketNumber}/priority`, getFetchOptions('PATCH', { priority }));
+        const json = await response.json();
+        if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to update ticket priority');
+        return json.data;
+    },
+    async assignTicket(ticketNumber, assignedAdminId) {
+        const response = await fetch(`${API_URL}/admin/support/${ticketNumber}/assignment`, getFetchOptions('PATCH', { assignedAdminId }));
+        const json = await response.json();
+        if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to assign ticket');
+        return json.data;
+    },
+    async addMessage(ticketNumber, payload) {
+        const response = await fetch(`${API_URL}/admin/support/${ticketNumber}/messages`, getFetchOptions('POST', payload));
+        const json = await response.json();
+        if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to add message');
+        return json.data;
+    }
+};
+
+export const adminReviewService = {
+    async getReviews(params = {}) {
+        const urlParams = new URLSearchParams();
+        if (params.status && params.status !== 'ALL') urlParams.append('status', params.status);
+        if (params.rating && params.rating !== 'ALL') urlParams.append('rating', params.rating);
+        if (params.productId) urlParams.append('productId', params.productId);
+        if (params.sort) urlParams.append('sort', params.sort);
+        if (params.page) urlParams.append('page', params.page);
+        if (params.limit) urlParams.append('limit', params.limit);
+
+        const response = await fetch(`${API_URL}/admin/reviews?${urlParams.toString()}`, getFetchOptions('GET'));
+        const json = await response.json();
+        if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch reviews');
+        return json.data;
+    },
+    async updateModeration(reviewId, status) {
+        const response = await fetch(`${API_URL}/admin/reviews/${reviewId}/moderation`, getFetchOptions('PATCH', { status }));
+        const json = await response.json();
+        if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to update review moderation');
+        return json.data;
+    },
+    async getReports(reviewId) {
+        const response = await fetch(`${API_URL}/admin/reviews/${reviewId}/reports`, getFetchOptions('GET'));
+        const json = await response.json();
+        if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch review reports');
+        return json.data;
+    }
+};
+
+export const loyaltyService = {
+    async getMyLoyalty(page = 1, limit = 20) {
+        const response = await fetch(`${API_URL}/loyalty?page=${page}&limit=${limit}`, getFetchOptions('GET'));
+        const json = await response.json();
+        if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch loyalty data');
         return json.data;
     }
 };

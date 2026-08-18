@@ -4,7 +4,7 @@ import NotificationLog from '../models/NotificationLog.js';
 // Transporter abstraction
 let transporter = null;
 
-const getTransporter = () => {
+export const getTransporter = () => {
     if (!transporter) {
         if (process.env.EMAIL_PROVIDER === 'smtp') {
             transporter = nodemailer.createTransport({
@@ -34,48 +34,31 @@ const getTransporter = () => {
     return transporter;
 };
 
-// Internal wrapper to send and log
+// Internal wrapper to enqueue an email job
 export const sendTransactionalEmail = async ({ to, subject, html, eventKey, eventType }) => {
     try {
-        // Idempotency check
-        if (eventKey) {
-            const existingLog = await NotificationLog.findOne({ eventKey, status: 'sent' });
-            if (existingLog) {
-                console.log(`[Email Service] Idempotency catch: Event ${eventKey} already sent. Skipping.`);
-                return true; // Already processed successfully
-            }
-        }
+        // Enqueue the job for reliable delivery
+        // If eventKey is missing, we generate a unique one to ensure it's still treated as a job
+        const idempotencyKey = eventKey || `EMAIL_${Date.now()}_${Math.random().toString(36).substring(7)}`;
 
-        const mailOptions = {
-            from: process.env.EMAIL_FROM || '"Auralis Audio" <no-reply@auralis.com>',
-            to,
-            subject,
-            html
-        };
-
-        const t = getTransporter();
-        await t.sendMail(mailOptions);
-
-        if (eventKey) {
-            await NotificationLog.findOneAndUpdate(
-                { eventKey },
-                { eventType, recipientEmail: to, status: 'sent', errorDetails: null },
-                { upsert: true, new: true }
-            );
-        }
+        const BackgroundJob = (await import('../models/BackgroundJob.js')).default;
+        
+        await BackgroundJob.updateOne(
+            { idempotencyKey },
+            { 
+                $setOnInsert: {
+                    type: 'SEND_EMAIL',
+                    status: 'pending',
+                    idempotencyKey,
+                    payload: { to, subject, html, eventKey, eventType }
+                }
+            },
+            { upsert: true }
+        );
 
         return true;
     } catch (error) {
-        console.error(`[Email Service] Failed to send email to ${to}: ${error.message}`);
-        
-        if (eventKey) {
-            await NotificationLog.findOneAndUpdate(
-                { eventKey },
-                { eventType, recipientEmail: to, status: 'failed', errorDetails: error.message },
-                { upsert: true, new: true }
-            );
-        }
-        
+        console.error(`[Email Service] Failed to enqueue email job to ${to}: ${error.message}`);
         // We do NOT throw here so we don't break the main transaction flow
         return false;
     }

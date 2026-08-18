@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.PROD ? '/api/v1' : (import.meta.env.VITE_API_URL || 'http://localhost:5001/api/v1');
+const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '/api/v1' : 'http://localhost:5000/api/v1');
 
 // Fetch options for auth requests to handle credentials
 const getFetchOptions = (method, body) => {
@@ -55,8 +55,12 @@ export const authService = {
         return json.data.user;
     },
 
-    async updateProfile(name) {
-        const response = await fetch(`${API_URL}/users/me`, getFetchOptions('PATCH', { name }));
+    async updateProfile(name, preferences = undefined) {
+        const payload = { name };
+        if (preferences !== undefined) {
+            payload.preferences = preferences;
+        }
+        const response = await fetch(`${API_URL}/users/me`, getFetchOptions('PATCH', payload));
         const json = await response.json();
         if (!response.ok || !json.success) {
             throw new Error(json?.error?.message || 'Failed to update profile');

@@ -30,6 +30,10 @@ const ProductDetails = () => {
     useEffect(() => {
         if (product && !productLoading) {
             addViewedProduct(product.id);
+            // Log Analytics
+            import('../services/apiService').then(mod => {
+                mod.analyticsService.logEvent('PRODUCT_VIEWED', parseInt(product.id));
+            });
         }
     }, [product, productLoading, addViewedProduct]);
 

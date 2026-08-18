@@ -1,0 +1,205 @@
+.order-shipment-card {
+    background: var(--color-white);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+}
+
+.shipment-tracking-header {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--color-gray-200);
+}
+
+.carrier-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-black);
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.tracking-number-box {
+    background: var(--color-gray-50);
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--radius-sm);
+    font-family: monospace;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.tracking-link {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: var(--color-primary);
+    font-weight: 600;
+    text-decoration: none;
+    font-family: var(--font-body);
+}
+
+.tracking-link:hover {
+    text-decoration: underline;
+}
+
+.estimated-delivery {
+    text-align: right;
+}
+
+.estimated-delivery .date {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-top: 0.25rem;
+}
+
+/* Stepper */
+.shipment-stepper {
+    position: relative;
+    padding: 1rem 0;
+}
+
+.stepper-track {
+    position: absolute;
+    top: 2rem;
+    left: 10%;
+    right: 10%;
+    height: 4px;
+    background: var(--color-gray-200);
+    border-radius: 2px;
+    z-index: 1;
+}
+
+.stepper-progress {
+    height: 100%;
+    background: var(--color-primary);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+.stepper-steps {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    z-index: 2;
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 25%;
+    color: var(--color-gray-400);
+}
+
+.step.completed {
+    color: var(--color-primary);
+}
+
+.step-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--color-white);
+    border: 2px solid var(--color-gray-200);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.step.completed .step-icon {
+    border-color: var(--color-primary);
+    background: var(--color-primary);
+    color: var(--color-white);
+}
+
+.step-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.shipment-error-state {
+    padding: 1rem;
+    background: rgba(220, 38, 38, 0.05);
+    border: 1px solid rgba(220, 38, 38, 0.2);
+    border-radius: var(--radius-sm);
+    color: #b91c1c;
+}
+
+.error-badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    background: #ef4444;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 1rem;
+}
+
+.tracking-history-list {
+    background: var(--color-gray-50);
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-gray-200);
+}
+
+.history-row {
+    display: flex;
+    gap: 1rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px dashed var(--color-gray-200);
+}
+
+.history-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.history-time {
+    font-size: 0.85rem;
+    color: var(--color-gray-500);
+    width: 100px;
+    flex-shrink: 0;
+}
+
+.history-status {
+    font-size: 0.9rem;
+}
+
+.history-note {
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+}
+
+@media (max-width: 640px) {
+    .shipment-tracking-header {
+        flex-direction: column;
+    }
+    .estimated-delivery {
+        text-align: left;
+    }
+    
+    .stepper-track {
+        display: none;
+    }
+    .stepper-steps {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
+    }
+    .step {
+        flex-direction: row;
+        width: 100%;
+        gap: 1rem;
+    }
+}

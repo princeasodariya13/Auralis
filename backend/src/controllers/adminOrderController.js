@@ -3,6 +3,7 @@ import OrderStatusHistory from '../models/OrderStatusHistory.js';
 import OrderNote from '../models/OrderNote.js';
 import { sendOrderStatusUpdate } from '../services/notificationService.js';
 import { notifyOrderStatusChange } from '../services/customerNotificationService.js';
+import { recordAdminAction } from '../services/adminAuditService.js';
 
 // Valid Transitions Map
 const VALID_TRANSITIONS = {
@@ -170,7 +171,7 @@ export const updateOrderStatus = async (req, res) => {
             return res.status(409).json({ success: false, error: { message: 'Concurrent modification detected. Order status changed during update.' }});
         }
 
-        // Create history log
+        // Create history log internally
         await OrderStatusHistory.create({
             orderId: updatedOrder._id,
             orderNumber: updatedOrder.orderNumber,
@@ -179,6 +180,19 @@ export const updateOrderStatus = async (req, res) => {
             adminId: req.user._id,
             adminNameSnapshot: req.user.name,
             note: `Status updated via Admin`
+        });
+
+        // Audit Log
+        await recordAdminAction({
+            adminUserId: req.user._id,
+            action: 'ORDER_STATUS_CHANGED',
+            resourceType: 'Order',
+            resourceId: updatedOrder._id,
+            previousState: { orderStatus: currentStatus },
+            newState: { orderStatus: status },
+            metadata: {
+                orderNumber: updatedOrder.orderNumber
+            }
         });
 
         // Fire notification in the background (don't await so we don't slow down the response)
@@ -265,6 +279,19 @@ export const addOrderNote = async (req, res) => {
             adminId: req.user._id,
             adminNameSnapshot: req.user.name,
             note: note.trim()
+        });
+
+        // Audit Log
+        await recordAdminAction({
+            adminUserId: req.user._id,
+            action: 'ORDER_NOTE_ADDED',
+            resourceType: 'Order',
+            resourceId: order._id,
+            newState: { note: note.trim() },
+            metadata: {
+                orderNumber: req.params.orderNumber,
+                noteId: newNote._id
+            }
         });
 
         res.status(201).json({ success: true, data: newNote });

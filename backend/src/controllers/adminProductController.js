@@ -1,4 +1,5 @@
 import Product from '../models/Product.js';
+import { recordAdminAction, getChangedFields } from '../services/adminAuditService.js';
 
 // Helper to escape regex
 const escapeRegex = (string) => string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -127,6 +128,20 @@ export const createProduct = async (req, res) => {
             isActive: isActive !== undefined ? Boolean(isActive) : true
         });
 
+        // Audit Log
+        await recordAdminAction({
+            adminUserId: req.user._id,
+            action: 'PRODUCT_CREATED',
+            resourceType: 'Product',
+            resourceId: product._id,
+            newState: {
+                name: product.name,
+                price: product.price,
+                sku: product.sku,
+                stockQuantity: product.stockQuantity
+            }
+        });
+
         res.status(201).json({ success: true, data: product });
     } catch (error) {
         console.error(`Error in createProduct: ${error.message}`);
@@ -177,8 +192,22 @@ export const updateProduct = async (req, res) => {
             }
         }
 
+        const oldProductState = product.toObject();
         Object.assign(product, updates);
         await product.save();
+
+        // Audit Log
+        const changes = getChangedFields(oldProductState, product, allowedUpdates);
+        if (Object.keys(changes.new).length > 0) {
+            await recordAdminAction({
+                adminUserId: req.user._id,
+                action: 'PRODUCT_UPDATED',
+                resourceType: 'Product',
+                resourceId: product._id,
+                previousState: changes.previous,
+                newState: changes.new
+            });
+        }
 
         res.json({ success: true, data: product });
     } catch (error) {
@@ -201,8 +230,21 @@ export const deleteProduct = async (req, res) => {
         }
 
         // Instead of hard delete, we archive/deactivate it to protect orders/wishlist.
+        const previousIsActive = product.isActive;
         product.isActive = false;
         await product.save();
+
+        // Audit Log
+        if (previousIsActive !== false) {
+            await recordAdminAction({
+                adminUserId: req.user._id,
+                action: 'PRODUCT_DEACTIVATED',
+                resourceType: 'Product',
+                resourceId: product._id,
+                previousState: { isActive: true },
+                newState: { isActive: false }
+            });
+        }
 
         res.json({ success: true, message: 'Product successfully deactivated/archived' });
     } catch (error) {

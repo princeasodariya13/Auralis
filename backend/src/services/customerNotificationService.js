@@ -8,28 +8,24 @@ export const createCustomerNotification = async ({ userId, type, title, message,
     try {
         if (!userId) return;
 
-        // If an idempotency key is provided, try to find an existing notification first
-        if (idempotencyKey) {
-            const existing = await CustomerNotification.findOne({ idempotencyKey });
-            if (existing) {
-                return; // Already processed
-            }
-        }
+        const BackgroundJob = (await import('../models/BackgroundJob.js')).default;
+        
+        const jobKey = idempotencyKey || `NOTIF_${Date.now()}_${Math.random().toString(36).substring(7)}`;
 
-        await CustomerNotification.create({
-            userId,
-            type,
-            title,
-            message,
-            orderNumber,
-            idempotencyKey
-        });
+        await BackgroundJob.updateOne(
+            { idempotencyKey: jobKey },
+            { 
+                $setOnInsert: {
+                    type: 'CREATE_NOTIFICATION',
+                    status: 'pending',
+                    idempotencyKey: jobKey,
+                    payload: { userId, type, title, message, orderNumber, idempotencyKey }
+                }
+            },
+            { upsert: true }
+        );
     } catch (error) {
-        // If it's a duplicate key error (E11000) for idempotencyKey, just ignore it safely
-        if (error.code === 11000 && error.keyPattern && error.keyPattern.idempotencyKey) {
-            return;
-        }
-        console.error(`Failed to create CustomerNotification (${type}):`, error.message);
+        console.error(`Failed to enqueue CustomerNotification (${type}):`, error.message);
     }
 };
 

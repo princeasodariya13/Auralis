@@ -72,8 +72,8 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    const updateProfile = async (name) => {
-        const updatedUser = await authService.updateProfile(name);
+    const updateProfile = async (name, preferences) => {
+        const updatedUser = await authService.updateProfile(name, preferences);
         setUser(updatedUser);
         return updatedUser;
     };

@@ -1,6 +1,6 @@
 import { Outlet, NavLink, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { LayoutDashboard, Package, ArchiveRestore, ShoppingCart, Users, Tag, TrendingUp, LogOut, Menu, X } from 'lucide-react';
+import { LayoutDashboard, Package, ArchiveRestore, ShoppingCart, Users, Tag, TrendingUp, LogOut, Menu, X, RotateCcw, ShieldAlert, FileText, Headphones, Star } from 'lucide-react';
 import { useState } from 'react';
 import './AdminLayout.css';
 
@@ -67,11 +67,15 @@ const AdminLayout = () => {
                         <ShoppingCart size={20} />
                         <span>Orders</span>
                     </NavLink>
-                    {/* Future Sections - Visual only for now */}
-                    <div className="nav-item disabled" title="Coming Soon in Future Step">
+                    
+                    <NavLink to="/admin/fulfillment" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
+                        <AlertTriangle size={20} />
+                        <span>Fulfillment Ops</span>
+                    </NavLink>
+                    <NavLink to="/admin/customers" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
                         <Users size={20} />
                         <span>Customers</span>
-                    </div>
+                    </NavLink>
                     <NavLink to="/admin/orders" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
                         <ShoppingCart size={20} />
                         <span>Orders</span>
@@ -80,6 +84,14 @@ const AdminLayout = () => {
                         <RotateCcw size={20} />
                         <span>Returns</span>
                     </NavLink>
+                    <NavLink to="/admin/support" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
+                        <Headphones size={20} />
+                        <span>Service Desk</span>
+                    </NavLink>
+                    <NavLink to="/admin/reviews" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
+                        <Star size={20} />
+                        <span>Reviews</span>
+                    </NavLink>
                     <NavLink to="/admin/coupons" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
                         <Tag size={20} />
                         <span>Coupons</span>
@@ -87,6 +99,14 @@ const AdminLayout = () => {
                     <NavLink to="/admin/analytics" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
                         <TrendingUp size={20} />
                         <span>Analytics</span>
+                    </NavLink>
+                    <NavLink to="/admin/reconciliation" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
+                        <ShieldAlert size={20} />
+                        <span>Reconciliation</span>
+                    </NavLink>
+                    <NavLink to="/admin/audit-logs" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
+                        <FileText size={20} />
+                        <span>Audit Logs</span>
                     </NavLink>
                 </nav>
 

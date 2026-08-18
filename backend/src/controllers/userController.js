@@ -10,9 +10,17 @@ export const updateProfile = async (req, res) => {
             return res.status(404).json({ success: false, error: { message: 'User not found' }});
         }
 
-        // Only allow updating name for now
+        // Allow updating name
         if (req.body.name) {
             user.name = req.body.name;
+        }
+
+        // Allow updating email preferences
+        if (req.body.preferences !== undefined) {
+            user.preferences = {
+                ...user.preferences,
+                ...req.body.preferences
+            };
         }
 
         const updatedUser = await user.save();
@@ -24,7 +32,8 @@ export const updateProfile = async (req, res) => {
                     _id: updatedUser._id,
                     name: updatedUser.name,
                     email: updatedUser.email,
-                    role: updatedUser.role
+                    role: updatedUser.role,
+                    preferences: updatedUser.preferences
                 }
             }
         });

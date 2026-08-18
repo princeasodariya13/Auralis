@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { reviewService } from '../services/apiService';
-import { Star, Edit2, Trash2 } from 'lucide-react';
+import { Star, Edit2, Trash2, ShieldCheck, ThumbsUp, Flag } from 'lucide-react';
 import './Reviews.css';
 
 const ReviewForm = ({ productId, initialData, onSuccess, onCancel }) => {
@@ -101,7 +101,36 @@ const Reviews = ({ productId, reviewsData, onReviewChanged }) => {
             await reviewService.deleteReview(productId, reviewId);
             onReviewChanged();
         } catch (error) {
-            alert(error.response?.data?.error?.message || "Failed to delete review");
+            alert(error.message || "Failed to delete review");
+        }
+    };
+
+    const handleVote = async (reviewId, value) => {
+        if (!isAuthenticated) {
+            alert('Please sign in to vote.');
+            return;
+        }
+        try {
+            await reviewService.voteReview(reviewId, value);
+            onReviewChanged();
+        } catch (error) {
+            alert(error.message || "Failed to vote.");
+        }
+    };
+
+    const handleReport = async (reviewId) => {
+        if (!isAuthenticated) {
+            alert('Please sign in to report.');
+            return;
+        }
+        const reason = window.prompt("Why are you reporting this review? (inappropriate, spam, misleading, offensive, suspicious, other)");
+        if (!reason) return;
+        
+        try {
+            await reviewService.reportReview(reviewId, reason.toLowerCase());
+            alert('Review reported successfully.');
+        } catch (error) {
+            alert(error.message || "Failed to report review.");
         }
     };
 
@@ -160,10 +189,16 @@ const Reviews = ({ productId, reviewsData, onReviewChanged }) => {
                             </div>
                         )
                     ) : (
-                        <ReviewForm 
-                            productId={productId} 
-                            onSuccess={onReviewChanged} 
-                        />
+                        <div className="review-creation-section">
+                            <p className="purchase-notice">
+                                <ShieldCheck size={18} color="#16a34a" /> 
+                                Only verified purchasers can review this product.
+                            </p>
+                            <ReviewForm 
+                                productId={productId} 
+                                onSuccess={onReviewChanged} 
+                            />
+                        </div>
                     )
                 ) : (
                     <div className="login-prompt">
@@ -188,6 +223,11 @@ const Reviews = ({ productId, reviewsData, onReviewChanged }) => {
                                     ))}
                                 </div>
                                 <span className="review-author">{review.userId.name}</span>
+                                {review.verifiedPurchase && (
+                                    <span className="verified-badge" title="Verified Purchase">
+                                        <ShieldCheck size={14} /> Verified
+                                    </span>
+                                )}
                                 <span className="review-date">
                                     {new Date(review.createdAt).toLocaleDateString()}
                                     {review.isEdited && ' (Edited)'}
@@ -201,6 +241,24 @@ const Reviews = ({ productId, reviewsData, onReviewChanged }) => {
                                 )}
                             </div>
                             <p className="review-comment">{review.comment}</p>
+                            
+                            <div className="review-footer">
+                                <button 
+                                    className={`vote-btn ${review.userVote === 1 ? 'active' : ''}`}
+                                    onClick={() => handleVote(review._id, 1)}
+                                    title="Helpful"
+                                >
+                                    <ThumbsUp size={14} /> 
+                                    <span>{review.helpfulCount || 0}</span>
+                                </button>
+                                <button 
+                                    className="report-btn" 
+                                    onClick={() => handleReport(review._id)}
+                                    title="Report"
+                                >
+                                    <Flag size={14} /> Report
+                                </button>
+                            </div>
                         </div>
                     ))}
                 </div>

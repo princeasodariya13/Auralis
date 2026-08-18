@@ -21,6 +21,9 @@ import OrderDetails from './pages/OrderDetails';
 import Notifications from './pages/Notifications';
 import Returns from './pages/Returns';
 import ReturnRequestForm from './pages/ReturnRequestForm';
+import SupportTickets from './pages/SupportTickets';
+import SupportTicketDetail from './pages/SupportTicketDetail';
+import Loyalty from './pages/Loyalty';
 import ProtectedRoute from './components/ProtectedRoute';
 
 // Admin Components (Lazy Loaded)
@@ -36,6 +39,14 @@ const AdminCoupons = lazy(() => import('./pages/admin/AdminCoupons'));
 const AdminAnalytics = lazy(() => import('./pages/admin/AdminAnalytics'));
 const AdminReturns = lazy(() => import('./pages/admin/AdminReturns'));
 const AdminReturnDetails = lazy(() => import('./pages/admin/AdminReturnDetails'));
+const AdminReconciliation = lazy(() => import('./pages/admin/AdminReconciliation'));
+const AdminSupport = lazy(() => import('./pages/admin/AdminSupport'));
+const AdminSupportDetails = lazy(() => import('./pages/admin/AdminSupportDetails'));
+const AdminReviews = lazy(() => import('./pages/admin/AdminReviews'));
+const AdminAuditLogs = lazy(() => import('./pages/admin/AdminAuditLogs'));
+const AdminFulfillmentOperations = lazy(() => import('./pages/admin/AdminFulfillmentOperations'));
+const AdminCustomers = lazy(() => import('./pages/admin/AdminCustomers'));
+const AdminCustomerDetails = lazy(() => import('./pages/admin/AdminCustomerDetails'));
 
 import './App.css';
 
@@ -113,6 +124,30 @@ function App() {
                   } 
                 />
                 <Route 
+                  path="account/support" 
+                  element={
+                    <ProtectedRoute>
+                      <SupportTickets />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route 
+                  path="account/support/:ticketNumber" 
+                  element={
+                    <ProtectedRoute>
+                      <SupportTicketDetail />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route 
+                  path="account/loyalty" 
+                  element={
+                    <ProtectedRoute>
+                      <Loyalty />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route 
                   path="orders/:orderNumber" 
                   element={
                     <ProtectedRoute>
@@ -135,12 +170,20 @@ function App() {
                 <Route path="products/new" element={<AdminProductForm />} />
                 <Route path="products/:id" element={<AdminProductForm />} />
                 <Route path="inventory" element={<AdminInventory />} />
+                <Route path="customers" element={<AdminCustomers />} />
+                <Route path="customers/:id" element={<AdminCustomerDetails />} />
                 <Route path="orders" element={<AdminOrders />} />
                 <Route path="orders/:orderNumber" element={<AdminOrderDetails />} />
                 <Route path="coupons" element={<AdminCoupons />} />
                 <Route path="analytics" element={<AdminAnalytics />} />
                 <Route path="returns" element={<AdminReturns />} />
                 <Route path="returns/:id" element={<AdminReturnDetails />} />
+                <Route path="support" element={<AdminSupport />} />
+                <Route path="support/:ticketNumber" element={<AdminSupportDetails />} />
+                <Route path="reviews" element={<AdminReviews />} />
+                <Route path="reconciliation" element={<AdminReconciliation />} />
+                <Route path="audit-logs" element={<AdminAuditLogs />} />
+                <Route path="fulfillment" element={<AdminFulfillmentOperations />} />
               </Route>
               
             </Routes>

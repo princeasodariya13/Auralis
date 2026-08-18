@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { useCheckoutPreview } from '../hooks/useData';
-import { orderService, paymentService } from '../services/apiService';
+import { orderService, paymentService, loyaltyService } from '../services/apiService';
 import AddressManager from '../components/AddressManager';
-import { AlertCircle, ArrowLeft, CheckCircle2, ShoppingBag } from 'lucide-react';
+import { AlertCircle, ArrowLeft, CheckCircle2, ShoppingBag, Award } from 'lucide-react';
 import './Checkout.css';
 
 const Checkout = () => {
@@ -17,6 +17,11 @@ const Checkout = () => {
     useEffect(() => {
         if (!cartItems || cartItems.length === 0) {
             navigate('/cart');
+        } else {
+            // Log Analytics: Checkout Started
+            import('../services/apiService').then(mod => {
+                mod.analyticsService.logEvent('CHECKOUT_STARTED');
+            });
         }
     }, [cartItems, navigate]);
 
@@ -26,8 +31,25 @@ const Checkout = () => {
     const [couponError, setCouponError] = useState('');
     const [isApplyingCoupon, setIsApplyingCoupon] = useState(false);
     
-    // Pass appliedCoupon to the hook (hook needs updating to accept it)
-    const { data: preview, loading: previewLoading, error: previewError } = useCheckoutPreview(refreshKey, appliedCoupon);
+    // Loyalty State
+    const [pointsToRedeem, setPointsToRedeem] = useState('');
+    const [appliedPoints, setAppliedPoints] = useState(0);
+    const [availablePoints, setAvailablePoints] = useState(0);
+
+    useEffect(() => {
+        const fetchPoints = async () => {
+            try {
+                const loyaltyData = await loyaltyService.getMyLoyalty(1, 1);
+                setAvailablePoints(loyaltyData.availablePoints || 0);
+            } catch (err) {
+                console.error("Failed to fetch available points", err);
+            }
+        };
+        fetchPoints();
+    }, []);
+    
+    // Pass appliedCoupon and appliedPoints to the hook
+    const { data: preview, loading: previewLoading, error: previewError } = useCheckoutPreview(refreshKey, appliedCoupon, appliedPoints);
     
     const [selectedAddress, setSelectedAddress] = useState(null);
     const [isCreatingOrder, setIsCreatingOrder] = useState(false);
@@ -44,7 +66,7 @@ const Checkout = () => {
         setIsCreatingOrder(true);
         
         try {
-            const order = await orderService.createOrder(selectedAddress._id, appliedCoupon);
+            const order = await orderService.createOrder(selectedAddress._id, appliedCoupon, appliedPoints);
             
             // Initiate Razorpay Flow
             const paymentInit = await paymentService.createPaymentOrder(order.orderNumber);
@@ -216,6 +238,13 @@ const Checkout = () => {
                                         </div>
                                     )}
 
+                                    {preview.loyaltyDiscount > 0 && (
+                                        <div className="summary-row text-primary">
+                                            <span>Loyalty Rewards ({preview.loyaltyPointsRedeemed} pts)</span>
+                                            <span>-${preview.loyaltyDiscount.toFixed(2)}</span>
+                                        </div>
+                                    )}
+
                                     <div className="summary-row">
                                         <span>Shipping</span>
                                         <span>{preview.shippingCost === 0 ? 'Free' : `$${preview.shippingCost.toFixed(2)}`}</span>
@@ -286,6 +315,60 @@ const Checkout = () => {
                                         </div>
                                     )}
                                 </div>
+
+                                {/* Loyalty Points Section */}
+                                {availablePoints > 0 && (
+                                    <div className="loyalty-section mt-4 mb-4">
+                                        <div className="d-flex align-items-center mb-2" style={{ gap: '0.5rem' }}>
+                                            <Award size={18} className="text-primary" />
+                                            <span className="font-semibold text-primary">Auralis Rewards</span>
+                                        </div>
+                                        <p className="text-sm text-muted mb-3">You have <strong>{availablePoints}</strong> available points.</p>
+                                        
+                                        {appliedPoints > 0 ? (
+                                            <div className="applied-coupon bg-light p-3 rounded d-flex justify-content-between align-items-center border">
+                                                <div>
+                                                    <span className="font-semibold text-primary">✓ Points Applied:</span>
+                                                    <span className="ml-2 font-mono">{appliedPoints}</span>
+                                                </div>
+                                                <button 
+                                                    className="btn-text text-danger text-sm" 
+                                                    onClick={() => {
+                                                        setAppliedPoints(0);
+                                                        setPointsToRedeem('');
+                                                    }}
+                                                >
+                                                    Remove
+                                                </button>
+                                            </div>
+                                        ) : (
+                                            <div className="coupon-form">
+                                                <div className="d-flex gap-2">
+                                                    <input 
+                                                        type="number" 
+                                                        className="form-control mb-0" 
+                                                        placeholder="Points to redeem" 
+                                                        value={pointsToRedeem}
+                                                        max={availablePoints}
+                                                        onChange={(e) => setPointsToRedeem(e.target.value)}
+                                                    />
+                                                    <button 
+                                                        className="btn btn-outline"
+                                                        disabled={!pointsToRedeem || parseInt(pointsToRedeem) <= 0 || parseInt(pointsToRedeem) > availablePoints}
+                                                        onClick={() => {
+                                                            const pts = parseInt(pointsToRedeem);
+                                                            if (pts > 0 && pts <= availablePoints) {
+                                                                setAppliedPoints(pts);
+                                                            }
+                                                        }}
+                                                    >
+                                                        Redeem
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
 
                                 <button 
                                     className="btn btn-primary w-full mt-6 flex justify-center items-center gap-2"

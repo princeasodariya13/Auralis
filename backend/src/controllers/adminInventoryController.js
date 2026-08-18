@@ -1,6 +1,7 @@
 import Product from '../models/Product.js';
 import InventoryLog from '../models/InventoryLog.js';
 import { sendInventoryAlert } from '../services/notificationService.js';
+import { recordAdminAction } from '../services/adminAuditService.js';
 
 // Helper to escape regex
 const escapeRegex = (string) => string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -215,7 +216,7 @@ export const adjustInventory = async (req, res) => {
             return res.status(409).json({ success: false, error: { message: 'Concurrent modification detected. Please refresh and try again.' }});
         }
 
-        // Log the inventory change
+        // Log the inventory change internally
         await InventoryLog.create({
             productId: updatedProduct.id,
             sku: updatedProduct.sku,
@@ -227,6 +228,22 @@ export const adjustInventory = async (req, res) => {
             newQuantity,
             reason: reason.trim(),
             note: note ? note.trim() : ''
+        });
+
+        // Audit Log
+        await recordAdminAction({
+            adminUserId: adminId,
+            action: 'INVENTORY_ADJUSTED',
+            resourceType: 'Product',
+            resourceId: updatedProduct._id,
+            previousState: { stockQuantity: previousQuantity },
+            newState: { stockQuantity: newQuantity },
+            metadata: {
+                adjustmentType,
+                changeQuantity,
+                reason: reason.trim(),
+                note: note ? note.trim() : ''
+            }
         });
 
         // Trigger notifications if needed

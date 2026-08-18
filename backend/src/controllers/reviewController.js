@@ -1,5 +1,8 @@
 import Review from '../models/Review.js';
 import Product from '../models/Product.js';
+import Order from '../models/Order.js';
+import ReviewVote from '../models/ReviewVote.js';
+import ReviewReport from '../models/ReviewReport.js';
 
 // @desc    Get reviews for a product
 // @route   GET /api/v1/products/:productId/reviews
@@ -14,15 +17,40 @@ export const getReviews = async (req, res) => {
         const skip = (pageNum - 1) * limitNum;
 
         // 2. Query
-        const total = await Review.countDocuments({ productId });
-        const reviews = await Review.find({ productId })
-            .populate('userId', 'name') // Only get user's name
+        const query = { productId, moderationStatus: 'approved' };
+        const total = await Review.countDocuments(query);
+        const reviews = await Review.find(query)
+            .populate('userId', 'name')
             .sort({ createdAt: -1 })
             .skip(skip)
-            .limit(limitNum);
+            .limit(limitNum)
+            .lean(); // Use lean for modifying objects
 
-        // Calculate distribution and average lazily
-        const allReviews = await Review.find({ productId }).select('rating');
+        // Fetch helpfulness votes and user's vote for the paginated reviews
+        const reviewIds = reviews.map(r => r._id);
+        
+        const votes = await ReviewVote.aggregate([
+            { $match: { reviewId: { $in: reviewIds } } },
+            { $group: { _id: '$reviewId', helpfulCount: { $sum: { $cond: [{ $eq: ['$value', 1] }, 1, 0] } } } }
+        ]);
+        
+        let userVotes = [];
+        if (req.user) {
+            userVotes = await ReviewVote.find({ reviewId: { $in: reviewIds }, userId: req.user._id }).lean();
+        }
+
+        const formattedReviews = reviews.map(r => {
+            const voteStat = votes.find(v => v._id.toString() === r._id.toString());
+            const userVote = userVotes.find(v => v.reviewId.toString() === r._id.toString());
+            return {
+                ...r,
+                helpfulCount: voteStat ? voteStat.helpfulCount : 0,
+                userVote: userVote ? userVote.value : 0
+            };
+        });
+
+        // Calculate distribution and average lazily using only approved reviews
+        const allReviews = await Review.find(query).select('rating');
         const ratingCount = allReviews.length;
         const averageRating = ratingCount > 0 
             ? (allReviews.reduce((sum, rev) => sum + rev.rating, 0) / ratingCount).toFixed(1) 
@@ -34,7 +62,7 @@ export const getReviews = async (req, res) => {
         res.json({
             success: true,
             data: {
-                reviews,
+                reviews: formattedReviews,
                 stats: {
                     average: Number(averageRating),
                     count: ratingCount,
@@ -82,13 +110,26 @@ export const createReview = async (req, res) => {
             return res.status(404).json({ success: false, error: { message: 'Product not found' }});
         }
 
+        // Verify purchase
+        const hasPurchased = await Order.exists({
+            userId: req.user._id,
+            paymentStatus: 'paid',
+            'items.productId': productId
+        });
+
+        if (!hasPurchased) {
+            return res.status(403).json({ success: false, error: { message: 'Only verified purchasers can review this product.' }});
+        }
+
         // Create review (unique index prevents duplicates)
         const review = await Review.create({
             userId: req.user._id,
             productId,
             rating,
             title: title ? title.trim() : '',
-            comment: comment.trim()
+            comment: comment.trim(),
+            verifiedPurchase: true,
+            moderationStatus: 'approved' // Default state
         });
 
         res.status(201).json({
@@ -173,5 +214,80 @@ export const deleteReview = async (req, res) => {
     } catch (error) {
         console.error(`Error in deleteReview: ${error.message}`);
         res.status(500).json({ success: false, error: { message: 'Server error deleting review' }});
+    }
+};
+
+// @desc    Report a review
+// @route   POST /api/v1/reviews/:reviewId/report
+// @access  Private
+export const reportReview = async (req, res) => {
+    try {
+        const { reason } = req.body;
+        
+        if (!['inappropriate', 'spam', 'misleading', 'offensive', 'suspicious', 'other'].includes(reason)) {
+            return res.status(400).json({ success: false, error: { message: 'Invalid report reason' }});
+        }
+
+        const review = await Review.findById(req.params.reviewId);
+        if (!review) return res.status(404).json({ success: false, error: { message: 'Review not found' }});
+
+        await ReviewReport.create({
+            reviewId: review._id,
+            userId: req.user._id,
+            reason
+        });
+
+        // Automatically flag the review if many reports occur? We will keep it simple and let admins handle it.
+        
+        res.json({ success: true, message: 'Review reported successfully' });
+    } catch (error) {
+        if (error.code === 11000) {
+            return res.status(400).json({ success: false, error: { message: 'You have already reported this review' }});
+        }
+        res.status(500).json({ success: false, error: { message: 'Server error reporting review' }});
+    }
+};
+
+// @desc    Vote on review helpfulness
+// @route   POST /api/v1/reviews/:reviewId/helpful
+// @access  Private
+export const voteReview = async (req, res) => {
+    try {
+        const { value } = req.body;
+        
+        if (![1, -1].includes(value)) {
+            return res.status(400).json({ success: false, error: { message: 'Invalid vote value' }});
+        }
+
+        const review = await Review.findById(req.params.reviewId);
+        if (!review) return res.status(404).json({ success: false, error: { message: 'Review not found' }});
+
+        if (review.userId.toString() === req.user._id.toString()) {
+            return res.status(403).json({ success: false, error: { message: 'You cannot vote on your own review' }});
+        }
+
+        const existingVote = await ReviewVote.findOne({ reviewId: review._id, userId: req.user._id });
+
+        if (existingVote) {
+            if (existingVote.value === value) {
+                // If same vote, maybe un-vote (remove it)
+                await existingVote.deleteOne();
+                return res.json({ success: true, data: { userVote: 0 } });
+            } else {
+                existingVote.value = value;
+                await existingVote.save();
+                return res.json({ success: true, data: { userVote: value } });
+            }
+        }
+
+        await ReviewVote.create({
+            reviewId: review._id,
+            userId: req.user._id,
+            value
+        });
+
+        res.json({ success: true, data: { userVote: value } });
+    } catch (error) {
+        res.status(500).json({ success: false, error: { message: 'Server error voting on review' }});
     }
 };

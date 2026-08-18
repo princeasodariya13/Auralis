@@ -1,11 +1,12 @@
 import Order from '../models/Order.js';
 import Cart from '../models/Cart.js';
 import Product from '../models/Product.js';
-import Address from '../models/Address.js';
 import crypto from 'crypto';
+import mongoose from 'mongoose';
 import { calculateCheckoutTotals } from '../services/discountService.js';
 import { createCustomerNotification } from '../services/customerNotificationService.js';
 import { executeFullRefundAndRestock } from '../services/refundService.js';
+import { logger } from '../utils/logger.js';
 
 const generateOrderNumber = () => {
     const date = new Date().toISOString().slice(0, 10).replace(/-/g, '');
@@ -51,8 +52,8 @@ export const previewCheckout = async (req, res) => {
             });
         }
 
-        const { couponCode } = req.body || {};
-        const totals = await calculateCheckoutTotals(subtotal, couponCode, req.user._id);
+        const { couponCode, pointsToRedeem } = req.body || {};
+        const totals = await calculateCheckoutTotals(subtotal, couponCode, req.user._id, parseInt(pointsToRedeem) || 0);
 
         res.json({
             success: true,
@@ -64,11 +65,6 @@ export const previewCheckout = async (req, res) => {
         });
 
     } catch (error) {
-        console.error(`Preview Checkout Error: ${error.message}`);
-        // If error is from coupon validation, send 400
-        if (error.message.includes('Invalid coupon') || error.message.includes('Coupon') || error.message.includes('order value')) {
-            return res.status(400).json({ success: false, error: { message: error.message }});
-        }
         res.status(500).json({ success: false, error: { message: 'Server error generating preview' }});
     }
 };
@@ -77,7 +73,7 @@ export const previewCheckout = async (req, res) => {
 // @route   POST /api/v1/orders
 export const createOrder = async (req, res) => {
     try {
-        const { addressId, couponCode } = req.body;
+        const { addressId, couponCode, pointsToRedeem } = req.body;
 
         if (!addressId) {
             return res.status(400).json({ success: false, error: { message: 'Shipping address is required' }});
@@ -95,9 +91,20 @@ export const createOrder = async (req, res) => {
             return res.status(400).json({ success: false, error: { message: 'Cart is empty' }});
         }
 
-        // 3. Fetch real products and calculate totals (never trust frontend prices)
-        const productIds = cart.items.map(i => i.productId);
-        const products = await Product.find({ id: { $in: productIds } });
+        const session = await mongoose.startSession();
+        session.startTransaction();
+
+        try {
+            // 3. Lock user to serialize checkouts for this user
+            await mongoose.model('User').findOneAndUpdate(
+                { _id: req.user._id },
+                { $currentDate: { updatedAt: true } },
+                { session, new: true }
+            );
+
+            // 4. Fetch real products and calculate totals
+            const productIds = cart.items.map(i => i.productId);
+            const products = await Product.find({ id: { $in: productIds } }).session(session);
 
         let subtotal = 0;
         const items = [];
@@ -130,9 +137,9 @@ export const createOrder = async (req, res) => {
             });
         }
 
-        const totals = await calculateCheckoutTotals(subtotal, couponCode, req.user._id);
+        const totals = await calculateCheckoutTotals(subtotal, couponCode, req.user._id, parseInt(pointsToRedeem) || 0, session);
 
-        // 4. Create address snapshot
+        // 5. Create address snapshot
         const shippingAddressSnapshot = {
             fullName: address.fullName,
             phone: address.phone,
@@ -144,7 +151,7 @@ export const createOrder = async (req, res) => {
             country: address.country
         };
 
-        // 5. Generate unique order number (with basic retry logic if collision)
+        // 6. Generate unique order number
         let orderNumber = generateOrderNumber();
         let isUnique = false;
         let retries = 3;
@@ -159,17 +166,19 @@ export const createOrder = async (req, res) => {
         }
 
         if (!isUnique) {
-            return res.status(500).json({ success: false, error: { message: 'Failed to generate order number' }});
+            throw new Error('Failed to generate unique order number');
         }
 
-        // 6. Save order
-        const order = await Order.create({
+        // 7. Save order
+        const orderArr = await Order.create([{
             userId: req.user._id,
             orderNumber,
             items,
             shippingAddress: shippingAddressSnapshot,
             subtotal: totals.subtotal,
             discountAmount: totals.discountAmount,
+            loyaltyPointsRedeemed: totals.loyaltyPointsRedeemed || 0,
+            loyaltyDiscount: totals.loyaltyDiscount || 0,
             shippingCost: totals.shippingCost,
             tax: totals.tax,
             total: totals.total,
@@ -180,12 +189,18 @@ export const createOrder = async (req, res) => {
             discountValue: totals.coupon?.discountValue || null,
             paymentStatus: 'pending',
             orderStatus: 'pending_payment'
-        });
+        }], { session });
+        const order = orderArr[0];
+        
+        logger.info(`Order ${order.orderNumber} created successfully`, { event: 'ORDER_CREATED', orderId: order._id, userId: req.user._id, total: order.total });
 
-        // 7. Cart preservation
+        // 8. Cart preservation
         // Intentionally NOT clearing the cart here. Cart will be cleared after successful payment in Step 10.
 
-        // 8. Trigger customer notification securely
+        await session.commitTransaction();
+        session.endSession();
+
+        // 9. Trigger customer notification securely (post-transaction)
         createCustomerNotification({
             userId: req.user._id,
             type: 'ORDER_PLACED',
@@ -197,11 +212,18 @@ export const createOrder = async (req, res) => {
 
         res.status(201).json({ success: true, data: order });
 
+        } catch (txnError) {
+            await session.abortTransaction();
+            session.endSession();
+            throw txnError;
+        }
+
     } catch (error) {
-        console.error(`Create Order Error: ${error.message}`);
-        if (error.message.includes('Invalid coupon') || error.message.includes('Coupon') || error.message.includes('order value')) {
+        if (error.message.includes('Invalid coupon') || error.message.includes('Coupon') || error.message.includes('order value') || error.message.includes('Failed to generate unique order number')) {
+            logger.warn('Order creation validation failed', { event: 'ORDER_CREATION_VALIDATION_FAILED', error: error.message });
             return res.status(400).json({ success: false, error: { message: error.message }});
         }
+        logger.error('Order creation failed', { event: 'ORDER_CREATION_FAILED', error: error.message });
         res.status(500).json({ success: false, error: { message: 'Server error creating order' }});
     }
 };
@@ -271,13 +293,11 @@ export const cancelOrder = async (req, res) => {
             return res.status(400).json({ success: false, error: { message: `Order cannot be cancelled in ${order.orderStatus} status` }});
         }
         
-        order.orderStatus = 'cancelled';
-
         if (order.paymentStatus === 'paid') {
             await executeFullRefundAndRestock(order._id, req.user._id);
         }
 
-        await order.save();
+        await Order.updateOne({ _id: order._id }, { $set: { orderStatus: 'cancelled' } });
         
         createCustomerNotification({
             userId: req.user._id,
@@ -290,7 +310,7 @@ export const cancelOrder = async (req, res) => {
 
         res.json({ success: true, data: order });
     } catch (error) {
-        console.error(`Cancel Order Error: ${error.message}`);
+        logger.error('Cancel order failed', { event: 'ORDER_CANCELLATION_FAILED', error: error.message, orderNumber: req.params.orderNumber });
         res.status(500).json({ success: false, error: { message: 'Server error cancelling order' }});
     }
 };

@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useOrder } from '../hooks/useData';
 import { orderService, paymentService, returnService } from '../services/apiService';
-import { ArrowLeft, MapPin, Package, AlertCircle, CreditCard, XCircle } from 'lucide-react';
+import { ArrowLeft, MapPin, Package, AlertCircle, CreditCard, XCircle, Headphones } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import OrderShipmentTracking from '../components/OrderShipmentTracking';
 import './Orders.css';
 
 const getStatusBadge = (status) => {
@@ -173,6 +174,8 @@ const OrderDetails = () => {
                     </div>
                 </div>
 
+                <OrderShipmentTracking orderNumber={order.orderNumber} />
+
                 <div className="order-sidebar">
                     <div className="order-summary-card mb-6">
                         <h2 className="section-title">Summary</h2>
@@ -242,6 +245,14 @@ const OrderDetails = () => {
                                 Request Return
                             </Link>
                         )}
+                        <Link 
+                            to="/account/support"
+                            state={{ prefillOrder: order.orderNumber }}
+                            className="btn btn-outline w-full flex items-center justify-center gap-2"
+                        >
+                            <Headphones size={18} />
+                            Contact Support
+                        </Link>
                         {(canCancel || canReturn) && (
                             <p className="text-xs text-muted text-center mt-3">
                                 {canReturn ? 'You can request a return within the eligible return window.' : 'You can cancel this order because it has not shipped yet.'}
