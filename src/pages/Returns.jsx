@@ -100,7 +100,7 @@ const Returns = () => {
                                     </div>
                                     <div style={{ textAlign: 'right' }}>
                                         <div style={{ fontSize: '1.25rem', fontWeight: '500', color: 'var(--color-indigo)' }}>
-                                            ${req.refundAmount.toFixed(2)}
+                                            ₹{req.refundAmount.toFixed(2)}
                                         </div>
                                         <div style={{ color: 'var(--color-slate-400)', fontSize: '0.875rem' }}>
                                             Expected Refund

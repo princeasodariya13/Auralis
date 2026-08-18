@@ -1,6 +1,7 @@
 import Order from '../models/Order.js';
 import Cart from '../models/Cart.js';
 import Product from '../models/Product.js';
+import Address from '../models/Address.js';
 import crypto from 'crypto';
 import mongoose from 'mongoose';
 import { calculateCheckoutTotals } from '../services/discountService.js';
@@ -60,7 +61,7 @@ export const previewCheckout = async (req, res) => {
             data: {
                 items,
                 ...totals,
-                currency: 'USD'
+                currency: 'INR'
             }
         });
 
@@ -182,7 +183,7 @@ export const createOrder = async (req, res) => {
             shippingCost: totals.shippingCost,
             tax: totals.tax,
             total: totals.total,
-            currency: 'USD',
+            currency: 'INR',
             couponCode: totals.coupon?.code || null,
             couponId: totals.coupon?._id || null,
             discountType: totals.coupon?.discountType || null,

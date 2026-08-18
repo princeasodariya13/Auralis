@@ -87,7 +87,7 @@ const Orders = () => {
                                 </div>
                                 <div className="meta-item">
                                     <span className="meta-label"><DollarSign size={14} /> Total</span>
-                                    <span className="meta-value">${order.total.toLocaleString()}</span>
+                                    <span className="meta-value">₹{order.total.toLocaleString()}</span>
                                 </div>
                             </div>
                             <div className="order-actions">

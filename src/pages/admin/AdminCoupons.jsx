@@ -157,7 +157,7 @@ const AdminCoupons = () => {
                                         <div className="coupon-value">
                                             {coupon.discountType === 'percentage' 
                                                 ? `${coupon.discountValue}% OFF` 
-                                                : `$${coupon.discountValue} OFF`}
+                                                : `₹${coupon.discountValue} OFF`}
                                         </div>
                                         {coupon.minimumOrderValue > 0 && (
                                             <div className="text-muted small">Min: ${coupon.minimumOrderValue}</div>
@@ -244,7 +244,7 @@ const AdminCoupons = () => {
                                         onChange={(e) => setFormData({...formData, discountType: e.target.value})}
                                     >
                                         <option value="percentage">Percentage (%)</option>
-                                        <option value="fixed">Fixed Amount ($)</option>
+                                        <option value="fixed">Fixed Amount (₹)</option>
                                     </select>
                                 </div>
                                 <div className="form-group">
@@ -263,7 +263,7 @@ const AdminCoupons = () => {
 
                             <div className="form-row">
                                 <div className="form-group">
-                                    <label>Minimum Order Value ($)</label>
+                                    <label>Minimum Order Value (₹)</label>
                                     <input 
                                         type="number" 
                                         className="form-control" 
@@ -276,7 +276,7 @@ const AdminCoupons = () => {
                                 </div>
                                 {formData.discountType === 'percentage' && (
                                     <div className="form-group">
-                                        <label>Maximum Discount ($)</label>
+                                        <label>Maximum Discount (₹)</label>
                                         <input 
                                             type="number" 
                                             className="form-control" 

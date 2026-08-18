@@ -243,7 +243,7 @@ const AdminProductForm = () => {
                             <div className="form-group mb-4">
                                 <label htmlFor="price">Price (USD) *</label>
                                 <div className="input-group">
-                                    <span className="input-group-text">$</span>
+                                    <span className="input-group-text">₹</span>
                                     <input 
                                         type="number" 
                                         id="price" 

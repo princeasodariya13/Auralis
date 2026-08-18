@@ -163,11 +163,11 @@ const OrderDetails = () => {
                                     <Link to={`/product/${item.productId}`} className="item-name">{item.productName}</Link>
                                     <div className="item-meta">
                                         <span className="qty">Qty: {item.quantity}</span>
-                                        <span className="price">${item.unitPrice.toLocaleString()} each</span>
+                                        <span className="price">₹{item.unitPrice.toLocaleString()} each</span>
                                     </div>
                                 </div>
                                 <div className="item-total-price">
-                                    ${item.lineTotal.toLocaleString()}
+                                    ₹{item.lineTotal.toLocaleString()}
                                 </div>
                             </div>
                         ))}
@@ -181,25 +181,25 @@ const OrderDetails = () => {
                         <h2 className="section-title">Summary</h2>
                         <div className="summary-row">
                             <span>Subtotal</span>
-                            <span>${order.subtotal.toLocaleString()}</span>
+                            <span>₹{order.subtotal.toLocaleString()}</span>
                         </div>
                         {order.discountAmount > 0 && (
                             <div className="summary-row text-success">
                                 <span>Discount {order.couponCode ? `(${order.couponCode})` : ''}</span>
-                                <span>-${order.discountAmount.toFixed(2)}</span>
+                                <span>-₹{order.discountAmount.toFixed(2)}</span>
                             </div>
                         )}
                         <div className="summary-row">
                             <span>Shipping</span>
-                            <span>{order.shippingCost === 0 ? 'Free' : `$${order.shippingCost.toFixed(2)}`}</span>
+                            <span>{order.shippingCost === 0 ? 'Free' : `₹${order.shippingCost.toFixed(2)}`}</span>
                         </div>
                         <div className="summary-row">
                             <span>Tax</span>
-                            <span>${order.tax.toFixed(2)}</span>
+                            <span>₹{order.tax.toFixed(2)}</span>
                         </div>
                         <div className="summary-row total-row">
                             <span>Total</span>
-                            <span>${order.total.toLocaleString()}</span>
+                            <span>₹{order.total.toLocaleString()}</span>
                         </div>
                     </div>
 

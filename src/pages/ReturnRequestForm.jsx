@@ -196,7 +196,7 @@ const ReturnRequestForm = () => {
                                     <div style={{ flex: 1 }}>
                                         <h3 style={{ fontSize: '1rem', margin: '0 0 0.25rem 0' }}>{item.productName}</h3>
                                         <div style={{ color: 'var(--color-slate-400)', fontSize: '0.875rem' }}>
-                                            Price: ${item.unitPrice.toFixed(2)}
+                                            Price: ₹{item.unitPrice.toFixed(2)}
                                         </div>
                                         <div style={{ color: 'var(--color-slate-400)', fontSize: '0.875rem' }}>
                                             Returnable: {item.returnableQuantity} (of {item.purchasedQuantity} purchased)

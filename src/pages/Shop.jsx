@@ -237,7 +237,7 @@ const Shop = () => {
                         <h3>Price Range</h3>
                         <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
                             <div style={{ flex: 1 }}>
-                                <label className="text-sm text-muted" htmlFor="min-price">Min ($)</label>
+                                <label className="text-sm text-muted" htmlFor="min-price">Min (₹)</label>
                                 <input
                                     id="min-price"
                                     type="number"
@@ -253,7 +253,7 @@ const Shop = () => {
                             </div>
                             <span style={{ marginTop: '1.5rem' }}>-</span>
                             <div style={{ flex: 1 }}>
-                                <label className="text-sm text-muted" htmlFor="max-price">Max ($)</label>
+                                <label className="text-sm text-muted" htmlFor="max-price">Max (₹)</label>
                                 <input
                                     id="max-price"
                                     type="number"

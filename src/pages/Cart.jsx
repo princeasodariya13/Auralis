@@ -54,7 +54,7 @@ const Cart = () => {
                             </div>
 
                             <div className="item-price mobile-label" data-label="Price">
-                                ${item.price.toLocaleString()}
+                                ₹{item.price.toLocaleString()}
                             </div>
 
                             <div className="item-quantity mobile-label" data-label="Quantity">
@@ -83,7 +83,7 @@ const Cart = () => {
                             </div>
 
                             <div className="item-total mobile-label" data-label="Total">
-                                ${(item.price * item.quantity).toLocaleString()}
+                                ₹{(item.price * item.quantity).toLocaleString()}
                             </div>
 
                             <div className="item-actions">
@@ -104,7 +104,7 @@ const Cart = () => {
                     <h2>Order Summary</h2>
                     <div className="summary-row">
                         <span>Subtotal</span>
-                        <span>${cartTotal.toLocaleString()}</span>
+                        <span>₹{cartTotal.toLocaleString()}</span>
                     </div>
                     <div className="summary-row">
                         <span>Shipping</span>
@@ -112,7 +112,7 @@ const Cart = () => {
                     </div>
                     <div className="summary-total">
                         <span>Total</span>
-                        <span>${cartTotal.toLocaleString()}</span>
+                        <span>₹{cartTotal.toLocaleString()}</span>
                     </div>
                     <Link to="/checkout" className="btn btn-primary checkout-btn full-width" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem' }}>
                         Proceed to Checkout <ArrowRight size={18} />

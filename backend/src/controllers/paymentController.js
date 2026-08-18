@@ -75,7 +75,6 @@ const fulfillOrder = async (orderParam, razorpay_payment_id) => {
                 previousStock: oldStock,
                 newStock: product.stockQuantity,
                 reason: `Order ${order.orderNumber} fulfilled`,
-                reference: order.orderNumber,
                 performedBy: order.userId._id || order.userId // Handles populated or unpopulated user
             }], { session });
 

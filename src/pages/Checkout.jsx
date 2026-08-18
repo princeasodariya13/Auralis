@@ -220,7 +220,7 @@ const Checkout = () => {
                                                 <span className="qty">{item.quantity}x</span>
                                                 <span className="name">{item.productName}</span>
                                             </div>
-                                            <span className="price">${item.lineTotal.toLocaleString()}</span>
+                                            <span className="price">₹{item.lineTotal.toLocaleString()}</span>
                                         </div>
                                     ))}
                                 </div>
@@ -228,34 +228,34 @@ const Checkout = () => {
                                 <div className="summary-totals">
                                     <div className="summary-row">
                                         <span>Subtotal</span>
-                                        <span>${preview.subtotal.toLocaleString()}</span>
+                                        <span>₹{preview.subtotal.toLocaleString()}</span>
                                     </div>
                                     
                                     {preview.discountAmount > 0 && (
                                         <div className="summary-row text-success">
                                             <span>Discount {preview.coupon?.code ? `(${preview.coupon.code})` : ''}</span>
-                                            <span>-${preview.discountAmount.toFixed(2)}</span>
+                                            <span>-₹{preview.discountAmount.toFixed(2)}</span>
                                         </div>
                                     )}
 
                                     {preview.loyaltyDiscount > 0 && (
                                         <div className="summary-row text-primary">
                                             <span>Loyalty Rewards ({preview.loyaltyPointsRedeemed} pts)</span>
-                                            <span>-${preview.loyaltyDiscount.toFixed(2)}</span>
+                                            <span>-₹{preview.loyaltyDiscount.toFixed(2)}</span>
                                         </div>
                                     )}
 
                                     <div className="summary-row">
                                         <span>Shipping</span>
-                                        <span>{preview.shippingCost === 0 ? 'Free' : `$${preview.shippingCost.toFixed(2)}`}</span>
+                                        <span>{preview.shippingCost === 0 ? 'Free' : `₹${preview.shippingCost.toFixed(2)}`}</span>
                                     </div>
                                     <div className="summary-row">
                                         <span>Estimated Tax</span>
-                                        <span>${preview.tax.toFixed(2)}</span>
+                                        <span>₹{preview.tax.toFixed(2)}</span>
                                     </div>
                                     <div className="summary-row total-row">
                                         <span>Total</span>
-                                        <span>${preview.total.toLocaleString()}</span>
+                                        <span>₹{preview.total.toLocaleString()}</span>
                                     </div>
                                 </div>
                                 

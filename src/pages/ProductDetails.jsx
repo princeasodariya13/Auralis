@@ -128,7 +128,7 @@ const ProductDetails = () => {
                     </div>
 
                     <div className="price-container">
-                        <span className="current-price">${product.price.toLocaleString()}</span>
+                        <span className="current-price">₹{product.price.toLocaleString()}</span>
                     </div>
 
                     <p className="product-description">{product.description}</p>
