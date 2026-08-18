@@ -41,6 +41,28 @@ export const protect = async (req, res, next) => {
     }
 };
 
+// Optional auth middleware
+export const optionalAuth = async (req, res, next) => {
+    try {
+        let token;
+        if (req.cookies && req.cookies.jwt) {
+            token = req.cookies.jwt;
+        }
+
+        if (token) {
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            const user = await User.findById(decoded.id).select('-passwordHash');
+            if (user) {
+                req.user = user;
+            }
+        }
+        next();
+    } catch (error) {
+        // Ignore token errors and proceed as guest
+        next();
+    }
+};
+
 // Admin middleware
 export const admin = (req, res, next) => {
     if (req.user && req.user.role === 'admin') {
