@@ -4,6 +4,7 @@ import Product from '../models/Product.js';
 import InventoryLog from '../models/InventoryLog.js';
 import OrderStatusHistory from '../models/OrderStatusHistory.js';
 import { createRazorpayOrder, verifyRazorpaySignature, verifyWebhookSignature } from '../services/razorpay.service.js';
+import { sendOrderConfirmation, sendPaymentFailedNotification, sendInventoryAlert } from '../services/notificationService.js';
 import mongoose from 'mongoose';
 
 // @desc    Create Razorpay Order for an existing Auralis order
@@ -80,7 +81,7 @@ export const verifyPayment = async (req, res) => {
             return res.status(400).json({ success: false, error: { message: 'Missing payment details' }});
         }
         
-        const order = await Order.findOne({ orderNumber, userId: req.user._id }).session(session);
+        const order = await Order.findOne({ orderNumber, userId: req.user._id }).populate('userId', 'name email').session(session);
         if (!order) {
             await session.abortTransaction();
             session.endSession();
@@ -179,6 +180,13 @@ export const verifyPayment = async (req, res) => {
                 reference: order.orderNumber,
                 performedBy: req.user._id
             }], { session });
+
+            // Check inventory thresholds synchronously within flow context
+            if (product.stockQuantity === 0) {
+                sendInventoryAlert(product, 'out_of_stock').catch(console.error);
+            } else if (product.stockQuantity <= (process.env.LOW_STOCK_THRESHOLD || 5)) {
+                sendInventoryAlert(product, 'low_stock').catch(console.error);
+            }
         }
         
         // Update Order
@@ -206,6 +214,9 @@ export const verifyPayment = async (req, res) => {
         
         await session.commitTransaction();
         session.endSession();
+        
+        // Fire confirmation email safely in background
+        sendOrderConfirmation(order, order.userId).catch(console.error);
         
         res.json({ success: true, data: order });
         
@@ -243,8 +254,8 @@ export const handleWebhook = async (req, res) => {
             const paymentEntity = payload.payload.payment.entity;
             const rzpOrderId = paymentEntity.order_id;
             
-            // Find the order
-            const order = await Order.findOne({ razorpayOrderId: rzpOrderId });
+            // Find the order and populate user for email
+            const order = await Order.findOne({ razorpayOrderId: rzpOrderId }).populate('userId', 'name email');
             
             if (order && order.paymentStatus !== 'paid') {
                 // Background idempotent fulfillment
@@ -265,9 +276,31 @@ export const handleWebhook = async (req, res) => {
                     orderId: order._id,
                     status: 'processing',
                     notes: 'Payment verified via webhook.',
-                    updatedBy: order.userId, // System technically, but associate with user
+                    updatedBy: order.userId._id, // User object was populated
                     userType: 'customer'
                 });
+
+                sendOrderConfirmation(order, order.userId).catch(console.error);
+            }
+        } else if (payload.event === 'payment.failed') {
+            const paymentEntity = payload.payload.payment.entity;
+            const rzpOrderId = paymentEntity.order_id;
+            const order = await Order.findOne({ razorpayOrderId: rzpOrderId }).populate('userId', 'name email');
+            
+            if (order && order.paymentStatus === 'pending') {
+                // Update to failed
+                order.paymentStatus = 'failed';
+                await order.save();
+                
+                await OrderStatusHistory.create({
+                    orderId: order._id,
+                    status: order.orderStatus,
+                    notes: 'Payment failed via webhook.',
+                    updatedBy: order.userId._id,
+                    userType: 'customer'
+                });
+                
+                sendPaymentFailedNotification(order, order.userId).catch(console.error);
             }
         }
         

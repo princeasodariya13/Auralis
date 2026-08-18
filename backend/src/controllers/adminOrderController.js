@@ -1,6 +1,7 @@
 import Order from '../models/Order.js';
 import OrderStatusHistory from '../models/OrderStatusHistory.js';
 import OrderNote from '../models/OrderNote.js';
+import { sendOrderStatusUpdate } from '../services/notificationService.js';
 
 // Valid Transitions Map
 const VALID_TRANSITIONS = {
@@ -140,7 +141,7 @@ export const updateOrderStatus = async (req, res) => {
             return res.status(400).json({ success: false, error: { message: 'Status is required' }});
         }
 
-        const order = await Order.findOne({ orderNumber: req.params.orderNumber });
+        const order = await Order.findOne({ orderNumber: req.params.orderNumber }).populate('userId', 'name email');
         if (!order) {
             return res.status(404).json({ success: false, error: { message: 'Order not found' }});
         }
@@ -177,6 +178,11 @@ export const updateOrderStatus = async (req, res) => {
             adminId: req.user._id,
             adminNameSnapshot: req.user.name,
             note: `Status updated via Admin`
+        });
+
+        // Fire notification in the background (don't await so we don't slow down the response)
+        sendOrderStatusUpdate(updatedOrder, order.userId, status).catch(err => {
+            console.error('Failed to send order status update email background task', err);
         });
 
         res.json({ success: true, data: { orderStatus: updatedOrder.orderStatus } });

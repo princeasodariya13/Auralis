@@ -1,5 +1,6 @@
 import Product from '../models/Product.js';
 import InventoryLog from '../models/InventoryLog.js';
+import { sendInventoryAlert } from '../services/notificationService.js';
 
 // Helper to escape regex
 const escapeRegex = (string) => string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -227,6 +228,13 @@ export const adjustInventory = async (req, res) => {
             reason: reason.trim(),
             note: note ? note.trim() : ''
         });
+
+        // Trigger notifications if needed
+        if (updatedProduct.stockQuantity === 0) {
+            sendInventoryAlert(updatedProduct, 'out_of_stock').catch(console.error);
+        } else if (updatedProduct.stockQuantity <= (updatedProduct.lowStockThreshold || process.env.LOW_STOCK_THRESHOLD || 5)) {
+            sendInventoryAlert(updatedProduct, 'low_stock').catch(console.error);
+        }
 
         res.json({
             success: true,
