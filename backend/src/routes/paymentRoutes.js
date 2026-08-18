@@ -1,5 +1,5 @@
 import express from 'express';
-import { protect } from '../middleware/auth.js';
+import { protect } from '../middleware/authMiddleware.js';
 import { createPaymentOrder, verifyPayment, handleWebhook } from '../controllers/paymentController.js';
 
 const router = express.Router();
