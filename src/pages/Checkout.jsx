@@ -1,0 +1,241 @@
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
+import { useCheckoutPreview } from '../hooks/useData';
+import { orderService, paymentService } from '../services/apiService';
+import AddressManager from '../components/AddressManager';
+import { AlertCircle, ArrowLeft, CheckCircle2, ShoppingBag } from 'lucide-react';
+import './Checkout.css';
+
+const Checkout = () => {
+    const navigate = useNavigate();
+    const { cartItems, clearCart } = useCart();
+    const { user } = useAuth();
+    
+    // Redirect if cart is empty
+    useEffect(() => {
+        if (!cartItems || cartItems.length === 0) {
+            navigate('/cart');
+        }
+    }, [cartItems, navigate]);
+
+    const [refreshKey, setRefreshKey] = useState(0);
+    const { data: preview, loading: previewLoading, error: previewError } = useCheckoutPreview(refreshKey);
+    
+    const [selectedAddress, setSelectedAddress] = useState(null);
+    const [isCreatingOrder, setIsCreatingOrder] = useState(false);
+    const [orderError, setOrderError] = useState(null);
+    const [successOrder, setSuccessOrder] = useState(null);
+
+    const handleCreateOrder = async () => {
+        if (!selectedAddress) {
+            setOrderError("Please select a shipping address.");
+            return;
+        }
+
+        setOrderError(null);
+        setIsCreatingOrder(true);
+        
+        try {
+            const order = await orderService.createOrder(selectedAddress._id);
+            
+            // Initiate Razorpay Flow
+            const paymentInit = await paymentService.createPaymentOrder(order.orderNumber);
+            
+            const options = {
+                key: import.meta.env.VITE_RAZORPAY_KEY_ID || paymentInit.key,
+                amount: paymentInit.amount,
+                currency: paymentInit.currency,
+                name: "Auralis Audio",
+                description: `Order ${order.orderNumber}`,
+                order_id: paymentInit.razorpayOrderId,
+                handler: async function (response) {
+                    try {
+                        setIsCreatingOrder(true);
+                        const verificationResult = await paymentService.verifyPayment({
+                            razorpay_order_id: response.razorpay_order_id,
+                            razorpay_payment_id: response.razorpay_payment_id,
+                            razorpay_signature: response.razorpay_signature,
+                            orderNumber: order.orderNumber
+                        });
+                        
+                        await clearCart(); // Refresh cart to clear it locally (backend already cleared it)
+                        
+                        // We still set success order, but check if inventory issue happened
+                        if (verificationResult.inventoryIssue) {
+                            setOrderError(verificationResult.message);
+                        }
+                        
+                        setSuccessOrder(order);
+                    } catch (err) {
+                        setOrderError(err.message || 'Payment verification failed');
+                    } finally {
+                        setIsCreatingOrder(false);
+                    }
+                },
+                prefill: {
+                    name: user?.name || selectedAddress.fullName,
+                    email: user?.email || '',
+                    contact: selectedAddress.phone
+                },
+                theme: {
+                    color: "#4F46E5"
+                },
+                modal: {
+                    ondismiss: function() {
+                        // User closed the modal
+                        setIsCreatingOrder(false);
+                        setOrderError('Payment cancelled. Your order has been saved and can be paid from your order history.');
+                        // We can set successOrder if we want them to see the order created page
+                        // but it's better they go to orders
+                        navigate(`/orders/${order.orderNumber}`);
+                    }
+                }
+            };
+            
+            const rzp = new window.Razorpay(options);
+            
+            rzp.on('payment.failed', function (response){
+                setIsCreatingOrder(false);
+                setOrderError(response.error.description || 'Payment failed');
+                navigate(`/orders/${order.orderNumber}`);
+            });
+            
+            rzp.open();
+            
+        } catch (error) {
+            setOrderError(error.message || "Failed to create order. Please try again.");
+            // If the error was due to price changes, we can refresh the preview
+            if (error.message.includes('changed') || error.message.includes('available')) {
+                setRefreshKey(prev => prev + 1);
+            }
+        } finally {
+            setIsCreatingOrder(false);
+        }
+    };
+
+    if (successOrder) {
+        return (
+            <div className="section container">
+                <div className="checkout-success">
+                    <CheckCircle2 size={64} color="var(--color-primary)" />
+                    <h2>Order Created</h2>
+                    <p>Your order number is <strong>{successOrder.orderNumber}</strong></p>
+                    <p className="text-muted mt-4">
+                        Thank you for your purchase. We are processing your order.
+                    </p>
+                    <div className="mt-8" style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+                        <button className="btn btn-primary" onClick={() => navigate(`/orders/${successOrder.orderNumber}`)}>
+                            View Order
+                        </button>
+                        <button className="btn btn-outline" onClick={() => navigate('/shop')}>
+                            Back to Shopping
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    if (!cartItems || cartItems.length === 0) return null; // Wait for redirect
+
+    return (
+        <div className="section container checkout-page">
+            <button onClick={() => navigate('/cart')} className="back-btn mb-6">
+                <ArrowLeft size={18} /> Back to Cart
+            </button>
+
+            <h1 className="mb-8">Checkout</h1>
+
+            {orderError && (
+                <div className="checkout-error mb-6">
+                    <AlertCircle size={20} />
+                    <span>{orderError}</span>
+                </div>
+            )}
+
+            <div className="checkout-layout">
+                {/* Left Column: Addresses */}
+                <div className="checkout-left">
+                    <div className="checkout-section">
+                        <h2>1. Shipping Address</h2>
+                        <AddressManager 
+                            selectionMode={true} 
+                            selectedAddressId={selectedAddress?._id}
+                            onSelectAddress={setSelectedAddress}
+                        />
+                    </div>
+                </div>
+
+                {/* Right Column: Order Summary */}
+                <div className="checkout-right">
+                    <div className="checkout-section order-summary-section">
+                        <h2>Order Summary</h2>
+                        
+                        {previewLoading ? (
+                            <div className="loading-state">Calculating totals...</div>
+                        ) : previewError ? (
+                            <div className="error-state" style={{ padding: '1rem', textAlign: 'center' }}>
+                                <AlertCircle size={24} color="#dc2626" style={{ margin: '0 auto 0.5rem auto' }} />
+                                <p style={{ color: '#dc2626', marginBottom: '1rem' }}>{previewError}</p>
+                                <button className="btn btn-outline" onClick={() => navigate('/cart')}>
+                                    Return to Cart
+                                </button>
+                            </div>
+                        ) : preview ? (
+                            <>
+                                <div className="summary-items">
+                                    {preview.items.map(item => (
+                                        <div key={item.productId} className="summary-item">
+                                            <div className="summary-item-info">
+                                                <span className="qty">{item.quantity}x</span>
+                                                <span className="name">{item.productName}</span>
+                                            </div>
+                                            <span className="price">${item.lineTotal.toLocaleString()}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                                
+                                <div className="summary-totals">
+                                    <div className="summary-row">
+                                        <span>Subtotal</span>
+                                        <span>${preview.subtotal.toLocaleString()}</span>
+                                    </div>
+                                    <div className="summary-row">
+                                        <span>Shipping</span>
+                                        <span>{preview.shippingCost === 0 ? 'Free' : `$${preview.shippingCost.toFixed(2)}`}</span>
+                                    </div>
+                                    <div className="summary-row">
+                                        <span>Estimated Tax</span>
+                                        <span>${preview.tax.toFixed(2)}</span>
+                                    </div>
+                                    <div className="summary-row total-row">
+                                        <span>Total</span>
+                                        <span>${preview.total.toLocaleString()}</span>
+                                    </div>
+                                </div>
+
+                                <button 
+                                    className="btn btn-primary w-full mt-6 flex justify-center items-center gap-2"
+                                    onClick={handleCreateOrder}
+                                    disabled={!selectedAddress || isCreatingOrder}
+                                >
+                                    {isCreatingOrder ? 'Processing...' : 'Continue to Payment'}
+                                </button>
+                                
+                                {!selectedAddress && (
+                                    <p className="text-sm text-center text-muted mt-4">
+                                        Please select a shipping address to continue.
+                                    </p>
+                                )}
+                            </>
+                        ) : null}
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default Checkout;

@@ -1,0 +1,125 @@
+/* AdminOrders.css */
+
+.admin-orders-page, .admin-order-details-page {
+    display: flex;
+    flex-direction: column;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-gray-500);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+}
+
+.back-link:hover {
+    color: var(--color-primary);
+}
+
+.admin-order-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+}
+
+.order-summary-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-end;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    width: 250px;
+    font-size: 0.95rem;
+    color: var(--color-gray-700);
+}
+
+.summary-row.total {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--color-gray-900);
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--color-gray-300);
+}
+
+.history-timeline {
+    position: relative;
+    padding-left: 1rem;
+}
+
+.history-item {
+    position: relative;
+    padding-bottom: 1.5rem;
+    padding-left: 1.5rem;
+}
+
+.history-item:last-child {
+    padding-bottom: 0;
+}
+
+.history-dot {
+    position: absolute;
+    left: -0.25rem;
+    top: 0.25rem;
+    width: 10px;
+    height: 10px;
+    background-color: var(--color-primary);
+    border-radius: 50%;
+    z-index: 2;
+}
+
+.history-item::before {
+    content: '';
+    position: absolute;
+    left: 0.05rem;
+    top: 0.5rem;
+    bottom: -0.5rem;
+    width: 2px;
+    background-color: var(--color-gray-200);
+    z-index: 1;
+}
+
+.history-item:last-child::before {
+    display: none;
+}
+
+.history-meta {
+    margin-bottom: 0.25rem;
+}
+
+.history-text {
+    font-size: 0.95rem;
+    color: var(--color-gray-800);
+}
+
+.capitalize {
+    text-transform: capitalize;
+}
+
+.notes-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.add-note-form {
+    border-top: 1px solid var(--color-gray-200);
+}
+
+/* Status Colors */
+.status-pending { color: #f59e0b; background-color: #fef3c7; }
+.status-paid { color: #10b981; background-color: #d1fae5; }
+.status-failed { color: #ef4444; background-color: #fee2e2; }
+
+/* Responsive */
+@media (max-width: 992px) {
+    .admin-order-grid {
+        grid-template-columns: 1fr;
+    }
+}

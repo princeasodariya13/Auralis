@@ -1,0 +1,28 @@
+.wishlist-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 6rem 1rem;
+    background-color: var(--color-gray-50);
+    border-radius: var(--radius-md);
+    margin-top: 2rem;
+}
+
+.wishlist-empty .empty-icon {
+    color: var(--color-gray-400);
+    margin-bottom: 1.5rem;
+    stroke-width: 1.5;
+}
+
+.wishlist-empty h2 {
+    font-size: 2rem;
+    color: var(--color-black);
+    margin-bottom: 1rem;
+}
+
+.wishlist-empty p {
+    color: var(--color-gray-600);
+    margin-bottom: 2rem;
+}

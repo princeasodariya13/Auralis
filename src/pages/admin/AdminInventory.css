@@ -1,0 +1,49 @@
+/* AdminInventory.css */
+
+.admin-inventory-page {
+    display: flex;
+    flex-direction: column;
+}
+
+.stock-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.stock-qty {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.stock-threshold {
+    font-size: 0.75rem;
+}
+
+.bg-light {
+    background-color: #f8fafc;
+}
+
+.capitalize {
+    text-transform: capitalize;
+}
+
+.ml-2 {
+    margin-left: 0.5rem;
+}
+
+.text-success {
+    color: #10b981;
+}
+
+.text-danger {
+    color: #ef4444;
+}
+
+.text-warning {
+    color: #f59e0b;
+}
+
+.text-xs {
+    font-size: 0.75rem;
+}

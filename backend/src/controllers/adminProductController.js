@@ -1,0 +1,212 @@
+import Product from '../models/Product.js';
+
+// Helper to escape regex
+const escapeRegex = (string) => string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+// @desc    Get all products for admin
+// @route   GET /api/v1/admin/products
+export const getAdminProducts = async (req, res) => {
+    try {
+        const { search, category, status, stockStatus, page, limit } = req.query;
+        let query = {};
+
+        // Search
+        if (search && search.trim() !== '') {
+            const cleanSearch = escapeRegex(search.trim());
+            query.$or = [
+                { name: { $regex: cleanSearch, $options: 'i' } },
+                { sku: { $regex: cleanSearch, $options: 'i' } }
+            ];
+        }
+
+        // Category
+        if (category && category.toLowerCase() !== 'all') {
+            query.category = { $regex: new RegExp(`^${escapeRegex(category.trim())}$`, 'i') };
+        }
+
+        // Active/Inactive
+        if (status === 'active') {
+            query.isActive = true;
+        } else if (status === 'inactive') {
+            query.isActive = false;
+        }
+
+        // Stock filter
+        if (stockStatus) {
+            if (stockStatus === 'in_stock') {
+                query.$expr = { $gt: ["$stockQuantity", "$lowStockThreshold"] };
+            } else if (stockStatus === 'low_stock') {
+                query.$expr = { $lte: ["$stockQuantity", "$lowStockThreshold"] };
+                query.stockQuantity = { $gt: 0 };
+            } else if (stockStatus === 'out_of_stock') {
+                query.stockQuantity = 0;
+            }
+        }
+
+        // Pagination
+        const pageNum = Math.max(1, parseInt(page) || 1);
+        const limitNum = Math.min(100, Math.max(1, parseInt(limit) || 20));
+        const skip = (pageNum - 1) * limitNum;
+
+        const total = await Product.countDocuments(query);
+        const products = await Product.find(query)
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limitNum);
+
+        res.json({
+            success: true,
+            data: {
+                products,
+                pagination: {
+                    page: pageNum,
+                    limit: limitNum,
+                    total,
+                    totalPages: Math.ceil(total / limitNum)
+                }
+            }
+        });
+    } catch (error) {
+        console.error(`Error in getAdminProducts: ${error.message}`);
+        res.status(500).json({ success: false, error: { message: 'Server error retrieving admin products' }});
+    }
+};
+
+// @desc    Get single product for admin
+// @route   GET /api/v1/admin/products/:id
+export const getAdminProductById = async (req, res) => {
+    try {
+        const product = await Product.findOne({ id: parseInt(req.params.id) });
+        if (!product) {
+            return res.status(404).json({ success: false, error: { message: 'Product not found' }});
+        }
+        res.json({ success: true, data: product });
+    } catch (error) {
+        console.error(`Error in getAdminProductById: ${error.message}`);
+        res.status(500).json({ success: false, error: { message: 'Server error retrieving product' }});
+    }
+};
+
+// @desc    Create new product
+// @route   POST /api/v1/admin/products
+export const createProduct = async (req, res) => {
+    try {
+        const { name, price, category, image, description, isBestSeller, stockQuantity, lowStockThreshold, sku, isActive } = req.body;
+
+        // Validation
+        if (!name || !name.trim()) return res.status(400).json({ success: false, error: { message: 'Name is required' }});
+        if (price === undefined || price < 0 || isNaN(price)) return res.status(400).json({ success: false, error: { message: 'Valid positive price is required' }});
+        if (!category || !category.trim()) return res.status(400).json({ success: false, error: { message: 'Category is required' }});
+        if (!image || !image.trim()) return res.status(400).json({ success: false, error: { message: 'Image URL is required' }});
+        if (!description || !description.trim()) return res.status(400).json({ success: false, error: { message: 'Description is required' }});
+        if (!sku || !sku.trim()) return res.status(400).json({ success: false, error: { message: 'SKU is required' }});
+        if (stockQuantity === undefined || stockQuantity < 0 || isNaN(stockQuantity)) return res.status(400).json({ success: false, error: { message: 'Valid non-negative stock quantity is required' }});
+        if (lowStockThreshold === undefined || lowStockThreshold < 0 || isNaN(lowStockThreshold)) return res.status(400).json({ success: false, error: { message: 'Valid non-negative low stock threshold is required' }});
+
+        // Check SKU uniqueness
+        const skuExists = await Product.findOne({ sku: sku.trim() });
+        if (skuExists) {
+            return res.status(400).json({ success: false, error: { message: 'SKU already exists' }});
+        }
+
+        // Generate ID
+        const lastProduct = await Product.findOne().sort({ id: -1 });
+        const newId = lastProduct ? lastProduct.id + 1 : 1;
+
+        const product = await Product.create({
+            id: newId,
+            name: name.trim(),
+            price: Number(price),
+            category: category.trim(),
+            image: image.trim(),
+            description: description.trim(),
+            isBestSeller: Boolean(isBestSeller),
+            stockQuantity: Number(stockQuantity),
+            lowStockThreshold: Number(lowStockThreshold),
+            sku: sku.trim(),
+            isActive: isActive !== undefined ? Boolean(isActive) : true
+        });
+
+        res.status(201).json({ success: true, data: product });
+    } catch (error) {
+        console.error(`Error in createProduct: ${error.message}`);
+        // Handle mongo duplicate key error for SKU in case of race condition
+        if (error.code === 11000) {
+            return res.status(400).json({ success: false, error: { message: 'Duplicate value exists (likely SKU)' }});
+        }
+        res.status(500).json({ success: false, error: { message: 'Server error creating product' }});
+    }
+};
+
+// @desc    Update product
+// @route   PATCH /api/v1/admin/products/:id
+export const updateProduct = async (req, res) => {
+    try {
+        const product = await Product.findOne({ id: parseInt(req.params.id) });
+
+        if (!product) {
+            return res.status(404).json({ success: false, error: { message: 'Product not found' }});
+        }
+
+        const allowedUpdates = ['name', 'price', 'category', 'image', 'description', 'isBestSeller', 'stockQuantity', 'lowStockThreshold', 'sku', 'isActive'];
+        const updates = {};
+        
+        for (const key of allowedUpdates) {
+            if (req.body[key] !== undefined) {
+                if (key === 'name' || key === 'category' || key === 'image' || key === 'description' || key === 'sku') {
+                    if (typeof req.body[key] === 'string' && req.body[key].trim() === '') {
+                        return res.status(400).json({ success: false, error: { message: `${key} cannot be empty` }});
+                    }
+                    updates[key] = req.body[key].trim();
+                } else if (key === 'price' || key === 'stockQuantity' || key === 'lowStockThreshold') {
+                    const num = Number(req.body[key]);
+                    if (isNaN(num) || num < 0) {
+                        return res.status(400).json({ success: false, error: { message: `Valid non-negative ${key} is required` }});
+                    }
+                    updates[key] = num;
+                } else if (key === 'isBestSeller' || key === 'isActive') {
+                    updates[key] = Boolean(req.body[key]);
+                }
+            }
+        }
+
+        if (updates.sku && updates.sku !== product.sku) {
+            const skuExists = await Product.findOne({ sku: updates.sku });
+            if (skuExists) {
+                return res.status(400).json({ success: false, error: { message: 'SKU already exists' }});
+            }
+        }
+
+        Object.assign(product, updates);
+        await product.save();
+
+        res.json({ success: true, data: product });
+    } catch (error) {
+        console.error(`Error in updateProduct: ${error.message}`);
+        if (error.code === 11000) {
+            return res.status(400).json({ success: false, error: { message: 'Duplicate value exists (likely SKU)' }});
+        }
+        res.status(500).json({ success: false, error: { message: 'Server error updating product' }});
+    }
+};
+
+// @desc    Archive/Deactivate product
+// @route   DELETE /api/v1/admin/products/:id
+export const deleteProduct = async (req, res) => {
+    try {
+        const product = await Product.findOne({ id: parseInt(req.params.id) });
+
+        if (!product) {
+            return res.status(404).json({ success: false, error: { message: 'Product not found' }});
+        }
+
+        // Instead of hard delete, we archive/deactivate it to protect orders/wishlist.
+        product.isActive = false;
+        await product.save();
+
+        res.json({ success: true, message: 'Product successfully deactivated/archived' });
+    } catch (error) {
+        console.error(`Error in deleteProduct: ${error.message}`);
+        res.status(500).json({ success: false, error: { message: 'Server error deactivating product' }});
+    }
+};

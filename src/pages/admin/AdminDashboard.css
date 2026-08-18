@@ -1,0 +1,288 @@
+/* AdminDashboard.css */
+
+.admin-dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.dashboard-header h1 {
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    margin-bottom: 0.25rem;
+}
+
+.admin-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+}
+
+.admin-metric-card {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-gray-200);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.metric-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.metric-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-gray-600);
+    margin: 0;
+}
+
+.metric-icon {
+    color: var(--color-gray-400);
+}
+
+.metric-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-black);
+    font-family: var(--font-sans);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.metric-subtext {
+    font-size: 0.8rem;
+}
+
+.dashboard-columns {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+}
+
+.admin-panel {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-gray-200);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    overflow: hidden;
+    height: 100%;
+}
+
+.admin-panel.border-warning {
+    border-top: 3px solid #f59e0b;
+}
+
+.panel-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--color-gray-200);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.panel-header h2 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.badge-warning {
+    background-color: #fef3c7;
+    color: #d97706;
+    padding: 0.25rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.panel-body {
+    padding: 1.5rem;
+}
+
+.panel-body.p-0 {
+    padding: 0;
+}
+
+/* Tables */
+.table-responsive {
+    overflow-x: auto;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.9rem;
+}
+
+.admin-table th {
+    padding: 1rem 1.5rem;
+    background-color: #f8fafc;
+    color: var(--color-gray-600);
+    font-weight: 600;
+    border-bottom: 1px solid var(--color-gray-200);
+}
+
+.admin-table td {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--color-gray-200);
+    color: var(--color-gray-800);
+}
+
+.admin-table tr:last-child td {
+    border-bottom: none;
+}
+
+.status-badge {
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.status-pending_payment { background-color: #fef3c7; color: #d97706; }
+.status-processing { background-color: #e0e7ff; color: #4338ca; }
+.status-shipped { background-color: #f3e8ff; color: #7e22ce; }
+.status-delivered { background-color: #dcfce7; color: #15803d; }
+.status-cancelled { background-color: #fee2e2; color: #dc2626; }
+
+/* Low Stock List */
+.low-stock-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.low-stock-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--color-gray-100);
+}
+
+.low-stock-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.ls-img-wrap {
+    width: 48px;
+    height: 48px;
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: var(--color-gray-100);
+    flex-shrink: 0;
+}
+
+.ls-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.ls-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.ls-info h4 {
+    font-size: 0.9rem;
+    margin: 0 0 0.25rem 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ls-sku {
+    font-size: 0.75rem;
+    color: var(--color-gray-500);
+}
+
+.ls-qty {
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.ls-qty.low { color: #f59e0b; }
+.ls-qty.out { color: #dc2626; }
+
+/* Empty & Error States */
+.admin-empty-state {
+    padding: 3rem 1.5rem;
+    text-align: center;
+    color: var(--color-gray-500);
+}
+
+.admin-empty-state.small {
+    padding: 1.5rem;
+}
+
+.admin-dashboard-error {
+    text-align: center;
+    padding: 4rem 1.5rem;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #fee2e2;
+}
+
+/* Skeletons */
+.admin-dashboard-loading {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.admin-header-skeleton {
+    height: 60px;
+    width: 250px;
+    background-color: var(--color-gray-200);
+    border-radius: 4px;
+}
+
+.admin-metric-card.skeleton {
+    height: 120px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.skeleton-icon {
+    height: 24px;
+    width: 24px;
+    background-color: var(--color-gray-200);
+    border-radius: 50%;
+}
+
+.skeleton-text {
+    height: 16px;
+    background-color: var(--color-gray-200);
+    border-radius: 4px;
+}
+
+.skeleton-text.short { width: 40%; }
+.skeleton-text.long { width: 80%; }
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .dashboard-columns {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-metrics-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .admin-metrics-grid {
+        grid-template-columns: 1fr;
+    }
+}

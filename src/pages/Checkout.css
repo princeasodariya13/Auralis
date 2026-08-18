@@ -1,0 +1,125 @@
+.checkout-page {
+    padding-bottom: 6rem;
+}
+
+.checkout-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+}
+
+@media (min-width: 1024px) {
+    .checkout-layout {
+        grid-template-columns: 1.5fr 1fr;
+    }
+}
+
+.checkout-section {
+    background-color: var(--color-white);
+}
+
+.checkout-section h2 {
+    font-size: 1.25rem;
+    color: var(--color-black);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--color-gray-200);
+}
+
+.order-summary-section {
+    background-color: var(--color-gray-50);
+    padding: 2rem;
+    border-radius: var(--radius-lg);
+    position: sticky;
+    top: 2rem;
+}
+
+.summary-items {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    font-size: 0.95rem;
+}
+
+.summary-item-info {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.summary-item-info .qty {
+    color: var(--color-gray-500);
+    font-weight: 500;
+}
+
+.summary-item-info .name {
+    color: var(--color-black);
+    max-width: 200px;
+}
+
+.summary-item .price {
+    font-weight: 500;
+    color: var(--color-black);
+}
+
+.summary-totals {
+    border-top: 1px solid var(--color-gray-200);
+    padding-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    color: var(--color-gray-600);
+    font-size: 0.95rem;
+}
+
+.total-row {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--color-gray-200);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-black);
+}
+
+.checkout-error {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.checkout-success {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4rem 1rem;
+    background-color: var(--color-gray-50);
+    border-radius: var(--radius-lg);
+    margin-top: 2rem;
+}
+
+.checkout-success h2 {
+    font-size: 2rem;
+    color: var(--color-black);
+    margin: 1.5rem 0 0.5rem;
+}
+
+.checkout-success p {
+    color: var(--color-gray-700);
+}
