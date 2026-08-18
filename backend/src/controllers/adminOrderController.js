@@ -2,6 +2,7 @@ import Order from '../models/Order.js';
 import OrderStatusHistory from '../models/OrderStatusHistory.js';
 import OrderNote from '../models/OrderNote.js';
 import { sendOrderStatusUpdate } from '../services/notificationService.js';
+import { notifyOrderStatusChange } from '../services/customerNotificationService.js';
 
 // Valid Transitions Map
 const VALID_TRANSITIONS = {
@@ -184,6 +185,7 @@ export const updateOrderStatus = async (req, res) => {
         sendOrderStatusUpdate(updatedOrder, order.userId, status).catch(err => {
             console.error('Failed to send order status update email background task', err);
         });
+        notifyOrderStatusChange(updatedOrder, status).catch(console.error);
 
         res.json({ success: true, data: { orderStatus: updatedOrder.orderStatus } });
 

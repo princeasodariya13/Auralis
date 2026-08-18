@@ -21,7 +21,13 @@ const Checkout = () => {
     }, [cartItems, navigate]);
 
     const [refreshKey, setRefreshKey] = useState(0);
-    const { data: preview, loading: previewLoading, error: previewError } = useCheckoutPreview(refreshKey);
+    const [couponCode, setCouponCode] = useState('');
+    const [appliedCoupon, setAppliedCoupon] = useState('');
+    const [couponError, setCouponError] = useState('');
+    const [isApplyingCoupon, setIsApplyingCoupon] = useState(false);
+    
+    // Pass appliedCoupon to the hook (hook needs updating to accept it)
+    const { data: preview, loading: previewLoading, error: previewError } = useCheckoutPreview(refreshKey, appliedCoupon);
     
     const [selectedAddress, setSelectedAddress] = useState(null);
     const [isCreatingOrder, setIsCreatingOrder] = useState(false);
@@ -38,7 +44,7 @@ const Checkout = () => {
         setIsCreatingOrder(true);
         
         try {
-            const order = await orderService.createOrder(selectedAddress._id);
+            const order = await orderService.createOrder(selectedAddress._id, appliedCoupon);
             
             // Initiate Razorpay Flow
             const paymentInit = await paymentService.createPaymentOrder(order.orderNumber);
@@ -202,6 +208,14 @@ const Checkout = () => {
                                         <span>Subtotal</span>
                                         <span>${preview.subtotal.toLocaleString()}</span>
                                     </div>
+                                    
+                                    {preview.discountAmount > 0 && (
+                                        <div className="summary-row text-success">
+                                            <span>Discount {preview.coupon?.code ? `(${preview.coupon.code})` : ''}</span>
+                                            <span>-${preview.discountAmount.toFixed(2)}</span>
+                                        </div>
+                                    )}
+
                                     <div className="summary-row">
                                         <span>Shipping</span>
                                         <span>{preview.shippingCost === 0 ? 'Free' : `$${preview.shippingCost.toFixed(2)}`}</span>
@@ -214,6 +228,63 @@ const Checkout = () => {
                                         <span>Total</span>
                                         <span>${preview.total.toLocaleString()}</span>
                                     </div>
+                                </div>
+                                
+                                {/* Coupon Input Form */}
+                                <div className="coupon-section mt-4 mb-4">
+                                    {appliedCoupon ? (
+                                        <div className="applied-coupon bg-light p-3 rounded d-flex justify-content-between align-items-center border">
+                                            <div>
+                                                <span className="font-semibold text-success">✓ Coupon Applied:</span>
+                                                <span className="ml-2 font-mono">{appliedCoupon}</span>
+                                            </div>
+                                            <button 
+                                                className="btn-text text-danger text-sm" 
+                                                onClick={() => {
+                                                    setAppliedCoupon('');
+                                                    setCouponCode('');
+                                                    setCouponError('');
+                                                }}
+                                            >
+                                                Remove
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        <div className="coupon-form">
+                                            <div className="d-flex gap-2">
+                                                <input 
+                                                    type="text" 
+                                                    className="form-control mb-0" 
+                                                    placeholder="Discount code" 
+                                                    value={couponCode}
+                                                    onChange={(e) => {
+                                                        setCouponCode(e.target.value.toUpperCase());
+                                                        setCouponError('');
+                                                    }}
+                                                />
+                                                <button 
+                                                    className="btn btn-outline"
+                                                    disabled={!couponCode.trim() || isApplyingCoupon}
+                                                    onClick={async () => {
+                                                        if (!couponCode.trim()) return;
+                                                        setIsApplyingCoupon(true);
+                                                        setCouponError('');
+                                                        try {
+                                                            // the preview hook will handle the refresh, we just need to set the state
+                                                            setAppliedCoupon(couponCode);
+                                                        } catch (err) {
+                                                            setCouponError(err.message);
+                                                        } finally {
+                                                            setIsApplyingCoupon(false);
+                                                        }
+                                                    }}
+                                                >
+                                                    {isApplyingCoupon ? '...' : 'Apply'}
+                                                </button>
+                                            </div>
+                                            {couponError && <p className="text-danger text-sm mt-2">{couponError}</p>}
+                                        </div>
+                                    )}
                                 </div>
 
                                 <button 

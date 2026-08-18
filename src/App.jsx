@@ -1,3 +1,4 @@
+import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
@@ -17,17 +18,24 @@ import Wishlist from './pages/Wishlist';
 import Checkout from './pages/Checkout';
 import Orders from './pages/Orders';
 import OrderDetails from './pages/OrderDetails';
+import Notifications from './pages/Notifications';
+import Returns from './pages/Returns';
+import ReturnRequestForm from './pages/ReturnRequestForm';
 import ProtectedRoute from './components/ProtectedRoute';
 
-// Admin Components
-import AdminLayout from './components/AdminLayout';
+// Admin Components (Lazy Loaded)
+const AdminLayout = lazy(() => import('./components/AdminLayout'));
 import AdminRoute from './components/AdminRoute';
-import AdminDashboard from './pages/admin/AdminDashboard';
-import AdminProducts from './pages/admin/AdminProducts';
-import AdminProductForm from './pages/admin/AdminProductForm';
-import AdminInventory from './pages/admin/AdminInventory';
-import AdminOrders from './pages/admin/AdminOrders';
-import AdminOrderDetails from './pages/admin/AdminOrderDetails';
+const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
+const AdminProducts = lazy(() => import('./pages/admin/AdminProducts'));
+const AdminProductForm = lazy(() => import('./pages/admin/AdminProductForm'));
+const AdminInventory = lazy(() => import('./pages/admin/AdminInventory'));
+const AdminOrders = lazy(() => import('./pages/admin/AdminOrders'));
+const AdminOrderDetails = lazy(() => import('./pages/admin/AdminOrderDetails'));
+const AdminCoupons = lazy(() => import('./pages/admin/AdminCoupons'));
+const AdminAnalytics = lazy(() => import('./pages/admin/AdminAnalytics'));
+const AdminReturns = lazy(() => import('./pages/admin/AdminReturns'));
+const AdminReturnDetails = lazy(() => import('./pages/admin/AdminReturnDetails'));
 
 import './App.css';
 
@@ -65,6 +73,30 @@ function App() {
                   } 
                 />
                 <Route 
+                  path="account/notifications" 
+                  element={
+                    <ProtectedRoute>
+                      <Notifications />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route 
+                  path="account/returns" 
+                  element={
+                    <ProtectedRoute>
+                      <Returns />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route 
+                  path="account/returns/:orderNumber/request" 
+                  element={
+                    <ProtectedRoute>
+                      <ReturnRequestForm />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route 
                   path="checkout" 
                   element={
                     <ProtectedRoute>
@@ -93,7 +125,9 @@ function App() {
               {/* Admin Routes */}
               <Route path="/admin" element={
                 <AdminRoute>
-                  <AdminLayout />
+                  <Suspense fallback={<div className="flex justify-center items-center h-screen bg-slate-50"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div></div>}>
+                    <AdminLayout />
+                  </Suspense>
                 </AdminRoute>
               }>
                 <Route index element={<AdminDashboard />} />
@@ -103,6 +137,10 @@ function App() {
                 <Route path="inventory" element={<AdminInventory />} />
                 <Route path="orders" element={<AdminOrders />} />
                 <Route path="orders/:orderNumber" element={<AdminOrderDetails />} />
+                <Route path="coupons" element={<AdminCoupons />} />
+                <Route path="analytics" element={<AdminAnalytics />} />
+                <Route path="returns" element={<AdminReturns />} />
+                <Route path="returns/:id" element={<AdminReturnDetails />} />
               </Route>
               
             </Routes>

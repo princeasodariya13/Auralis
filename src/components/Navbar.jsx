@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { useWishlist } from '../context/WishlistContext';
+import NotificationBell from './NotificationBell';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -31,6 +32,7 @@ const Navbar = () => {
                 </div>
 
                 <div className="nav-icons">
+                    <NotificationBell />
                     <button className="icon-btn" aria-label="Search">
                         <Search size={22} />
                     </button>

@@ -7,6 +7,9 @@ import { useState, useCallback, useEffect } from 'react';
 import { ProductDetailsSkeleton } from '../components/Skeletons';
 import { ErrorState, EmptyState } from '../components/States';
 import Reviews from '../components/Reviews';
+import RecommendationRow from '../components/RecommendationRow';
+import { useRecommendations } from '../hooks/useRecommendations';
+import { useRecentlyViewed } from '../hooks/useRecentlyViewed';
 import './ProductDetails.css';
 
 const ProductDetails = () => {
@@ -18,9 +21,17 @@ const ProductDetails = () => {
     const [refreshKey, setRefreshKey] = useState(0);
     const { data: product, loading: productLoading, error: productError } = useProduct(id);
     const { data: reviewsData, loading: reviewsLoading } = useReviews(id, { refreshKey });
+    const { related, frequentlyBought, loading: recsLoading } = useRecommendations(id);
+    const { addViewedProduct } = useRecentlyViewed();
 
     const [activeImage, setActiveImage] = useState(0);
     const [addedToCart, setAddedToCart] = useState(false);
+
+    useEffect(() => {
+        if (product && !productLoading) {
+            addViewedProduct(product.id);
+        }
+    }, [product, productLoading, addViewedProduct]);
 
     const handleReviewChanged = useCallback(() => {
         setRefreshKey(prev => prev + 1);
@@ -183,6 +194,22 @@ const ProductDetails = () => {
                     onReviewChanged={handleReviewChanged}
                 />
             )}
+
+            {/* Recommendations Section */}
+            <div style={{ marginTop: '2rem' }}>
+                <RecommendationRow 
+                    title="Frequently Bought Together"
+                    products={frequentlyBought}
+                    loading={recsLoading}
+                />
+                
+                <RecommendationRow 
+                    title="Related Products"
+                    subtitle="Customers also viewed"
+                    products={related}
+                    loading={recsLoading}
+                />
+            </div>
         </div>
     );
 };

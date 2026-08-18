@@ -30,6 +30,21 @@ export const createRazorpayOrder = async (amount, currency = 'INR', receipt) => 
     }
 };
 
+export const createRazorpayRefund = async (paymentId, amount, receipt) => {
+    const rzp = getRazorpayInstance();
+    try {
+        // Refund amount is in paise
+        const refund = await rzp.payments.refund(paymentId, {
+            amount: Math.round(amount * 100), 
+            receipt
+        });
+        return refund;
+    } catch (error) {
+        console.error('Razorpay Create Refund Error:', error);
+        throw new Error('Failed to process Razorpay refund');
+    }
+};
+
 export const verifyRazorpaySignature = (orderId, paymentId, signature) => {
     const generatedSignature = crypto
         .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)

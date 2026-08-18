@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useOrder } from '../hooks/useData';
-import { orderService, paymentService } from '../services/apiService';
-import { ArrowLeft, MapPin, Package, AlertCircle, CreditCard } from 'lucide-react';
+import { orderService, paymentService, returnService } from '../services/apiService';
+import { ArrowLeft, MapPin, Package, AlertCircle, CreditCard, XCircle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import './Orders.css';
 
@@ -122,6 +122,7 @@ const OrderDetails = () => {
     }
 
     const canCancel = ['pending_payment', 'processing'].includes(order.orderStatus);
+    const canReturn = ['shipped', 'delivered'].includes(order.orderStatus) && order.paymentStatus === 'paid';
 
     return (
         <div className="section container order-details-page">
@@ -179,6 +180,12 @@ const OrderDetails = () => {
                             <span>Subtotal</span>
                             <span>${order.subtotal.toLocaleString()}</span>
                         </div>
+                        {order.discountAmount > 0 && (
+                            <div className="summary-row text-success">
+                                <span>Discount {order.couponCode ? `(${order.couponCode})` : ''}</span>
+                                <span>-${order.discountAmount.toFixed(2)}</span>
+                            </div>
+                        )}
                         <div className="summary-row">
                             <span>Shipping</span>
                             <span>{order.shippingCost === 0 ? 'Free' : `$${order.shippingCost.toFixed(2)}`}</span>
@@ -205,30 +212,42 @@ const OrderDetails = () => {
                         </div>
                     </div>
 
-                    {canCancel && (
-                        <div className="order-actions-card flex-col gap-3">
-                            {order.paymentStatus === 'pending' && (
-                                <button 
-                                    className="btn btn-primary w-full flex justify-center items-center gap-2 mb-3"
-                                    onClick={handleRetryPayment}
-                                    disabled={isPaying || isCancelling}
-                                >
-                                    <CreditCard size={18} />
-                                    {isPaying ? 'Processing...' : 'Pay Now'}
-                                </button>
-                            )}
+                    <div className="order-actions-card flex-col gap-3">
+                        {order.paymentStatus === 'pending' && canCancel && (
                             <button 
-                                className="btn btn-outline text-danger w-full"
+                                className="btn btn-primary w-full flex justify-center items-center gap-2 mb-3"
+                                onClick={handleRetryPayment}
+                                disabled={isPaying || isCancelling}
+                            >
+                                <CreditCard size={18} />
+                                {isPaying ? 'Processing...' : 'Pay Now'}
+                            </button>
+                        )}
+                        {canCancel && (
+                            <button 
+                                className="btn btn-outline text-danger w-full flex items-center justify-center gap-2"
                                 onClick={handleCancelOrder}
                                 disabled={isCancelling || isPaying}
                             >
+                                <XCircle size={18} />
                                 {isCancelling ? 'Cancelling...' : 'Cancel Order'}
                             </button>
+                        )}
+                        {canReturn && (
+                            <Link 
+                                to={`/account/returns/${order.orderNumber}/request`}
+                                className="btn btn-outline w-full flex items-center justify-center gap-2"
+                            >
+                                <Package size={18} />
+                                Request Return
+                            </Link>
+                        )}
+                        {(canCancel || canReturn) && (
                             <p className="text-xs text-muted text-center mt-3">
-                                You can cancel this order because it has not shipped yet.
+                                {canReturn ? 'You can request a return within the eligible return window.' : 'You can cancel this order because it has not shipped yet.'}
                             </p>
-                        </div>
-                    )}
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

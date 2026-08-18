@@ -1,6 +1,6 @@
 import { Outlet, NavLink, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { LayoutDashboard, Package, ArchiveRestore, ShoppingCart, Users, Tag, Settings, LogOut, Menu, X } from 'lucide-react';
+import { LayoutDashboard, Package, ArchiveRestore, ShoppingCart, Users, Tag, TrendingUp, LogOut, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import './AdminLayout.css';
 
@@ -67,20 +67,27 @@ const AdminLayout = () => {
                         <ShoppingCart size={20} />
                         <span>Orders</span>
                     </NavLink>
-
                     {/* Future Sections - Visual only for now */}
                     <div className="nav-item disabled" title="Coming Soon in Future Step">
                         <Users size={20} />
                         <span>Customers</span>
                     </div>
-                    <div className="nav-item disabled" title="Coming Soon in Future Step">
+                    <NavLink to="/admin/orders" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
+                        <ShoppingCart size={20} />
+                        <span>Orders</span>
+                    </NavLink>
+                    <NavLink to="/admin/returns" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
+                        <RotateCcw size={20} />
+                        <span>Returns</span>
+                    </NavLink>
+                    <NavLink to="/admin/coupons" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
                         <Tag size={20} />
                         <span>Coupons</span>
-                    </div>
-                    <div className="nav-item disabled" title="Coming Soon in Future Step">
-                        <Settings size={20} />
-                        <span>Settings</span>
-                    </div>
+                    </NavLink>
+                    <NavLink to="/admin/analytics" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
+                        <TrendingUp size={20} />
+                        <span>Analytics</span>
+                    </NavLink>
                 </nav>
 
                 <div className="sidebar-footer">

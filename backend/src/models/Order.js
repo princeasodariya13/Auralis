@@ -76,9 +76,29 @@ const orderSchema = new mongoose.Schema({
         type: String,
         default: 'USD'
     },
+    couponCode: {
+        type: String
+    },
+    couponId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Coupon'
+    },
+    discountType: {
+        type: String,
+        enum: ['percentage', 'fixed']
+    },
+    discountValue: {
+        type: Number,
+        min: 0
+    },
+    discountAmount: {
+        type: Number,
+        default: 0,
+        min: 0
+    },
     paymentStatus: {
         type: String,
-        enum: ['pending', 'paid', 'failed'],
+        enum: ['pending', 'paid', 'failed', 'refunded', 'partially_refunded'],
         default: 'pending'
     },
     orderStatus: {
@@ -101,7 +121,8 @@ const orderSchema = new mongoose.Schema({
 
 // Indexes for order lookup
 orderSchema.index({ userId: 1 });
-orderSchema.index({ orderNumber: 1 });
+orderSchema.index({ orderNumber: 1 }, { unique: true });
+orderSchema.index({ orderNumber: 1, userId: 1 }); // Optimize lookups for a user's specific order
 
 const Order = mongoose.model('Order', orderSchema);
 

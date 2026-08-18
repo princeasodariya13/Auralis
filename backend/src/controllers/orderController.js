@@ -3,18 +3,9 @@ import Cart from '../models/Cart.js';
 import Product from '../models/Product.js';
 import Address from '../models/Address.js';
 import crypto from 'crypto';
-
-// Service functions for calculation logic to keep it centralized
-const calculateShipping = (subtotal) => {
-    // Free shipping if subtotal > 200, otherwise 15.00
-    return subtotal >= 200 ? 0 : 15.00;
-};
-
-const calculateTax = (subtotal) => {
-    // Simple fixed tax rate of 8% for demonstration
-    // Real implementation would use region-based calculation
-    return Number((subtotal * 0.08).toFixed(2));
-};
+import { calculateCheckoutTotals } from '../services/discountService.js';
+import { createCustomerNotification } from '../services/customerNotificationService.js';
+import { executeFullRefundAndRestock } from '../services/refundService.js';
 
 const generateOrderNumber = () => {
     const date = new Date().toISOString().slice(0, 10).replace(/-/g, '');
@@ -60,24 +51,24 @@ export const previewCheckout = async (req, res) => {
             });
         }
 
-        const shippingCost = calculateShipping(subtotal);
-        const tax = calculateTax(subtotal);
-        const total = Number((subtotal + shippingCost + tax).toFixed(2));
+        const { couponCode } = req.body || {};
+        const totals = await calculateCheckoutTotals(subtotal, couponCode, req.user._id);
 
         res.json({
             success: true,
             data: {
                 items,
-                subtotal,
-                shippingCost,
-                tax,
-                total,
+                ...totals,
                 currency: 'USD'
             }
         });
 
     } catch (error) {
         console.error(`Preview Checkout Error: ${error.message}`);
+        // If error is from coupon validation, send 400
+        if (error.message.includes('Invalid coupon') || error.message.includes('Coupon') || error.message.includes('order value')) {
+            return res.status(400).json({ success: false, error: { message: error.message }});
+        }
         res.status(500).json({ success: false, error: { message: 'Server error generating preview' }});
     }
 };
@@ -86,7 +77,7 @@ export const previewCheckout = async (req, res) => {
 // @route   POST /api/v1/orders
 export const createOrder = async (req, res) => {
     try {
-        const { addressId } = req.body;
+        const { addressId, couponCode } = req.body;
 
         if (!addressId) {
             return res.status(400).json({ success: false, error: { message: 'Shipping address is required' }});
@@ -139,9 +130,7 @@ export const createOrder = async (req, res) => {
             });
         }
 
-        const shippingCost = calculateShipping(subtotal);
-        const tax = calculateTax(subtotal);
-        const total = Number((subtotal + shippingCost + tax).toFixed(2));
+        const totals = await calculateCheckoutTotals(subtotal, couponCode, req.user._id);
 
         // 4. Create address snapshot
         const shippingAddressSnapshot = {
@@ -179,11 +168,16 @@ export const createOrder = async (req, res) => {
             orderNumber,
             items,
             shippingAddress: shippingAddressSnapshot,
-            subtotal,
-            shippingCost,
-            tax,
-            total,
+            subtotal: totals.subtotal,
+            discountAmount: totals.discountAmount,
+            shippingCost: totals.shippingCost,
+            tax: totals.tax,
+            total: totals.total,
             currency: 'USD',
+            couponCode: totals.coupon?.code || null,
+            couponId: totals.coupon?._id || null,
+            discountType: totals.coupon?.discountType || null,
+            discountValue: totals.coupon?.discountValue || null,
             paymentStatus: 'pending',
             orderStatus: 'pending_payment'
         });
@@ -191,10 +185,23 @@ export const createOrder = async (req, res) => {
         // 7. Cart preservation
         // Intentionally NOT clearing the cart here. Cart will be cleared after successful payment in Step 10.
 
+        // 8. Trigger customer notification securely
+        createCustomerNotification({
+            userId: req.user._id,
+            type: 'ORDER_PLACED',
+            title: 'Order Placed successfully',
+            message: `Your order #${orderNumber} has been placed and is pending payment.`,
+            orderNumber: orderNumber,
+            idempotencyKey: `ORDER_PLACED_${order._id}`
+        }).catch(console.error);
+
         res.status(201).json({ success: true, data: order });
 
     } catch (error) {
         console.error(`Create Order Error: ${error.message}`);
+        if (error.message.includes('Invalid coupon') || error.message.includes('Coupon') || error.message.includes('order value')) {
+            return res.status(400).json({ success: false, error: { message: error.message }});
+        }
         res.status(500).json({ success: false, error: { message: 'Server error creating order' }});
     }
 };
@@ -265,10 +272,25 @@ export const cancelOrder = async (req, res) => {
         }
         
         order.orderStatus = 'cancelled';
+
+        if (order.paymentStatus === 'paid') {
+            await executeFullRefundAndRestock(order._id, req.user._id);
+        }
+
         await order.save();
         
+        createCustomerNotification({
+            userId: req.user._id,
+            type: 'ORDER_CANCELLED',
+            title: 'Order Cancelled',
+            message: `Your order #${order.orderNumber} has been successfully cancelled and your payment has been refunded.`,
+            orderNumber: order.orderNumber,
+            idempotencyKey: `ORDER_CANCELLED_${order._id}`
+        }).catch(console.error);
+
         res.json({ success: true, data: order });
     } catch (error) {
+        console.error(`Cancel Order Error: ${error.message}`);
         res.status(500).json({ success: false, error: { message: 'Server error cancelling order' }});
     }
 };

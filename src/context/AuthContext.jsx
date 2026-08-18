@@ -63,6 +63,13 @@ export const AuthProvider = ({ children }) => {
     const logout = async () => {
         await authService.logout();
         setUser(null);
+
+        // Clear device-local history on logout to protect privacy on shared devices
+        try {
+            localStorage.removeItem('auralis_recently_viewed');
+        } catch (e) {
+            console.error(e);
+        }
     };
 
     const updateProfile = async (name) => {

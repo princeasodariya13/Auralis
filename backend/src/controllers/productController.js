@@ -4,7 +4,7 @@ import Product from '../models/Product.js';
 // @route   GET /api/v1/products
 export const getProducts = async (req, res) => {
     try {
-        const { search, category, minPrice, maxPrice, sort } = req.query;
+        const { search, category, minPrice, maxPrice, sort, ids } = req.query;
 
         let query = {};
 
@@ -13,6 +13,13 @@ export const getProducts = async (req, res) => {
 
         // 0. Only active products
         query.isActive = true;
+
+        if (ids) {
+            const idArray = ids.split(',').map(id => parseInt(id.trim())).filter(id => !isNaN(id));
+            if (idArray.length > 0) {
+                query.id = { $in: idArray };
+            }
+        }
 
         // 1. Search filter (case-insensitive regex on name or description)
         if (search && search.trim() !== '') {

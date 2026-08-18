@@ -182,6 +182,12 @@ const AdminOrderDetails = () => {
                                     <span>Subtotal:</span>
                                     <span>${order.subtotal.toFixed(2)}</span>
                                 </div>
+                                {order.discountAmount > 0 && (
+                                    <div className="summary-row text-success">
+                                        <span>Discount {order.couponCode ? `(${order.couponCode})` : ''}:</span>
+                                        <span>-${order.discountAmount.toFixed(2)}</span>
+                                    </div>
+                                )}
                                 <div className="summary-row">
                                     <span>Shipping:</span>
                                     <span>${order.shippingCost.toFixed(2)}</span>

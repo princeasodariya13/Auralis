@@ -7,12 +7,12 @@ import * as templates from '../utils/emailTemplates.js';
 export const sendOrderConfirmation = async (order, user) => {
     if (!user || !user.email) return;
     
-    const eventKey = \`ORDER_CONFIRMED_\${order._id}\`;
+    const eventKey = `ORDER_CONFIRMED_${order._id}`;
     const html = templates.orderConfirmationTemplate(order, user);
     
     await sendTransactionalEmail({
         to: user.email,
-        subject: \`Auralis Order Confirmation: #\${order.orderNumber}\`,
+        subject: `Auralis Order Confirmation: #${order.orderNumber}`,
         html,
         eventKey,
         eventType: 'order_confirmation'
@@ -25,7 +25,7 @@ export const sendOrderConfirmation = async (order, user) => {
 export const sendOrderStatusUpdate = async (order, user, newStatus) => {
     if (!user || !user.email) return;
     
-    const eventKey = \`ORDER_STATUS_\${order._id}_\${newStatus}\`;
+    const eventKey = `ORDER_STATUS_${order._id}_${newStatus}`;
     
     let statusText = '';
     let customMessage = '';
@@ -57,10 +57,10 @@ export const sendOrderStatusUpdate = async (order, user, newStatus) => {
     
     await sendTransactionalEmail({
         to: user.email,
-        subject: \`Auralis Order Update: \${statusText}\`,
+        subject: `Auralis Order Update: ${statusText}`,
         html,
         eventKey,
-        eventType: \`order_\${newStatus}\`
+        eventType: `order_${newStatus}`
     });
 };
 
@@ -70,12 +70,12 @@ export const sendOrderStatusUpdate = async (order, user, newStatus) => {
 export const sendPaymentFailedNotification = async (order, user) => {
     if (!user || !user.email) return;
     
-    const eventKey = \`PAYMENT_FAILED_\${order._id}\`;
+    const eventKey = `PAYMENT_FAILED_${order._id}`;
     const html = templates.paymentFailedTemplate(order, user);
     
     await sendTransactionalEmail({
         to: user.email,
-        subject: \`Action Required: Payment Failed for Order #\${order.orderNumber}\`,
+        subject: `Action Required: Payment Failed for Order #${order.orderNumber}`,
         html,
         eventKey,
         eventType: 'payment_failed'
@@ -91,14 +91,14 @@ export const sendInventoryAlert = async (product, triggerType) => {
     // For safety, we'll send it to a configured admin email or log if not set.
     const adminEmail = process.env.ADMIN_ALERT_EMAIL || 'admin@auralis.com';
     
-    const eventKey = \`INV_ALERT_\${product._id}_\${triggerType}_\${product.stockQuantity}\`;
+    const eventKey = `INV_ALERT_${product._id}_${triggerType}_${product.stockQuantity}`;
     const html = templates.inventoryAlertTemplate(product, triggerType);
     
     await sendTransactionalEmail({
         to: adminEmail,
-        subject: \`Auralis Inventory Alert: \${product.name}\`,
+        subject: `Auralis Inventory Alert: ${product.name}`,
         html,
         eventKey,
-        eventType: \`inventory_alert_\${triggerType}\`
+        eventType: `inventory_alert_${triggerType}`
     });
 };

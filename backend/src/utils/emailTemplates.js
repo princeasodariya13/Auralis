@@ -147,7 +147,7 @@ const baseTemplate = (title, content) => `
 `;
 
 const generateOrderItemsHTML = (order) => {
-    let itemsHTML = \`
+    let itemsHTML = `
     <table class="order-table">
         <thead>
             <tr>
@@ -157,95 +157,95 @@ const generateOrderItemsHTML = (order) => {
             </tr>
         </thead>
         <tbody>
-    \`;
+    `;
 
     order.items.forEach(item => {
-        itemsHTML += \`
+        itemsHTML += `
             <tr>
-                <td>\${item.productName}</td>
-                <td class="text-right">\${item.quantity}</td>
-                <td class="text-right">\${formatCurrency(item.unitPrice, order.currency)}</td>
+                <td>${item.productName}</td>
+                <td class="text-right">${item.quantity}</td>
+                <td class="text-right">${formatCurrency(item.unitPrice, order.currency)}</td>
             </tr>
-        \`;
+        `;
     });
 
-    itemsHTML += \`
+    itemsHTML += `
         </tbody>
     </table>
     <div class="totals">
         <div style="display: table; width: 100%;">
             <div style="display: table-row;">
                 <div style="display: table-cell; padding: 4px 0;">Subtotal</div>
-                <div style="display: table-cell; text-align: right;">\${formatCurrency(order.subtotal, order.currency)}</div>
+                <div style="display: table-cell; text-align: right;">${formatCurrency(order.subtotal, order.currency)}</div>
             </div>
             <div style="display: table-row;">
                 <div style="display: table-cell; padding: 4px 0;">Shipping</div>
-                <div style="display: table-cell; text-align: right;">\${formatCurrency(order.shippingCost, order.currency)}</div>
+                <div style="display: table-cell; text-align: right;">${formatCurrency(order.shippingCost, order.currency)}</div>
             </div>
             <div style="display: table-row;">
                 <div style="display: table-cell; padding: 4px 0;">Tax</div>
-                <div style="display: table-cell; text-align: right;">\${formatCurrency(order.tax, order.currency)}</div>
+                <div style="display: table-cell; text-align: right;">${formatCurrency(order.tax, order.currency)}</div>
             </div>
             <div style="display: table-row; font-weight: bold; font-size: 18px; padding-top: 12px;">
                 <div style="display: table-cell; padding: 12px 0;">Total</div>
-                <div style="display: table-cell; text-align: right;">\${formatCurrency(order.total, order.currency)}</div>
+                <div style="display: table-cell; text-align: right;">${formatCurrency(order.total, order.currency)}</div>
             </div>
         </div>
     </div>
-    \`;
+    `;
 
     return itemsHTML;
 };
 
 export const orderConfirmationTemplate = (order, user) => {
-    const content = \`
+    const content = `
         <h2>Order Confirmation</h2>
-        <p>Hi \${user.name},</p>
+        <p>Hi ${user.name},</p>
         <p>Thank you for your purchase from Auralis. Your payment has been verified and your order is now confirmed.</p>
-        <p><span class="badge">Order #\${order.orderNumber}</span></p>
-        \${generateOrderItemsHTML(order)}
+        <p><span class="badge">Order #${order.orderNumber}</span></p>
+        ${generateOrderItemsHTML(order)}
         <p>We'll send you another email as soon as your order ships.</p>
-    \`;
+    `;
     return baseTemplate('Order Confirmation - Auralis', content);
 };
 
 export const orderStatusTemplate = (order, user, statusText, customMessage) => {
-    const content = \`
-        <h2>Order Update: \${statusText}</h2>
-        <p>Hi \${user.name},</p>
-        <p>\${customMessage}</p>
-        <p><span class="badge">Order #\${order.orderNumber}</span></p>
-        \${generateOrderItemsHTML(order)}
-    \`;
-    return baseTemplate(\`Order \${statusText} - Auralis\`, content);
+    const content = `
+        <h2>Order Update: ${statusText}</h2>
+        <p>Hi ${user.name},</p>
+        <p>${customMessage}</p>
+        <p><span class="badge">Order #${order.orderNumber}</span></p>
+        ${generateOrderItemsHTML(order)}
+    `;
+    return baseTemplate(`Order ${statusText} - Auralis`, content);
 };
 
 export const paymentFailedTemplate = (order, user) => {
-    const content = \`
+    const content = `
         <h2>Payment Failed</h2>
-        <p>Hi \${user.name},</p>
-        <p>We encountered an issue verifying your payment for Order #\${order.orderNumber}. Your account has not been charged, and the order is currently on hold.</p>
+        <p>Hi ${user.name},</p>
+        <p>We encountered an issue verifying your payment for Order #${order.orderNumber}. Your account has not been charged, and the order is currently on hold.</p>
         <p>Please return to the store to complete your purchase using a different payment method or try again.</p>
-        \${generateOrderItemsHTML(order)}
-    \`;
+        ${generateOrderItemsHTML(order)}
+    `;
     return baseTemplate('Payment Failed - Auralis', content);
 };
 
 export const inventoryAlertTemplate = (product, triggerType) => {
-    const content = \`
+    const content = `
         <h2>Admin Alert: Inventory Issue</h2>
-        <p>Automated inventory notification for <strong>\${product.name}</strong> (SKU: \${product.sku}).</p>
+        <p>Automated inventory notification for <strong>${product.name}</strong> (SKU: ${product.sku}).</p>
         <table class="order-table">
             <tr>
                 <td><strong>Event Type</strong></td>
-                <td>\${triggerType === 'out_of_stock' ? 'Out of Stock' : 'Low Stock Warning'}</td>
+                <td>${triggerType === 'out_of_stock' ? 'Out of Stock' : 'Low Stock Warning'}</td>
             </tr>
             <tr>
                 <td><strong>Current Stock</strong></td>
-                <td style="color: \${triggerType === 'out_of_stock' ? '#ef4444' : '#f59e0b'}; font-weight: bold;">\${product.stockQuantity}</td>
+                <td style="color: ${triggerType === 'out_of_stock' ? '#ef4444' : '#f59e0b'}; font-weight: bold;">${product.stockQuantity}</td>
             </tr>
         </table>
         <p>Please review your inventory management dashboard to restock this item.</p>
-    \`;
+    `;
     return baseTemplate('Inventory Alert - Auralis', content);
 };

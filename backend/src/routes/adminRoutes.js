@@ -3,12 +3,14 @@ import { getDashboard } from '../controllers/adminController.js';
 import { getAdminProducts, getAdminProductById, createProduct, updateProduct, deleteProduct } from '../controllers/adminProductController.js';
 import { getInventory, getInventorySummary, adjustInventory, getInventoryHistory } from '../controllers/adminInventoryController.js';
 import { getAdminOrders, getAdminOrderDetails, updateOrderStatus, getOrderHistory, getOrderNotes, addOrderNote } from '../controllers/adminOrderController.js';
+import { getAnalytics } from '../controllers/adminAnalyticsController.js';
 import { protect, admin } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
 // All routes here are prefixed with /api/v1/admin
 router.get('/dashboard', protect, admin, getDashboard);
+router.get('/analytics', protect, admin, getAnalytics);
 
 router.get('/products', protect, admin, getAdminProducts);
 router.get('/products/:id', protect, admin, getAdminProductById);

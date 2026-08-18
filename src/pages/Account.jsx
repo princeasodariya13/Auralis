@@ -161,6 +161,34 @@ const Account = () => {
                             </div>
                             <p style={{ fontSize: '0.875rem' }}>View and manage your saved audio gear.</p>
                         </div>
+
+                        <div style={{ 
+                            backgroundColor: 'rgba(255,255,255,0.01)', 
+                            padding: 'var(--spacing-lg)', 
+                            borderRadius: 'var(--radius-lg)',
+                            border: '1px solid rgba(255,255,255,0.03)',
+                            color: 'var(--color-slate-400)'
+                        }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                                <h3 style={{ fontSize: '1rem', color: 'var(--color-slate-300)', margin: 0 }}>Notifications</h3>
+                                <button onClick={() => navigate('/account/notifications')} className="btn btn-outline btn-sm">View All</button>
+                            </div>
+                            <p style={{ fontSize: '0.875rem' }}>View your order updates and account alerts.</p>
+                        </div>
+
+                        <div style={{ 
+                            backgroundColor: 'rgba(255,255,255,0.01)', 
+                            padding: 'var(--spacing-lg)', 
+                            borderRadius: 'var(--radius-lg)',
+                            border: '1px solid rgba(255,255,255,0.03)',
+                            color: 'var(--color-slate-400)'
+                        }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                                <h3 style={{ fontSize: '1rem', color: 'var(--color-slate-300)', margin: 0 }}>Returns & Refunds</h3>
+                                <button onClick={() => navigate('/account/returns')} className="btn btn-outline btn-sm">View All</button>
+                            </div>
+                            <p style={{ fontSize: '0.875rem' }}>Track your return requests and refunds.</p>
+                        </div>
                     </div>
                 </div>
 
