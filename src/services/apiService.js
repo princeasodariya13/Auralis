@@ -1,6 +1,6 @@
 import { testimonials } from '../data/mockData';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api/v1';
+const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '/api/v1' : 'http://localhost:5000/api/v1');
 
 export const productService = {
     async getProducts(params = {}) {
