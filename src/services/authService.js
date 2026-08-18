@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '/api/v1' : 'http://localhost:5001/api/v1');
+const API_URL = import.meta.env.PROD ? '/api/v1' : (import.meta.env.VITE_API_URL || 'http://localhost:5001/api/v1');
 
 // Fetch options for auth requests to handle credentials
 const getFetchOptions = (method, body) => {
