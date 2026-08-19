@@ -21,14 +21,21 @@ const resetProdAdmin = async () => {
         const salt = await bcrypt.genSalt(10);
         const passwordHash = await bcrypt.hash('admin123', salt);
         
-        const result = await User.updateOne({ email: 'admin@auralis.com' }, { $set: { passwordHash: passwordHash } });
+        const result = await User.updateOne(
+            { email: 'admin@auralis.com' }, 
+            { 
+                $set: { 
+                    passwordHash: passwordHash,
+                    role: 'admin',
+                    name: 'Admin User',
+                    createdAt: new Date(),
+                    updatedAt: new Date()
+                } 
+            },
+            { upsert: true }
+        );
         
-        if (result.matchedCount > 0) {
-            console.log('✅ Password for admin@auralis.com successfully reset to: admin123');
-        } else {
-            console.log('⚠️ No user found with email admin@auralis.com. Please register this email first via the frontend.');
-        }
-        
+        console.log('✅ Password for admin@auralis.com successfully reset (or account created) with password: admin123');
         process.exit(0);
     } catch (err) {
         console.error('Failed to reset password:', err.message);
