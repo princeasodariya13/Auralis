@@ -33,16 +33,6 @@
 .breadcrumb-current {
     font-weight: 700;
 }
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--color-slate-500);
-    margin-bottom: 1.75rem;
-    background: none;
-    border: none;
-    cursor: pointer;
-    transition: color var(--transition-fast);
-    min-height: 40px;
-}
 
 /* (Removed back-btn styles since they are replaced by breadcrumbs) */
 
