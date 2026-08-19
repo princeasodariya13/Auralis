@@ -4,10 +4,35 @@
     padding-bottom: 3rem;
 }
 
-.back-btn {
-    display: inline-flex;
+/* ── Breadcrumb ── */
+.amazon-breadcrumb {
+    display: flex;
     align-items: center;
-    gap: 0.375rem;
+    gap: 0.25rem;
+    font-size: 0.75rem;
+    color: #565959;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.breadcrumb-link {
+    color: #565959;
+    cursor: pointer;
+}
+
+.breadcrumb-link:hover {
+    color: #c45500;
+    text-decoration: underline;
+}
+
+.breadcrumb-separator {
+    color: #565959;
+    margin: 0 0.125rem;
+}
+
+.breadcrumb-current {
+    font-weight: 700;
+}
     font-size: 0.875rem;
     font-weight: 500;
     color: var(--color-slate-500);
@@ -19,17 +44,13 @@
     min-height: 40px;
 }
 
-.back-btn:hover,
-.back-btn:focus-visible {
-    color: var(--color-black);
-    outline: none;
-}
+/* (Removed back-btn styles since they are replaced by breadcrumbs) */
 
 /* ── Grid ── */
 .product-details-grid {
     display: grid;
-    grid-template-columns: 1.15fr 1fr;
-    gap: 3.5rem;
+    grid-template-columns: 1fr 1.3fr 300px;
+    gap: 2rem;
     align-items: start;
 }
 
@@ -197,13 +218,255 @@
     margin-top: 0.25rem;
 }
 
+/* ── Offers ── */
+.product-offers {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+}
+
+.offer-box {
+    min-width: 130px;
+    border: 1px solid #e7e7e7;
+    border-radius: var(--radius-md);
+    padding: 0.75rem;
+    background-color: var(--color-white);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.offer-title {
+    display: block;
+    font-weight: 700;
+    font-size: 0.875rem;
+    color: #0f1111;
+    margin-bottom: 0.375rem;
+}
+
+.offer-desc {
+    display: block;
+    font-size: 0.8125rem;
+    color: #0f1111;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ── Trust Badges ── */
+.trust-badges-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 1rem 0;
+    border-top: 1px solid #e7e7e7;
+    border-bottom: 1px solid #e7e7e7;
+    margin-bottom: 1.5rem;
+}
+
+.trust-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+    width: 70px;
+}
+
+.badge-icon {
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    background: #f0f8ff;
+    border-radius: 50%;
+    color: #007185;
+}
+
+.trust-badge span {
+    font-size: 0.75rem;
+    color: #007185;
+    line-height: 1.2;
+}
+
+/* ── Product Description Section ── */
+.product-description-section h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #0f1111;
+    margin-bottom: 0.75rem;
+}
+
 .product-description {
     color: #0f1111;
     line-height: 1.6;
     font-size: 0.9375rem;
-    margin-bottom: 1.75rem;
-    border-bottom: 1px solid var(--color-border);
-    padding-bottom: 1.5rem;
+}
+
+/* ── Buy Box (Right Column) ── */
+.product-buy-box {
+    border: 1px solid #D5D9D9;
+    border-radius: 8px;
+    padding: 1.125rem;
+    background: #fff;
+    position: sticky;
+    top: 80px;
+}
+
+.buy-box-price {
+    margin-bottom: 1rem;
+}
+
+.buy-box-price .price-symbol {
+    font-size: 0.8125rem;
+    vertical-align: super;
+}
+
+.buy-box-price .current-price {
+    font-size: 1.75rem;
+    font-weight: 500;
+    color: #0f1111;
+}
+
+.highlight-link {
+    color: #007185;
+    cursor: pointer;
+}
+
+.highlight-link:hover {
+    color: #c45500;
+    text-decoration: underline;
+}
+
+.delivery-info {
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+    color: #0f1111;
+    line-height: 1.4;
+}
+
+.delivery-line {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.delivery-location {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+}
+
+.location-pin {
+    font-size: 1rem;
+}
+
+.ships-from-sold-by {
+    margin-bottom: 1rem;
+    font-size: 0.8125rem;
+}
+
+.sfsb-row {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.sfsb-label {
+    color: #565959;
+}
+
+.sfsb-value {
+    color: #0f1111;
+}
+
+.action-buttons-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.amazon-btn {
+    border-radius: 100px;
+    padding: 0.625rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 400;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: background-color 0.1s;
+    width: 100%;
+}
+
+.add-to-cart-amazon {
+    background-color: #FFD814;
+    border-color: #FCD200;
+    color: #0F1111;
+}
+
+.add-to-cart-amazon:hover {
+    background-color: #F7CA00;
+    border-color: #F2C200;
+}
+
+.buy-now-amazon {
+    background-color: #FFA41C;
+    border-color: #FF8F00;
+    color: #0F1111;
+}
+
+.buy-now-amazon:hover {
+    background-color: #FA8900;
+    border-color: #E27900;
+}
+
+.amazon-btn:disabled {
+    background-color: #e7e7e7;
+    border-color: #d5d9d9;
+    color: #888;
+    cursor: not-allowed;
+}
+
+.secure-transaction {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: #007185;
+    margin-bottom: 1.25rem;
+}
+
+.wishlist-row {
+    border-top: 1px solid #D5D9D9;
+    padding-top: 1rem;
+}
+
+.add-to-list-btn {
+    background: none;
+    border: 1px solid #D5D9D9;
+    border-radius: 8px;
+    width: 100%;
+    text-align: left;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    color: #0f1111;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(15,17,17,.15);
+}
+
+.add-to-list-btn:hover {
+    background-color: #F7F7F7;
+}
+
+.add-to-list-btn.active {
+    background-color: #f3f3f3;
 }
 
 /* ── About this item (Features) ── */
@@ -276,6 +539,11 @@
     width: 60%;
 }
 
+/* Hide original action buttons */
+.action-buttons {
+    display: none;
+}
+
 .stock-status {
     display: inline-flex;
     align-items: center;
@@ -333,14 +601,21 @@
 }
 
 /* ── Responsive ── */
-@media (max-width: 900px) {
+@media (max-width: 992px) {
     .product-details-grid {
         grid-template-columns: 1fr;
         gap: 2rem;
     }
-
+    
     .product-gallery {
-        position: static;
+        position: relative;
+        top: 0;
+    }
+    
+    .product-buy-box {
+        position: relative;
+        top: 0;
+        margin-top: 1rem;
     }
 }
 
@@ -356,5 +631,111 @@
     .wishlist-action-btn {
         flex: 0 0 46px !important;
         align-self: flex-start;
+    }
+}
+
+/* ── A+ Content (From Manufacturer) ── */
+.amazon-section-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #cc6600; /* Amazon orange-ish title color for A+ */
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.aplus-content-section {
+    padding: 2rem 0;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.aplus-hero-banner {
+    position: relative;
+    width: 100%;
+    margin-bottom: 2rem;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.aplus-hero-img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    display: block;
+}
+
+.aplus-hero-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    color: white;
+    padding: 2rem;
+}
+
+.aplus-hero-overlay h3 {
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+    color: #fff;
+}
+
+.aplus-hero-overlay p {
+    font-size: 1.125rem;
+    max-width: 600px;
+}
+
+.aplus-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.aplus-card {
+    text-align: center;
+}
+
+.aplus-card-img-wrapper {
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    background: #f8f8f8;
+}
+
+.aplus-card-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.aplus-card h4 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #0f1111;
+    margin-bottom: 0.5rem;
+}
+
+.aplus-card p {
+    font-size: 0.875rem;
+    color: #333;
+    line-height: 1.5;
+}
+
+.amazon-divider {
+    border: none;
+    border-top: 1px solid #D5D9D9;
+    margin: 3rem 0;
+}
+
+@media (max-width: 768px) {
+    .aplus-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .aplus-hero-img {
+        height: 250px;
     }
 }
