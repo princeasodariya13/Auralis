@@ -23,8 +23,12 @@ const Login = () => {
         setIsLoading(true);
 
         try {
-            await login(email, password);
-            navigate(from, { replace: true });
+            const loggedInUser = await login(email, password);
+            if (loggedInUser.role === 'admin') {
+                navigate('/admin', { replace: true });
+            } else {
+                navigate(from, { replace: true });
+            }
         } catch (err) {
             setError(err.message || 'Failed to login. Please try again.');
         } finally {
