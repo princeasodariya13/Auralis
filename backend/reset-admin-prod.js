@@ -3,6 +3,12 @@ import bcrypt from 'bcryptjs';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import dns from 'dns';
+
+// Force Node.js to bypass corrupted Windows local adapter DNS
+try {
+    dns.setServers(['8.8.8.8', '8.8.4.4']);
+} catch (e) {}
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
