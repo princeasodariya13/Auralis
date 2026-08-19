@@ -176,18 +176,20 @@ export const getCategories = async (req, res) => {
     try {
         // Find unique categories from existing products
         const uniqueCategories = await Product.distinct('category');
-        
-        const categories = uniqueCategories.map(cat => {
-            return {
-                id: cat.toLowerCase(),
-                name: cat,
-                image: '' // Removed Unsplash URLs as per strict image policy
-            };
-        });
+        const categoriesData = await Promise.all(
+            uniqueCategories.map(async (cat) => {
+                const product = await Product.findOne({ category: cat, 'images.0': { $exists: true } }).select('images');
+                return {
+                    id: cat.toLowerCase(),
+                    name: cat,
+                    image: product?.images?.[0]?.url || ''
+                };
+            })
+        );
 
         res.json({
             success: true,
-            data: categories
+            data: categoriesData
         });
     } catch (error) {
         console.error(`Error in getCategories: ${error.message}`);

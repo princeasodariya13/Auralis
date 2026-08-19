@@ -29,6 +29,9 @@ const Navbar = () => {
                     <NavLink to="/shop">Shop</NavLink>
                     <NavLink to="/about">About Us</NavLink>
                     <NavLink to="/contact">Contact</NavLink>
+                    {isAuthenticated && user?.role === 'admin' && (
+                        <NavLink to="/admin" style={{ color: 'var(--color-primary)', fontWeight: 'bold' }}>Admin Dashboard</NavLink>
+                    )}
                 </div>
 
                 <div className="nav-icons">
@@ -60,6 +63,9 @@ const Navbar = () => {
                     <NavLink to="/shop" onClick={toggleMenu}>Shop</NavLink>
                     <NavLink to="/about" onClick={toggleMenu}>About Us</NavLink>
                     <NavLink to="/contact" onClick={toggleMenu}>Contact</NavLink>
+                    {isAuthenticated && user?.role === 'admin' && (
+                        <NavLink to="/admin" onClick={toggleMenu} style={{ color: 'var(--color-primary)', fontWeight: 'bold' }}>Admin Dashboard</NavLink>
+                    )}
                 </div>
             )}
         </nav>
