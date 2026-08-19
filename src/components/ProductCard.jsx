@@ -54,7 +54,9 @@ const ProductCard = ({ product }) => {
                         product.availability === 'inactive' ? 'Unavailable' : 'Add to Cart'
                     }
                 >
-                    <ShoppingBag size={20} />
+                    <ShoppingBag size={15} />
+                    {product.availability === 'out_of_stock' ? 'Out of Stock' :
+                     product.availability === 'inactive' ? 'Unavailable' : 'Add to Cart'}
                 </button>
                 {product.availability === 'out_of_stock' && (
                     <div className="stock-badge out-of-stock-badge">OUT OF STOCK</div>

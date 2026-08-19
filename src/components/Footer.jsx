@@ -11,59 +11,55 @@ const Footer = () => {
         setSubscribed(true);
         setTimeout(() => setSubscribed(false), 3000);
     };
+
     return (
         <footer className="footer">
             <div className="container footer-container">
                 <div className="footer-section brand">
                     <Link to="/" className="footer-logo">AURALIS</Link>
                     <p className="footer-text">
-                        Delivering pure sound and premium gear for the modern audiophile. Our equipment is designed to elevate your listening experience.
+                        Delivering pure sound and premium gear for the modern audiophile. Engineered for those who refuse to compromise.
                     </p>
                     <div className="social-icons">
-                        <a href="#" aria-label="Facebook"><Facebook size={20} /></a>
-                        <a href="#" aria-label="Instagram"><Instagram size={20} /></a>
-                        <a href="#" aria-label="Twitter"><Twitter size={20} /></a>
+                        <a href="#" aria-label="Facebook"><Facebook size={16} /></a>
+                        <a href="#" aria-label="Instagram"><Instagram size={16} /></a>
+                        <a href="#" aria-label="Twitter"><Twitter size={16} /></a>
                     </div>
                 </div>
 
                 <div className="footer-section links">
-                    <h3>Quick Links</h3>
+                    <h3>Navigate</h3>
                     <ul>
                         <li><Link to="/">Home</Link></li>
                         <li><Link to="/shop">Shop Gear</Link></li>
                         <li><Link to="/about">Our Story</Link></li>
-                        <li><Link to="/contact">Contact Us</Link></li>
+                        <li><Link to="/contact">Contact</Link></li>
                     </ul>
                 </div>
 
                 <div className="footer-section contact">
-                    <h3>Contact Us</h3>
+                    <h3>Contact</h3>
                     <ul>
-                        <li>
-                            <MapPin size={18} />
-                            <span>123 Fifth Avenue, New York, NY 10160</span>
-                        </li>
-                        <li>
-                            <Mail size={18} />
-                            <span>contact@auralis.audio</span>
-                        </li>
-                        <li>
-                            <Phone size={18} />
-                            <span>+1 (555) 123-4567</span>
-                        </li>
+                        <li><MapPin size={15} /><span>Mumbai, Maharashtra, India</span></li>
+                        <li><Mail size={15} /><span>contact@auralis.audio</span></li>
+                        <li><Phone size={15} /><span>+91 98765 43210</span></li>
                     </ul>
                 </div>
 
                 <div className="footer-section newsletter">
                     <h3>Newsletter</h3>
-                    <p>Subscribe to receive updates, access to exclusive deals, and more.</p>
+                    <p>Subscribe for new arrivals, exclusive offers, and audiophile insights.</p>
                     <form className="newsletter-form" onSubmit={handleSubscribe}>
-                        <input type="email" placeholder="Enter your email" required disabled={subscribed} />
-                        <button type="submit" className={`btn ${subscribed ? 'btn-success' : 'btn-primary'}`} disabled={subscribed} style={subscribed ? { backgroundColor: '#16a34a', borderColor: '#16a34a' } : {}}>
-                            {subscribed ? <><Check size={16}/> Done</> : 'Subscribe'}
+                        <input type="email" placeholder="your@email.com" required disabled={subscribed} />
+                        <button
+                            type="submit"
+                            className="btn btn-sm btn-primary"
+                            disabled={subscribed}
+                            style={subscribed ? { backgroundColor: 'var(--color-success)', borderColor: 'var(--color-success)' } : {}}
+                        >
+                            {subscribed ? <><Check size={14} /> Subscribed</> : 'Subscribe'}
                         </button>
                     </form>
-                    {subscribed && <p style={{ color: '#16a34a', fontSize: '0.8rem', marginTop: '0.5rem' }}>Subscribed (Demo Mode)</p>}
                 </div>
             </div>
 

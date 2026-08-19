@@ -6,11 +6,21 @@ const Hero = () => {
         <section className="hero">
             <div className="hero-overlay"></div>
             <div className="hero-content container">
-                <h1 className="hero-title fade-in">Pure Sound Excellence</h1>
-                <p className="hero-subtitle fade-in-delay">Discover our exclusive collection of premium headphones and audio gear.</p>
-                <Link to="/shop" className="btn btn-primary hero-btn fade-in-delay-2">
-                    Shop Gear
-                </Link>
+                <span className="hero-eyebrow">Premium Audio Engineering</span>
+                <h1 className="hero-title">
+                    Sound Without<br /><em>Compromise</em>
+                </h1>
+                <p className="hero-subtitle">
+                    Curated headphones, speakers, and audio gear for the discerning listener. Engineered for those who refuse to settle.
+                </p>
+                <div className="hero-actions">
+                    <Link to="/shop" className="btn hero-btn">
+                        Explore Collection
+                    </Link>
+                    <Link to="/about" className="hero-btn-secondary">
+                        Our Story
+                    </Link>
+                </div>
             </div>
         </section>
     );
