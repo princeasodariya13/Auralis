@@ -104,4 +104,49 @@ router.post('/seed-products', async (req, res) => {
     }
 });
 
+router.get('/fix-gallery', async (req, res) => {
+    try {
+        const imagePool = [
+            "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80",
+            "https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=800&q=80",
+            "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=800&q=80",
+            "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=800&q=80",
+            "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&q=80",
+            "https://images.unsplash.com/photo-1572536147248-ac59a8abfa4b?w=800&q=80",
+            "https://images.unsplash.com/photo-1524678606370-a47ad25cb82a?w=800&q=80",
+            "https://images.unsplash.com/photo-1599669500515-b3e1f55a151b?w=800&q=80",
+            "https://images.unsplash.com/photo-1613040809024-b4ef7ba99bc3?w=800&q=80",
+            "https://images.unsplash.com/photo-1520170350707-b2da59970118?w=800&q=80"
+        ];
+        
+        const products = await Product.find({});
+        let updated = 0;
+        
+        for (let i = 0; i < products.length; i++) {
+            const product = products[i];
+            
+            // Assign 5 images to the gallery
+            const gallery = [];
+            for(let j = 0; j < 5; j++) {
+                const imgUrl = imagePool[(i + j) % imagePool.length];
+                gallery.push({
+                    publicId: `seed_${product.id}_${j}`,
+                    url: imgUrl,
+                    alt: `${product.name} view ${j + 1}`
+                });
+            }
+            
+            product.image = gallery[0].url; // Main image
+            product.images = gallery;
+            
+            await product.save();
+            updated++;
+        }
+        
+        res.status(200).json({ success: true, message: `Fixed gallery for ${updated} products` });
+    } catch (err) {
+        res.status(500).json({ success: false, error: err.message });
+    }
+});
+
 export default router;
