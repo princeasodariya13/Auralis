@@ -137,7 +137,6 @@ const orderSchema = new mongoose.Schema({
 
 // Indexes for order lookup
 orderSchema.index({ userId: 1 });
-orderSchema.index({ orderNumber: 1 }, { unique: true });
 orderSchema.index({ orderNumber: 1, userId: 1 }); // Optimize lookups for a user's specific order
 
 const Order = mongoose.model('Order', orderSchema);

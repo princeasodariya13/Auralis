@@ -102,6 +102,14 @@ app.get('/api/health', (req, res) => {
     });
 });
 
+// Root Endpoint for Render Pings
+app.get('/', (req, res) => {
+    res.status(200).send('Auralis API is running');
+});
+app.head('/', (req, res) => {
+    res.status(200).end();
+});
+
 // Readiness Check Endpoint
 app.get('/api/ready', (req, res) => {
     const isDbConnected = mongoose.connection.readyState === 1;
