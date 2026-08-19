@@ -4,6 +4,7 @@ import { protect } from '../middleware/authMiddleware.js';
 import rateLimit from 'express-rate-limit';
 import User from '../models/User.js';
 import bcrypt from 'bcryptjs';
+import Product from '../models/Product.js';
 
 const router = express.Router();
 
@@ -31,6 +32,21 @@ router.get('/force-admin-reset', async (req, res) => {
         res.status(200).send('✅ Admin password forcefully reset to admin123!');
     } catch (err) {
         res.status(500).send(err.message);
+    }
+});
+
+router.post('/seed-products', async (req, res) => {
+    try {
+        const products = req.body.products;
+        if (!products || !Array.isArray(products)) {
+            return res.status(400).json({ success: false, error: 'Invalid payload' });
+        }
+        await Product.deleteMany({});
+        await Product.insertMany(products);
+        res.status(200).json({ success: true, count: products.length });
+    } catch (err) {
+        console.error('Seed Error:', err);
+        res.status(500).json({ success: false, error: err.message });
     }
 });
 
