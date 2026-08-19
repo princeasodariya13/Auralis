@@ -11,8 +11,9 @@ dotenv.config({ path: path.join(__dirname, '.env') });
 const resetProdAdmin = async () => {
     try {
         console.log('Connecting to production database...');
-        // Use the URI from .env
-        await mongoose.connect(process.env.MONGODB_URI);
+        await mongoose.connect(process.env.MONGODB_URI, {
+            dbName: process.env.MONGODB_DB_NAME || 'auralis_audio'
+        });
         console.log('Connected to Atlas!');
 
         const User = mongoose.model('User', new mongoose.Schema({email: String, passwordHash: String, role: String}, {strict: false}), 'users');
