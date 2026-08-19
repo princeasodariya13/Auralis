@@ -13,7 +13,8 @@ const sendTokenResponse = (user, statusCode, res) => {
         expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        path: '/'
     };
 
     // Remove passwordHash before sending
@@ -105,10 +106,11 @@ export const login = async (req, res) => {
 // @route   POST /api/v1/auth/logout
 export const logout = (req, res) => {
     res.cookie('jwt', 'none', {
-        expires: new Date(Date.now() + 10 * 1000), // Expire in 10s
+        expires: new Date(0), // Expire immediately
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        path: '/'
     });
 
     res.status(200).json({ success: true, data: {} });

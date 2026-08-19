@@ -23,11 +23,23 @@ export const safeFetch = async (url, options = {}) => {
 
         if (!response.ok || (json && typeof json.success !== 'undefined' && !json.success)) {
             const backendMessage = json?.error?.message;
+            
+            // Allow 401s for /auth/me to pass through to the caller (authService.getMe) instead of throwing an error
+            if (response.status === 401 && url.includes('/auth/me')) {
+                return {
+                    ok: false,
+                    status: 401,
+                    json: async () => json
+                };
+            }
+            
+            // For login, we want the specific "Invalid credentials" message, not the generic session expired message
+            if (response.status === 401 && url.includes('/auth/login')) {
+                throw new Error(backendMessage || 'Invalid credentials');
+            }
+
             // Never expose generic server messages directly if it's a 500, or raw 401/403/404 generic error if we can polish it
             if (response.status === 401 || response.status === 403 || response.status === 404 || response.status === 429 || response.status >= 500) {
-                // If it's 401 and backend has a very specific message, maybe use it? 
-                // Wait, backend often says "Not authorized to access this route" (mongoose error)
-                // We prefer our polished message
                 throw new Error(getNetworkErrorMessage(response.status));
             }
             throw new Error(backendMessage || getNetworkErrorMessage(response.status));
