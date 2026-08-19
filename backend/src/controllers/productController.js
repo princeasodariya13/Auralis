@@ -177,17 +177,11 @@ export const getCategories = async (req, res) => {
         // Find unique categories from existing products
         const uniqueCategories = await Product.distinct('category');
         
-        // Map to structure expected by frontend
         const categories = uniqueCategories.map(cat => {
-            // Provide fallback images based on category name
-            let img = 'https://images.unsplash.com/photo-1599669500515-9b4b92c58f59?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80';
-            if (cat.toLowerCase() === 'speakers') img = 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80';
-            if (cat.toLowerCase() === 'accessories') img = 'https://images.unsplash.com/photo-1583394838336-acd977736f90?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80';
-
             return {
                 id: cat.toLowerCase(),
                 name: cat,
-                image: img
+                image: '' // Removed Unsplash URLs as per strict image policy
             };
         });
 

@@ -91,7 +91,7 @@ const ProductDetails = () => {
                 <div className="product-gallery">
                     <div className="main-image-wrapper">
                         <img 
-                            src={product.image} 
+                            src={product.images && product.images.length > 0 ? product.images[activeImage]?.url : (product.image || 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 600 600"><rect width="600" height="600" fill="%23f1f5f9"/><text x="300" y="300" font-family="sans-serif" font-size="24" fill="%2394a3b8" text-anchor="middle" dominant-baseline="middle">Image Unavailable</text></svg>')} 
                             alt={product.name} 
                             className="main-image" 
                             fetchPriority="high" 
@@ -101,25 +101,29 @@ const ProductDetails = () => {
                             }}
                         />
                     </div>
-                    {/* Mock secondary images */}
-                    <div className="thumbnail-list">
-                        {[product.image, product.image, product.image].map((img, index) => (
-                            <button
-                                key={index}
-                                className={`thumbnail-btn ${activeImage === index ? 'active' : ''}`}
-                                onClick={() => setActiveImage(index)}
-                            >
-                                <img 
-                                    src={img} 
-                                    alt={`${product.name} view ${index + 1}`} 
-                                    onError={(e) => {
-                                        e.target.onerror = null;
-                                        e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23f1f5f9"/></svg>';
-                                    }}
-                                />
-                            </button>
-                        ))}
-                    </div>
+                    {/* Secondary images */}
+                    {(product.images && product.images.length > 1) ? (
+                        <div className="thumbnail-list">
+                            {product.images.map((imgObj, index) => (
+                                <button
+                                    key={index}
+                                    className={`thumbnail-btn ${activeImage === index ? 'active' : ''}`}
+                                    onClick={() => setActiveImage(index)}
+                                >
+                                    <img 
+                                        src={imgObj.url} 
+                                        alt={imgObj.alt || `${product.name} view ${index + 1}`} 
+                                        onError={(e) => {
+                                            e.target.onerror = null;
+                                            e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23f1f5f9"/></svg>';
+                                        }}
+                                    />
+                                </button>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="thumbnail-list" style={{ display: 'none' }}></div>
+                    )}
                 </div>
 
                 {/* Product Info */}

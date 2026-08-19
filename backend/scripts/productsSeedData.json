@@ -1,0 +1,3702 @@
+[
+  {
+    "id": 101,
+    "name": "Audio-Technica T-6060 Master Wirel Headphones",
+    "price": 40099,
+    "category": "Wireless Headphones",
+    "brand": "Audio-Technica",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Audio-Technica T-6060 Master Wirel Headphones. Crafted by Audio-Technica, this premium wireless headphones delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Audio-Technica wireless headphones with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 25,
+    "lowStockThreshold": 5,
+    "sku": "AUD-WIR-1001",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Audio-Technica"
+      },
+      {
+        "name": "Category",
+        "value": "Wireless Headphones"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "3.9",
+    "numReviews": 126
+  },
+  {
+    "id": 102,
+    "name": "KEF SE-270 Signature Earbud",
+    "price": 2599,
+    "category": "Earbuds",
+    "brand": "KEF",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the KEF SE-270 Signature Earbud. Crafted by KEF, this premium earbuds delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium KEF earbuds with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 41,
+    "lowStockThreshold": 5,
+    "sku": "KEF-EAR-1002",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "KEF"
+      },
+      {
+        "name": "Category",
+        "value": "Earbuds"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.8",
+    "numReviews": 55
+  },
+  {
+    "id": 103,
+    "name": "Audio-Technica M-3040 Reference DAC",
+    "price": 73899,
+    "category": "DACs",
+    "brand": "Audio-Technica",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Audio-Technica M-3040 Reference DAC. Crafted by Audio-Technica, this premium dacs delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Audio-Technica dacs with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 27,
+    "lowStockThreshold": 5,
+    "sku": "AUD-DAC-1003",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Audio-Technica"
+      },
+      {
+        "name": "Category",
+        "value": "DACs"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.8",
+    "numReviews": 122
+  },
+  {
+    "id": 104,
+    "name": "Bowers & Wilkins Z-2110 Master Turntabl",
+    "price": 76699,
+    "category": "Turntables",
+    "brand": "Bowers & Wilkins",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Bowers & Wilkins Z-2110 Master Turntabl. Crafted by Bowers & Wilkins, this premium turntables delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Bowers & Wilkins turntables with reference-grade audio quality.",
+    "isBestSeller": true,
+    "stockQuantity": 16,
+    "lowStockThreshold": 5,
+    "sku": "BOW-TUR-1004",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Bowers & Wilkins"
+      },
+      {
+        "name": "Category",
+        "value": "Turntables"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.7",
+    "numReviews": 36
+  },
+  {
+    "id": 105,
+    "name": "Chord Electronics K-4910 Master Bluetooth Speaker",
+    "price": 29499,
+    "category": "Bluetooth Speakers",
+    "brand": "Chord Electronics",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Chord Electronics K-4910 Master Bluetooth Speaker. Crafted by Chord Electronics, this premium bluetooth speakers delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Chord Electronics bluetooth speakers with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 46,
+    "lowStockThreshold": 5,
+    "sku": "CHO-BLU-1005",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Chord Electronics"
+      },
+      {
+        "name": "Category",
+        "value": "Bluetooth Speakers"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.8",
+    "numReviews": 86
+  },
+  {
+    "id": 106,
+    "name": "Sennheiser K-7480 Evolution Accories",
+    "price": 1599,
+    "category": "Accessories",
+    "brand": "Sennheiser",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Sennheiser K-7480 Evolution Accories. Crafted by Sennheiser, this premium accessories delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Sennheiser accessories with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 21,
+    "lowStockThreshold": 5,
+    "sku": "SEN-ACC-1006",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Sennheiser"
+      },
+      {
+        "name": "Category",
+        "value": "Accessories"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.2",
+    "numReviews": 105
+  },
+  {
+    "id": 107,
+    "name": "Kef X-5020 Quantum DAC",
+    "price": 129899,
+    "category": "DACs",
+    "brand": "Kef",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Kef X-5020 Quantum DAC. Crafted by Kef, this premium dacs delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Kef dacs with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 12,
+    "lowStockThreshold": 5,
+    "sku": "KEF-DAC-1007",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Kef"
+      },
+      {
+        "name": "Category",
+        "value": "DACs"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "3.9",
+    "numReviews": 136
+  },
+  {
+    "id": 108,
+    "name": "KEF HE-1860 Studio Earbud",
+    "price": 14399,
+    "category": "Earbuds",
+    "brand": "KEF",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the KEF HE-1860 Studio Earbud. Crafted by KEF, this premium earbuds delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium KEF earbuds with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 46,
+    "lowStockThreshold": 5,
+    "sku": "KEF-EAR-1008",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "KEF"
+      },
+      {
+        "name": "Category",
+        "value": "Earbuds"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.7",
+    "numReviews": 63
+  },
+  {
+    "id": 109,
+    "name": "KEF SE-8910 Nova Bookhelf Speakers",
+    "price": 140599,
+    "category": "Bookshelf Speakers",
+    "brand": "KEF",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the KEF SE-8910 Nova Bookhelf Speakers. Crafted by KEF, this premium bookshelf speakers delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium KEF bookshelf speakers with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 19,
+    "lowStockThreshold": 5,
+    "sku": "KEF-BOO-1009",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "KEF"
+      },
+      {
+        "name": "Category",
+        "value": "Bookshelf Speakers"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.7",
+    "numReviews": 37
+  },
+  {
+    "id": 110,
+    "name": "Fiio T-600 Quantum Wirel Headphones",
+    "price": 33399,
+    "category": "Wireless Headphones",
+    "brand": "Fiio",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Fiio T-600 Quantum Wirel Headphones. Crafted by Fiio, this premium wireless headphones delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Fiio wireless headphones with reference-grade audio quality.",
+    "isBestSeller": true,
+    "stockQuantity": 46,
+    "lowStockThreshold": 5,
+    "sku": "FII-WIR-1010",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Fiio"
+      },
+      {
+        "name": "Category",
+        "value": "Wireless Headphones"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.1",
+    "numReviews": 144
+  },
+  {
+    "id": 111,
+    "name": "Klipsch M-3380 Elite Wirel Headphones",
+    "price": 19599,
+    "category": "Wireless Headphones",
+    "brand": "Klipsch",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Klipsch M-3380 Elite Wirel Headphones. Crafted by Klipsch, this premium wireless headphones delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Klipsch wireless headphones with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 17,
+    "lowStockThreshold": 5,
+    "sku": "KLI-WIR-1011",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Klipsch"
+      },
+      {
+        "name": "Category",
+        "value": "Wireless Headphones"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.3",
+    "numReviews": 93
+  },
+  {
+    "id": 112,
+    "name": "Focal T-940 Zenith Cabl",
+    "price": 5899,
+    "category": "Cables",
+    "brand": "Focal",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Focal T-940 Zenith Cabl. Crafted by Focal, this premium cables delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Focal cables with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 12,
+    "lowStockThreshold": 5,
+    "sku": "FOC-CAB-1012",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Focal"
+      },
+      {
+        "name": "Category",
+        "value": "Cables"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.0",
+    "numReviews": 76
+  },
+  {
+    "id": 113,
+    "name": "KEF M-3090 Pro Amplifier",
+    "price": 91999,
+    "category": "Amplifiers",
+    "brand": "KEF",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the KEF M-3090 Pro Amplifier. Crafted by KEF, this premium amplifiers delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium KEF amplifiers with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 41,
+    "lowStockThreshold": 5,
+    "sku": "KEF-AMP-1013",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "KEF"
+      },
+      {
+        "name": "Category",
+        "value": "Amplifiers"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.3",
+    "numReviews": 71
+  },
+  {
+    "id": 114,
+    "name": "Campfire Audio M-1330 Signature Bluetooth Speaker",
+    "price": 20399,
+    "category": "Bluetooth Speakers",
+    "brand": "Campfire Audio",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Campfire Audio M-1330 Signature Bluetooth Speaker. Crafted by Campfire Audio, this premium bluetooth speakers delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Campfire Audio bluetooth speakers with reference-grade audio quality.",
+    "isBestSeller": true,
+    "stockQuantity": 27,
+    "lowStockThreshold": 5,
+    "sku": "CAM-BLU-1014",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Campfire Audio"
+      },
+      {
+        "name": "Category",
+        "value": "Bluetooth Speakers"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.6",
+    "numReviews": 129
+  },
+  {
+    "id": 115,
+    "name": "Hifiman HE-7220 Aura Turntabl",
+    "price": 79599,
+    "category": "Turntables",
+    "brand": "Hifiman",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Hifiman HE-7220 Aura Turntabl. Crafted by Hifiman, this premium turntables delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Hifiman turntables with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 32,
+    "lowStockThreshold": 5,
+    "sku": "HIF-TUR-1015",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Hifiman"
+      },
+      {
+        "name": "Category",
+        "value": "Turntables"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "3.6",
+    "numReviews": 56
+  },
+  {
+    "id": 116,
+    "name": "KEF Z-9460 Master IEM",
+    "price": 68199,
+    "category": "IEMs",
+    "brand": "KEF",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the KEF Z-9460 Master IEM. Crafted by KEF, this premium iems delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium KEF iems with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 41,
+    "lowStockThreshold": 5,
+    "sku": "KEF-IEM-1016",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "KEF"
+      },
+      {
+        "name": "Category",
+        "value": "IEMs"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "3.9",
+    "numReviews": 61
+  },
+  {
+    "id": 117,
+    "name": "Hifiman X-970 Elite Over-Ear Headphon",
+    "price": 52899,
+    "category": "Over-Ear Headphones",
+    "brand": "Hifiman",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Hifiman X-970 Elite Over-Ear Headphon. Crafted by Hifiman, this premium over-ear headphones delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Hifiman over-ear headphones with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 38,
+    "lowStockThreshold": 5,
+    "sku": "HIF-OVE-1017",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Hifiman"
+      },
+      {
+        "name": "Category",
+        "value": "Over-Ear Headphones"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.7",
+    "numReviews": 101
+  },
+  {
+    "id": 118,
+    "name": "Chord Electronics HE-9150 Nova Turntabl",
+    "price": 71599,
+    "category": "Turntables",
+    "brand": "Chord Electronics",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Chord Electronics HE-9150 Nova Turntabl. Crafted by Chord Electronics, this premium turntables delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Chord Electronics turntables with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 17,
+    "lowStockThreshold": 5,
+    "sku": "CHO-TUR-1018",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Chord Electronics"
+      },
+      {
+        "name": "Category",
+        "value": "Turntables"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.8",
+    "numReviews": 110
+  },
+  {
+    "id": 119,
+    "name": "KEF SE-1390 Elite IEM",
+    "price": 74599,
+    "category": "IEMs",
+    "brand": "KEF",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the KEF SE-1390 Elite IEM. Crafted by KEF, this premium iems delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium KEF iems with reference-grade audio quality.",
+    "isBestSeller": true,
+    "stockQuantity": 6,
+    "lowStockThreshold": 5,
+    "sku": "KEF-IEM-1019",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "KEF"
+      },
+      {
+        "name": "Category",
+        "value": "IEMs"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.5",
+    "numReviews": 53
+  },
+  {
+    "id": 120,
+    "name": "KEF M-2270 Nexus DAC",
+    "price": 110999,
+    "category": "DACs",
+    "brand": "KEF",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the KEF M-2270 Nexus DAC. Crafted by KEF, this premium dacs delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium KEF dacs with reference-grade audio quality.",
+    "isBestSeller": true,
+    "stockQuantity": 34,
+    "lowStockThreshold": 5,
+    "sku": "KEF-DAC-1020",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "KEF"
+      },
+      {
+        "name": "Category",
+        "value": "DACs"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "3.9",
+    "numReviews": 17
+  },
+  {
+    "id": 121,
+    "name": "Sony HE-8960 Monitor Accories",
+    "price": 2899,
+    "category": "Accessories",
+    "brand": "Sony",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Sony HE-8960 Monitor Accories. Crafted by Sony, this premium accessories delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Sony accessories with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 16,
+    "lowStockThreshold": 5,
+    "sku": "SON-ACC-1021",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Sony"
+      },
+      {
+        "name": "Category",
+        "value": "Accessories"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.4",
+    "numReviews": 18
+  },
+  {
+    "id": 122,
+    "name": "Dan Clark Audio HD-4190 Classic Accories",
+    "price": 1499,
+    "category": "Accessories",
+    "brand": "Dan Clark Audio",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Dan Clark Audio HD-4190 Classic Accories. Crafted by Dan Clark Audio, this premium accessories delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Dan Clark Audio accessories with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 41,
+    "lowStockThreshold": 5,
+    "sku": "DAN-ACC-1022",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Dan Clark Audio"
+      },
+      {
+        "name": "Category",
+        "value": "Accessories"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.7",
+    "numReviews": 136
+  },
+  {
+    "id": 123,
+    "name": "Hifiman LCD-8570 Nova Wirel Headphones",
+    "price": 25599,
+    "category": "Wireless Headphones",
+    "brand": "Hifiman",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Hifiman LCD-8570 Nova Wirel Headphones. Crafted by Hifiman, this premium wireless headphones delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Hifiman wireless headphones with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 20,
+    "lowStockThreshold": 5,
+    "sku": "HIF-WIR-1023",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Hifiman"
+      },
+      {
+        "name": "Category",
+        "value": "Wireless Headphones"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "3.7",
+    "numReviews": 49
+  },
+  {
+    "id": 124,
+    "name": "KEF HE-3390 Nexus Wirel Headphones",
+    "price": 25199,
+    "category": "Wireless Headphones",
+    "brand": "KEF",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the KEF HE-3390 Nexus Wirel Headphones. Crafted by KEF, this premium wireless headphones delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium KEF wireless headphones with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 50,
+    "lowStockThreshold": 5,
+    "sku": "KEF-WIR-1024",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "KEF"
+      },
+      {
+        "name": "Category",
+        "value": "Wireless Headphones"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.7",
+    "numReviews": 52
+  },
+  {
+    "id": 125,
+    "name": "Audeze M-9310 Aura DAC",
+    "price": 122699,
+    "category": "DACs",
+    "brand": "Audeze",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Audeze M-9310 Aura DAC. Crafted by Audeze, this premium dacs delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Audeze dacs with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 17,
+    "lowStockThreshold": 5,
+    "sku": "AUD-DAC-1025",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Audeze"
+      },
+      {
+        "name": "Category",
+        "value": "DACs"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.1",
+    "numReviews": 92
+  },
+  {
+    "id": 126,
+    "name": "Focal Z-880 Aura Floortanding Speakers",
+    "price": 291199,
+    "category": "Floorstanding Speakers",
+    "brand": "Focal",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Focal Z-880 Aura Floortanding Speakers. Crafted by Focal, this premium floorstanding speakers delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Focal floorstanding speakers with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 7,
+    "lowStockThreshold": 5,
+    "sku": "FOC-FLO-1026",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Focal"
+      },
+      {
+        "name": "Category",
+        "value": "Floorstanding Speakers"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.0",
+    "numReviews": 18
+  },
+  {
+    "id": 127,
+    "name": "Hifiman M-9790 Phantom Turntabl",
+    "price": 132199,
+    "category": "Turntables",
+    "brand": "Hifiman",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Hifiman M-9790 Phantom Turntabl. Crafted by Hifiman, this premium turntables delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Hifiman turntables with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 39,
+    "lowStockThreshold": 5,
+    "sku": "HIF-TUR-1027",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Hifiman"
+      },
+      {
+        "name": "Category",
+        "value": "Turntables"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "3.6",
+    "numReviews": 85
+  },
+  {
+    "id": 128,
+    "name": "Sony SE-2760 Zenith Accories",
+    "price": 3999,
+    "category": "Accessories",
+    "brand": "Sony",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Sony SE-2760 Zenith Accories. Crafted by Sony, this premium accessories delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Sony accessories with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 41,
+    "lowStockThreshold": 5,
+    "sku": "SON-ACC-1028",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Sony"
+      },
+      {
+        "name": "Category",
+        "value": "Accessories"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.2",
+    "numReviews": 86
+  },
+  {
+    "id": 129,
+    "name": "Meze Audio Z-700 Signature Wirel Headphones",
+    "price": 28299,
+    "category": "Wireless Headphones",
+    "brand": "Meze Audio",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Meze Audio Z-700 Signature Wirel Headphones. Crafted by Meze Audio, this premium wireless headphones delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Meze Audio wireless headphones with reference-grade audio quality.",
+    "isBestSeller": true,
+    "stockQuantity": 35,
+    "lowStockThreshold": 5,
+    "sku": "MEZ-WIR-1029",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Meze Audio"
+      },
+      {
+        "name": "Category",
+        "value": "Wireless Headphones"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.5",
+    "numReviews": 60
+  },
+  {
+    "id": 130,
+    "name": "Audio-Technica T-4630 Reference IEM",
+    "price": 76999,
+    "category": "IEMs",
+    "brand": "Audio-Technica",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Audio-Technica T-4630 Reference IEM. Crafted by Audio-Technica, this premium iems delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Audio-Technica iems with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 29,
+    "lowStockThreshold": 5,
+    "sku": "AUD-IEM-1030",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Audio-Technica"
+      },
+      {
+        "name": "Category",
+        "value": "IEMs"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.9",
+    "numReviews": 107
+  },
+  {
+    "id": 131,
+    "name": "Focal T-3020 Nexus Floortanding Speakers",
+    "price": 124199,
+    "category": "Floorstanding Speakers",
+    "brand": "Focal",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Focal T-3020 Nexus Floortanding Speakers. Crafted by Focal, this premium floorstanding speakers delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Focal floorstanding speakers with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 29,
+    "lowStockThreshold": 5,
+    "sku": "FOC-FLO-1031",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Focal"
+      },
+      {
+        "name": "Category",
+        "value": "Floorstanding Speakers"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "3.5",
+    "numReviews": 80
+  },
+  {
+    "id": 132,
+    "name": "Focal SE-2620 Reference Cabl",
+    "price": 15199,
+    "category": "Cables",
+    "brand": "Focal",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Focal SE-2620 Reference Cabl. Crafted by Focal, this premium cables delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Focal cables with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 48,
+    "lowStockThreshold": 5,
+    "sku": "FOC-CAB-1032",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Focal"
+      },
+      {
+        "name": "Category",
+        "value": "Cables"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.5",
+    "numReviews": 129
+  },
+  {
+    "id": 133,
+    "name": "Meze Audio K-4660 Phantom IEM",
+    "price": 35899,
+    "category": "IEMs",
+    "brand": "Meze Audio",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Meze Audio K-4660 Phantom IEM. Crafted by Meze Audio, this premium iems delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Meze Audio iems with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 6,
+    "lowStockThreshold": 5,
+    "sku": "MEZ-IEM-1033",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Meze Audio"
+      },
+      {
+        "name": "Category",
+        "value": "IEMs"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.2",
+    "numReviews": 35
+  },
+  {
+    "id": 134,
+    "name": "Campfire Audio Z-5160 Nova IEM",
+    "price": 77499,
+    "category": "IEMs",
+    "brand": "Campfire Audio",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Campfire Audio Z-5160 Nova IEM. Crafted by Campfire Audio, this premium iems delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Campfire Audio iems with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 20,
+    "lowStockThreshold": 5,
+    "sku": "CAM-IEM-1034",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Campfire Audio"
+      },
+      {
+        "name": "Category",
+        "value": "IEMs"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "3.8",
+    "numReviews": 4
+  },
+  {
+    "id": 135,
+    "name": "Audeze X-470 Evolution IEM",
+    "price": 64099,
+    "category": "IEMs",
+    "brand": "Audeze",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Audeze X-470 Evolution IEM. Crafted by Audeze, this premium iems delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Audeze iems with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 42,
+    "lowStockThreshold": 5,
+    "sku": "AUD-IEM-1035",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Audeze"
+      },
+      {
+        "name": "Category",
+        "value": "IEMs"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "3.7",
+    "numReviews": 96
+  },
+  {
+    "id": 136,
+    "name": "Hifiman HE-8100 Evolution Cabl",
+    "price": 3499,
+    "category": "Cables",
+    "brand": "Hifiman",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Hifiman HE-8100 Evolution Cabl. Crafted by Hifiman, this premium cables delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Hifiman cables with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 18,
+    "lowStockThreshold": 5,
+    "sku": "HIF-CAB-1036",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Hifiman"
+      },
+      {
+        "name": "Category",
+        "value": "Cables"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.4",
+    "numReviews": 75
+  },
+  {
+    "id": 137,
+    "name": "Focal SE-1790 Nova Bookhelf Speakers",
+    "price": 45699,
+    "category": "Bookshelf Speakers",
+    "brand": "Focal",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Focal SE-1790 Nova Bookhelf Speakers. Crafted by Focal, this premium bookshelf speakers delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Focal bookshelf speakers with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 24,
+    "lowStockThreshold": 5,
+    "sku": "FOC-BOO-1037",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Focal"
+      },
+      {
+        "name": "Category",
+        "value": "Bookshelf Speakers"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.6",
+    "numReviews": 28
+  },
+  {
+    "id": 138,
+    "name": "Klipsch HE-2340 Elite Turntabl",
+    "price": 133199,
+    "category": "Turntables",
+    "brand": "Klipsch",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Klipsch HE-2340 Elite Turntabl. Crafted by Klipsch, this premium turntables delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Klipsch turntables with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 41,
+    "lowStockThreshold": 5,
+    "sku": "KLI-TUR-1038",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Klipsch"
+      },
+      {
+        "name": "Category",
+        "value": "Turntables"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.0",
+    "numReviews": 17
+  },
+  {
+    "id": 139,
+    "name": "Campfire Audio HE-6830 Elite Bluetooth Speaker",
+    "price": 14799,
+    "category": "Bluetooth Speakers",
+    "brand": "Campfire Audio",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Campfire Audio HE-6830 Elite Bluetooth Speaker. Crafted by Campfire Audio, this premium bluetooth speakers delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Campfire Audio bluetooth speakers with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 49,
+    "lowStockThreshold": 5,
+    "sku": "CAM-BLU-1039",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Campfire Audio"
+      },
+      {
+        "name": "Category",
+        "value": "Bluetooth Speakers"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.4",
+    "numReviews": 54
+  },
+  {
+    "id": 140,
+    "name": "Meze Audio X-920 Studio Bookhelf Speakers",
+    "price": 119299,
+    "category": "Bookshelf Speakers",
+    "brand": "Meze Audio",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Meze Audio X-920 Studio Bookhelf Speakers. Crafted by Meze Audio, this premium bookshelf speakers delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Meze Audio bookshelf speakers with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 11,
+    "lowStockThreshold": 5,
+    "sku": "MEZ-BOO-1040",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Meze Audio"
+      },
+      {
+        "name": "Category",
+        "value": "Bookshelf Speakers"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "5.0",
+    "numReviews": 42
+  },
+  {
+    "id": 141,
+    "name": "Hifiman M-7310 Monitor Accories",
+    "price": 3199,
+    "category": "Accessories",
+    "brand": "Hifiman",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Hifiman M-7310 Monitor Accories. Crafted by Hifiman, this premium accessories delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Hifiman accessories with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 29,
+    "lowStockThreshold": 5,
+    "sku": "HIF-ACC-1041",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Hifiman"
+      },
+      {
+        "name": "Category",
+        "value": "Accessories"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "3.5",
+    "numReviews": 34
+  },
+  {
+    "id": 142,
+    "name": "Sony SE-1890 Phantom Accories",
+    "price": 2899,
+    "category": "Accessories",
+    "brand": "Sony",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Sony SE-1890 Phantom Accories. Crafted by Sony, this premium accessories delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Sony accessories with reference-grade audio quality.",
+    "isBestSeller": true,
+    "stockQuantity": 10,
+    "lowStockThreshold": 5,
+    "sku": "SON-ACC-1042",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Sony"
+      },
+      {
+        "name": "Category",
+        "value": "Accessories"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.9",
+    "numReviews": 145
+  },
+  {
+    "id": 143,
+    "name": "KEF HE-6290 Reference Bluetooth Speaker",
+    "price": 14899,
+    "category": "Bluetooth Speakers",
+    "brand": "KEF",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the KEF HE-6290 Reference Bluetooth Speaker. Crafted by KEF, this premium bluetooth speakers delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium KEF bluetooth speakers with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 18,
+    "lowStockThreshold": 5,
+    "sku": "KEF-BLU-1043",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "KEF"
+      },
+      {
+        "name": "Category",
+        "value": "Bluetooth Speakers"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.9",
+    "numReviews": 8
+  },
+  {
+    "id": 144,
+    "name": "KEF HE-7220 Classic Cabl",
+    "price": 8599,
+    "category": "Cables",
+    "brand": "KEF",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the KEF HE-7220 Classic Cabl. Crafted by KEF, this premium cables delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium KEF cables with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 17,
+    "lowStockThreshold": 5,
+    "sku": "KEF-CAB-1044",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "KEF"
+      },
+      {
+        "name": "Category",
+        "value": "Cables"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.7",
+    "numReviews": 138
+  },
+  {
+    "id": 145,
+    "name": "Kef HE-6190 Elite Floortanding Speakers",
+    "price": 93699,
+    "category": "Floorstanding Speakers",
+    "brand": "Kef",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Kef HE-6190 Elite Floortanding Speakers. Crafted by Kef, this premium floorstanding speakers delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Kef floorstanding speakers with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 36,
+    "lowStockThreshold": 5,
+    "sku": "KEF-FLO-1045",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Kef"
+      },
+      {
+        "name": "Category",
+        "value": "Floorstanding Speakers"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.2",
+    "numReviews": 107
+  },
+  {
+    "id": 146,
+    "name": "Audio-Technica LCD-2110 Evolution Wirel Headphones",
+    "price": 36599,
+    "category": "Wireless Headphones",
+    "brand": "Audio-Technica",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Audio-Technica LCD-2110 Evolution Wirel Headphones. Crafted by Audio-Technica, this premium wireless headphones delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Audio-Technica wireless headphones with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 7,
+    "lowStockThreshold": 5,
+    "sku": "AUD-WIR-1046",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Audio-Technica"
+      },
+      {
+        "name": "Category",
+        "value": "Wireless Headphones"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "3.7",
+    "numReviews": 25
+  },
+  {
+    "id": 147,
+    "name": "Focal HD-2400 Monitor Over-Ear Headphon",
+    "price": 26699,
+    "category": "Over-Ear Headphones",
+    "brand": "Focal",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Focal HD-2400 Monitor Over-Ear Headphon. Crafted by Focal, this premium over-ear headphones delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Focal over-ear headphones with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 22,
+    "lowStockThreshold": 5,
+    "sku": "FOC-OVE-1047",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Focal"
+      },
+      {
+        "name": "Category",
+        "value": "Over-Ear Headphones"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "5.0",
+    "numReviews": 105
+  },
+  {
+    "id": 148,
+    "name": "Sennheiser X-9340 Nexus DAC",
+    "price": 63199,
+    "category": "DACs",
+    "brand": "Sennheiser",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Sennheiser X-9340 Nexus DAC. Crafted by Sennheiser, this premium dacs delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Sennheiser dacs with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 33,
+    "lowStockThreshold": 5,
+    "sku": "SEN-DAC-1048",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Sennheiser"
+      },
+      {
+        "name": "Category",
+        "value": "DACs"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.5",
+    "numReviews": 26
+  },
+  {
+    "id": 149,
+    "name": "Dan Clark Audio K-6030 Signature Wirel Headphones",
+    "price": 22099,
+    "category": "Wireless Headphones",
+    "brand": "Dan Clark Audio",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Dan Clark Audio K-6030 Signature Wirel Headphones. Crafted by Dan Clark Audio, this premium wireless headphones delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Dan Clark Audio wireless headphones with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 31,
+    "lowStockThreshold": 5,
+    "sku": "DAN-WIR-1049",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Dan Clark Audio"
+      },
+      {
+        "name": "Category",
+        "value": "Wireless Headphones"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.9",
+    "numReviews": 19
+  },
+  {
+    "id": 150,
+    "name": "KEF M-5160 Elite DAC",
+    "price": 34599,
+    "category": "DACs",
+    "brand": "KEF",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the KEF M-5160 Elite DAC. Crafted by KEF, this premium dacs delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium KEF dacs with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 31,
+    "lowStockThreshold": 5,
+    "sku": "KEF-DAC-1050",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "KEF"
+      },
+      {
+        "name": "Category",
+        "value": "DACs"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "3.6",
+    "numReviews": 120
+  },
+  {
+    "id": 151,
+    "name": "Campfire Audio Z-4140 Evolution Earbud",
+    "price": 6899,
+    "category": "Earbuds",
+    "brand": "Campfire Audio",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Campfire Audio Z-4140 Evolution Earbud. Crafted by Campfire Audio, this premium earbuds delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Campfire Audio earbuds with reference-grade audio quality.",
+    "isBestSeller": true,
+    "stockQuantity": 30,
+    "lowStockThreshold": 5,
+    "sku": "CAM-EAR-1051",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Campfire Audio"
+      },
+      {
+        "name": "Category",
+        "value": "Earbuds"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.1",
+    "numReviews": 137
+  },
+  {
+    "id": 152,
+    "name": "Audeze K-2010 Classic Floortanding Speakers",
+    "price": 126599,
+    "category": "Floorstanding Speakers",
+    "brand": "Audeze",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Audeze K-2010 Classic Floortanding Speakers. Crafted by Audeze, this premium floorstanding speakers delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Audeze floorstanding speakers with reference-grade audio quality.",
+    "isBestSeller": true,
+    "stockQuantity": 11,
+    "lowStockThreshold": 5,
+    "sku": "AUD-FLO-1052",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Audeze"
+      },
+      {
+        "name": "Category",
+        "value": "Floorstanding Speakers"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.0",
+    "numReviews": 3
+  },
+  {
+    "id": 153,
+    "name": "Audeze K-9550 Nexus IEM",
+    "price": 44599,
+    "category": "IEMs",
+    "brand": "Audeze",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Audeze K-9550 Nexus IEM. Crafted by Audeze, this premium iems delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Audeze iems with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 18,
+    "lowStockThreshold": 5,
+    "sku": "AUD-IEM-1053",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Audeze"
+      },
+      {
+        "name": "Category",
+        "value": "IEMs"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.9",
+    "numReviews": 47
+  },
+  {
+    "id": 154,
+    "name": "Focal M-2760 Studio DAC",
+    "price": 94599,
+    "category": "DACs",
+    "brand": "Focal",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Focal M-2760 Studio DAC. Crafted by Focal, this premium dacs delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Focal dacs with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 8,
+    "lowStockThreshold": 5,
+    "sku": "FOC-DAC-1054",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Focal"
+      },
+      {
+        "name": "Category",
+        "value": "DACs"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.5",
+    "numReviews": 61
+  },
+  {
+    "id": 155,
+    "name": "Dan Clark Audio HD-9620 Nexus Bluetooth Speaker",
+    "price": 24099,
+    "category": "Bluetooth Speakers",
+    "brand": "Dan Clark Audio",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Dan Clark Audio HD-9620 Nexus Bluetooth Speaker. Crafted by Dan Clark Audio, this premium bluetooth speakers delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Dan Clark Audio bluetooth speakers with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 7,
+    "lowStockThreshold": 5,
+    "sku": "DAN-BLU-1055",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Dan Clark Audio"
+      },
+      {
+        "name": "Category",
+        "value": "Bluetooth Speakers"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.8",
+    "numReviews": 56
+  },
+  {
+    "id": 156,
+    "name": "Fiio HD-5640 Quantum Wirel Headphones",
+    "price": 36799,
+    "category": "Wireless Headphones",
+    "brand": "Fiio",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Fiio HD-5640 Quantum Wirel Headphones. Crafted by Fiio, this premium wireless headphones delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Fiio wireless headphones with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 50,
+    "lowStockThreshold": 5,
+    "sku": "FII-WIR-1056",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Fiio"
+      },
+      {
+        "name": "Category",
+        "value": "Wireless Headphones"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.0",
+    "numReviews": 135
+  },
+  {
+    "id": 157,
+    "name": "Campfire Audio LCD-1240 Monitor Over-Ear Headphon",
+    "price": 57799,
+    "category": "Over-Ear Headphones",
+    "brand": "Campfire Audio",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Campfire Audio LCD-1240 Monitor Over-Ear Headphon. Crafted by Campfire Audio, this premium over-ear headphones delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Campfire Audio over-ear headphones with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 6,
+    "lowStockThreshold": 5,
+    "sku": "CAM-OVE-1057",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Campfire Audio"
+      },
+      {
+        "name": "Category",
+        "value": "Over-Ear Headphones"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.1",
+    "numReviews": 0
+  },
+  {
+    "id": 158,
+    "name": "Fiio LCD-8770 Master Earbud",
+    "price": 9199,
+    "category": "Earbuds",
+    "brand": "Fiio",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Fiio LCD-8770 Master Earbud. Crafted by Fiio, this premium earbuds delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Fiio earbuds with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 48,
+    "lowStockThreshold": 5,
+    "sku": "FII-EAR-1058",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Fiio"
+      },
+      {
+        "name": "Category",
+        "value": "Earbuds"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "3.8",
+    "numReviews": 73
+  },
+  {
+    "id": 159,
+    "name": "Fiio HD-2440 Reference DAC",
+    "price": 72399,
+    "category": "DACs",
+    "brand": "Fiio",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Fiio HD-2440 Reference DAC. Crafted by Fiio, this premium dacs delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Fiio dacs with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 6,
+    "lowStockThreshold": 5,
+    "sku": "FII-DAC-1059",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Fiio"
+      },
+      {
+        "name": "Category",
+        "value": "DACs"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.2",
+    "numReviews": 35
+  },
+  {
+    "id": 160,
+    "name": "Klipsch M-5470 Pro Over-Ear Headphon",
+    "price": 87299,
+    "category": "Over-Ear Headphones",
+    "brand": "Klipsch",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Klipsch M-5470 Pro Over-Ear Headphon. Crafted by Klipsch, this premium over-ear headphones delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Klipsch over-ear headphones with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 31,
+    "lowStockThreshold": 5,
+    "sku": "KLI-OVE-1060",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Klipsch"
+      },
+      {
+        "name": "Category",
+        "value": "Over-Ear Headphones"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.8",
+    "numReviews": 76
+  },
+  {
+    "id": 161,
+    "name": "Fiio HE-4010 Studio Turntabl",
+    "price": 134999,
+    "category": "Turntables",
+    "brand": "Fiio",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Fiio HE-4010 Studio Turntabl. Crafted by Fiio, this premium turntables delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Fiio turntables with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 29,
+    "lowStockThreshold": 5,
+    "sku": "FII-TUR-1061",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Fiio"
+      },
+      {
+        "name": "Category",
+        "value": "Turntables"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.3",
+    "numReviews": 131
+  },
+  {
+    "id": 162,
+    "name": "Sony T-7220 Reference Bluetooth Speaker",
+    "price": 30299,
+    "category": "Bluetooth Speakers",
+    "brand": "Sony",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Sony T-7220 Reference Bluetooth Speaker. Crafted by Sony, this premium bluetooth speakers delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Sony bluetooth speakers with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 15,
+    "lowStockThreshold": 5,
+    "sku": "SON-BLU-1062",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Sony"
+      },
+      {
+        "name": "Category",
+        "value": "Bluetooth Speakers"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.9",
+    "numReviews": 28
+  },
+  {
+    "id": 163,
+    "name": "Klipsch SE-790 Signature Wirel Headphones",
+    "price": 26199,
+    "category": "Wireless Headphones",
+    "brand": "Klipsch",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Klipsch SE-790 Signature Wirel Headphones. Crafted by Klipsch, this premium wireless headphones delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Klipsch wireless headphones with reference-grade audio quality.",
+    "isBestSeller": true,
+    "stockQuantity": 10,
+    "lowStockThreshold": 5,
+    "sku": "KLI-WIR-1063",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Klipsch"
+      },
+      {
+        "name": "Category",
+        "value": "Wireless Headphones"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.6",
+    "numReviews": 26
+  },
+  {
+    "id": 164,
+    "name": "KEF HD-1190 Signature IEM",
+    "price": 85399,
+    "category": "IEMs",
+    "brand": "KEF",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the KEF HD-1190 Signature IEM. Crafted by KEF, this premium iems delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium KEF iems with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 47,
+    "lowStockThreshold": 5,
+    "sku": "KEF-IEM-1064",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "KEF"
+      },
+      {
+        "name": "Category",
+        "value": "IEMs"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.7",
+    "numReviews": 36
+  },
+  {
+    "id": 165,
+    "name": "Campfire Audio LCD-4800 Phantom Amplifier",
+    "price": 50599,
+    "category": "Amplifiers",
+    "brand": "Campfire Audio",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Campfire Audio LCD-4800 Phantom Amplifier. Crafted by Campfire Audio, this premium amplifiers delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Campfire Audio amplifiers with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 29,
+    "lowStockThreshold": 5,
+    "sku": "CAM-AMP-1065",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Campfire Audio"
+      },
+      {
+        "name": "Category",
+        "value": "Amplifiers"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.7",
+    "numReviews": 149
+  },
+  {
+    "id": 166,
+    "name": "Kef SE-5820 Nova Earbud",
+    "price": 10299,
+    "category": "Earbuds",
+    "brand": "Kef",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Kef SE-5820 Nova Earbud. Crafted by Kef, this premium earbuds delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Kef earbuds with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 20,
+    "lowStockThreshold": 5,
+    "sku": "KEF-EAR-1066",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Kef"
+      },
+      {
+        "name": "Category",
+        "value": "Earbuds"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.3",
+    "numReviews": 88
+  },
+  {
+    "id": 167,
+    "name": "Q Acoustics K-490 Master Accories",
+    "price": 1699,
+    "category": "Accessories",
+    "brand": "Q Acoustics",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Q Acoustics K-490 Master Accories. Crafted by Q Acoustics, this premium accessories delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Q Acoustics accessories with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 38,
+    "lowStockThreshold": 5,
+    "sku": "Q A-ACC-1067",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Q Acoustics"
+      },
+      {
+        "name": "Category",
+        "value": "Accessories"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "3.7",
+    "numReviews": 134
+  },
+  {
+    "id": 168,
+    "name": "Klipsch Z-9180 Phantom Wirel Headphones",
+    "price": 33399,
+    "category": "Wireless Headphones",
+    "brand": "Klipsch",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Klipsch Z-9180 Phantom Wirel Headphones. Crafted by Klipsch, this premium wireless headphones delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Klipsch wireless headphones with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 36,
+    "lowStockThreshold": 5,
+    "sku": "KLI-WIR-1068",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Klipsch"
+      },
+      {
+        "name": "Category",
+        "value": "Wireless Headphones"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "3.6",
+    "numReviews": 138
+  },
+  {
+    "id": 169,
+    "name": "Sony LCD-8400 Phantom Over-Ear Headphon",
+    "price": 27099,
+    "category": "Over-Ear Headphones",
+    "brand": "Sony",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Sony LCD-8400 Phantom Over-Ear Headphon. Crafted by Sony, this premium over-ear headphones delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Sony over-ear headphones with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 39,
+    "lowStockThreshold": 5,
+    "sku": "SON-OVE-1069",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Sony"
+      },
+      {
+        "name": "Category",
+        "value": "Over-Ear Headphones"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "3.9",
+    "numReviews": 146
+  },
+  {
+    "id": 170,
+    "name": "Audio-Technica HE-3440 Studio Cabl",
+    "price": 2799,
+    "category": "Cables",
+    "brand": "Audio-Technica",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Audio-Technica HE-3440 Studio Cabl. Crafted by Audio-Technica, this premium cables delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Audio-Technica cables with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 41,
+    "lowStockThreshold": 5,
+    "sku": "AUD-CAB-1070",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Audio-Technica"
+      },
+      {
+        "name": "Category",
+        "value": "Cables"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.6",
+    "numReviews": 58
+  },
+  {
+    "id": 171,
+    "name": "Campfire Audio HD-950 Nexus Turntabl",
+    "price": 69699,
+    "category": "Turntables",
+    "brand": "Campfire Audio",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Campfire Audio HD-950 Nexus Turntabl. Crafted by Campfire Audio, this premium turntables delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Campfire Audio turntables with reference-grade audio quality.",
+    "isBestSeller": true,
+    "stockQuantity": 29,
+    "lowStockThreshold": 5,
+    "sku": "CAM-TUR-1071",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Campfire Audio"
+      },
+      {
+        "name": "Category",
+        "value": "Turntables"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.2",
+    "numReviews": 17
+  },
+  {
+    "id": 172,
+    "name": "Focal K-5580 Elite Cabl",
+    "price": 11399,
+    "category": "Cables",
+    "brand": "Focal",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Focal K-5580 Elite Cabl. Crafted by Focal, this premium cables delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Focal cables with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 22,
+    "lowStockThreshold": 5,
+    "sku": "FOC-CAB-1072",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Focal"
+      },
+      {
+        "name": "Category",
+        "value": "Cables"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "3.9",
+    "numReviews": 109
+  },
+  {
+    "id": 173,
+    "name": "KEF HE-1080 Elite IEM",
+    "price": 44599,
+    "category": "IEMs",
+    "brand": "KEF",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the KEF HE-1080 Elite IEM. Crafted by KEF, this premium iems delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium KEF iems with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 31,
+    "lowStockThreshold": 5,
+    "sku": "KEF-IEM-1073",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "KEF"
+      },
+      {
+        "name": "Category",
+        "value": "IEMs"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "3.7",
+    "numReviews": 66
+  },
+  {
+    "id": 174,
+    "name": "Sony Z-3590 Monitor Earbud",
+    "price": 14999,
+    "category": "Earbuds",
+    "brand": "Sony",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Sony Z-3590 Monitor Earbud. Crafted by Sony, this premium earbuds delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Sony earbuds with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 44,
+    "lowStockThreshold": 5,
+    "sku": "SON-EAR-1074",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Sony"
+      },
+      {
+        "name": "Category",
+        "value": "Earbuds"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "3.8",
+    "numReviews": 102
+  },
+  {
+    "id": 175,
+    "name": "Sony M-9120 Quantum Turntabl",
+    "price": 84799,
+    "category": "Turntables",
+    "brand": "Sony",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Sony M-9120 Quantum Turntabl. Crafted by Sony, this premium turntables delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Sony turntables with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 29,
+    "lowStockThreshold": 5,
+    "sku": "SON-TUR-1075",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Sony"
+      },
+      {
+        "name": "Category",
+        "value": "Turntables"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.8",
+    "numReviews": 80
+  },
+  {
+    "id": 176,
+    "name": "Dan Clark Audio K-1520 Reference Cabl",
+    "price": 6599,
+    "category": "Cables",
+    "brand": "Dan Clark Audio",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Dan Clark Audio K-1520 Reference Cabl. Crafted by Dan Clark Audio, this premium cables delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Dan Clark Audio cables with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 25,
+    "lowStockThreshold": 5,
+    "sku": "DAN-CAB-1076",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Dan Clark Audio"
+      },
+      {
+        "name": "Category",
+        "value": "Cables"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.5",
+    "numReviews": 127
+  },
+  {
+    "id": 177,
+    "name": "Campfire Audio LCD-2210 Pro Earbud",
+    "price": 5199,
+    "category": "Earbuds",
+    "brand": "Campfire Audio",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Campfire Audio LCD-2210 Pro Earbud. Crafted by Campfire Audio, this premium earbuds delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Campfire Audio earbuds with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 34,
+    "lowStockThreshold": 5,
+    "sku": "CAM-EAR-1077",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Campfire Audio"
+      },
+      {
+        "name": "Category",
+        "value": "Earbuds"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "3.5",
+    "numReviews": 39
+  },
+  {
+    "id": 178,
+    "name": "Sony K-9210 Signature Bluetooth Speaker",
+    "price": 31899,
+    "category": "Bluetooth Speakers",
+    "brand": "Sony",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Sony K-9210 Signature Bluetooth Speaker. Crafted by Sony, this premium bluetooth speakers delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Sony bluetooth speakers with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 32,
+    "lowStockThreshold": 5,
+    "sku": "SON-BLU-1078",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Sony"
+      },
+      {
+        "name": "Category",
+        "value": "Bluetooth Speakers"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.9",
+    "numReviews": 88
+  },
+  {
+    "id": 179,
+    "name": "Audeze SE-6880 Nova Earbud",
+    "price": 3299,
+    "category": "Earbuds",
+    "brand": "Audeze",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Audeze SE-6880 Nova Earbud. Crafted by Audeze, this premium earbuds delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Audeze earbuds with reference-grade audio quality.",
+    "isBestSeller": true,
+    "stockQuantity": 49,
+    "lowStockThreshold": 5,
+    "sku": "AUD-EAR-1079",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Audeze"
+      },
+      {
+        "name": "Category",
+        "value": "Earbuds"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "5.0",
+    "numReviews": 77
+  },
+  {
+    "id": 180,
+    "name": "Campfire Audio T-3710 Nova Wirel Headphones",
+    "price": 37299,
+    "category": "Wireless Headphones",
+    "brand": "Campfire Audio",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Campfire Audio T-3710 Nova Wirel Headphones. Crafted by Campfire Audio, this premium wireless headphones delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Campfire Audio wireless headphones with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 34,
+    "lowStockThreshold": 5,
+    "sku": "CAM-WIR-1080",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Campfire Audio"
+      },
+      {
+        "name": "Category",
+        "value": "Wireless Headphones"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "3.9",
+    "numReviews": 144
+  },
+  {
+    "id": 181,
+    "name": "Chord Electronics X-2420 Studio Bluetooth Speaker",
+    "price": 20199,
+    "category": "Bluetooth Speakers",
+    "brand": "Chord Electronics",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Chord Electronics X-2420 Studio Bluetooth Speaker. Crafted by Chord Electronics, this premium bluetooth speakers delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Chord Electronics bluetooth speakers with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 46,
+    "lowStockThreshold": 5,
+    "sku": "CHO-BLU-1081",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Chord Electronics"
+      },
+      {
+        "name": "Category",
+        "value": "Bluetooth Speakers"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.0",
+    "numReviews": 5
+  },
+  {
+    "id": 182,
+    "name": "Dan Clark Audio HE-3230 Signature Wirel Headphones",
+    "price": 19599,
+    "category": "Wireless Headphones",
+    "brand": "Dan Clark Audio",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Dan Clark Audio HE-3230 Signature Wirel Headphones. Crafted by Dan Clark Audio, this premium wireless headphones delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Dan Clark Audio wireless headphones with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 34,
+    "lowStockThreshold": 5,
+    "sku": "DAN-WIR-1082",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Dan Clark Audio"
+      },
+      {
+        "name": "Category",
+        "value": "Wireless Headphones"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "3.6",
+    "numReviews": 144
+  },
+  {
+    "id": 183,
+    "name": "Hifiman HD-5530 Studio Cabl",
+    "price": 5999,
+    "category": "Cables",
+    "brand": "Hifiman",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Hifiman HD-5530 Studio Cabl. Crafted by Hifiman, this premium cables delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Hifiman cables with reference-grade audio quality.",
+    "isBestSeller": true,
+    "stockQuantity": 22,
+    "lowStockThreshold": 5,
+    "sku": "HIF-CAB-1083",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Hifiman"
+      },
+      {
+        "name": "Category",
+        "value": "Cables"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.1",
+    "numReviews": 136
+  },
+  {
+    "id": 184,
+    "name": "Sennheiser SE-3300 Studio Accories",
+    "price": 2699,
+    "category": "Accessories",
+    "brand": "Sennheiser",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Sennheiser SE-3300 Studio Accories. Crafted by Sennheiser, this premium accessories delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Sennheiser accessories with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 15,
+    "lowStockThreshold": 5,
+    "sku": "SEN-ACC-1084",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Sennheiser"
+      },
+      {
+        "name": "Category",
+        "value": "Accessories"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "3.7",
+    "numReviews": 79
+  },
+  {
+    "id": 185,
+    "name": "Audio-Technica SE-4430 Nexus Wirel Headphones",
+    "price": 34899,
+    "category": "Wireless Headphones",
+    "brand": "Audio-Technica",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Audio-Technica SE-4430 Nexus Wirel Headphones. Crafted by Audio-Technica, this premium wireless headphones delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Audio-Technica wireless headphones with reference-grade audio quality.",
+    "isBestSeller": true,
+    "stockQuantity": 28,
+    "lowStockThreshold": 5,
+    "sku": "AUD-WIR-1085",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Audio-Technica"
+      },
+      {
+        "name": "Category",
+        "value": "Wireless Headphones"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.4",
+    "numReviews": 115
+  },
+  {
+    "id": 186,
+    "name": "Audio-Technica HE-2120 Master Over-Ear Headphon",
+    "price": 29699,
+    "category": "Over-Ear Headphones",
+    "brand": "Audio-Technica",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Audio-Technica HE-2120 Master Over-Ear Headphon. Crafted by Audio-Technica, this premium over-ear headphones delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Audio-Technica over-ear headphones with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 47,
+    "lowStockThreshold": 5,
+    "sku": "AUD-OVE-1086",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Audio-Technica"
+      },
+      {
+        "name": "Category",
+        "value": "Over-Ear Headphones"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.5",
+    "numReviews": 7
+  },
+  {
+    "id": 187,
+    "name": "Sennheiser T-6670 Monitor Accories",
+    "price": 1599,
+    "category": "Accessories",
+    "brand": "Sennheiser",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Sennheiser T-6670 Monitor Accories. Crafted by Sennheiser, this premium accessories delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Sennheiser accessories with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 25,
+    "lowStockThreshold": 5,
+    "sku": "SEN-ACC-1087",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Sennheiser"
+      },
+      {
+        "name": "Category",
+        "value": "Accessories"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.3",
+    "numReviews": 110
+  },
+  {
+    "id": 188,
+    "name": "Sony T-1310 Master Earbud",
+    "price": 8799,
+    "category": "Earbuds",
+    "brand": "Sony",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Sony T-1310 Master Earbud. Crafted by Sony, this premium earbuds delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Sony earbuds with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 16,
+    "lowStockThreshold": 5,
+    "sku": "SON-EAR-1088",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Sony"
+      },
+      {
+        "name": "Category",
+        "value": "Earbuds"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.2",
+    "numReviews": 78
+  },
+  {
+    "id": 189,
+    "name": "Bowers & Wilkins Z-3820 Quantum Turntabl",
+    "price": 53199,
+    "category": "Turntables",
+    "brand": "Bowers & Wilkins",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Bowers & Wilkins Z-3820 Quantum Turntabl. Crafted by Bowers & Wilkins, this premium turntables delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Bowers & Wilkins turntables with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 14,
+    "lowStockThreshold": 5,
+    "sku": "BOW-TUR-1089",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Bowers & Wilkins"
+      },
+      {
+        "name": "Category",
+        "value": "Turntables"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.9",
+    "numReviews": 63
+  },
+  {
+    "id": 190,
+    "name": "Meze Audio HD-5150 Master Floortanding Speakers",
+    "price": 93899,
+    "category": "Floorstanding Speakers",
+    "brand": "Meze Audio",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Meze Audio HD-5150 Master Floortanding Speakers. Crafted by Meze Audio, this premium floorstanding speakers delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Meze Audio floorstanding speakers with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 48,
+    "lowStockThreshold": 5,
+    "sku": "MEZ-FLO-1090",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Meze Audio"
+      },
+      {
+        "name": "Category",
+        "value": "Floorstanding Speakers"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.5",
+    "numReviews": 12
+  },
+  {
+    "id": 191,
+    "name": "Audeze SE-8450 Aura Turntabl",
+    "price": 49499,
+    "category": "Turntables",
+    "brand": "Audeze",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Audeze SE-8450 Aura Turntabl. Crafted by Audeze, this premium turntables delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Audeze turntables with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 15,
+    "lowStockThreshold": 5,
+    "sku": "AUD-TUR-1091",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Audeze"
+      },
+      {
+        "name": "Category",
+        "value": "Turntables"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.8",
+    "numReviews": 92
+  },
+  {
+    "id": 192,
+    "name": "Sony HE-750 Classic Earbud",
+    "price": 16499,
+    "category": "Earbuds",
+    "brand": "Sony",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Sony HE-750 Classic Earbud. Crafted by Sony, this premium earbuds delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Sony earbuds with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 35,
+    "lowStockThreshold": 5,
+    "sku": "SON-EAR-1092",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Sony"
+      },
+      {
+        "name": "Category",
+        "value": "Earbuds"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "3.7",
+    "numReviews": 67
+  },
+  {
+    "id": 193,
+    "name": "Chord Electronics SE-1260 Studio Bluetooth Speaker",
+    "price": 16299,
+    "category": "Bluetooth Speakers",
+    "brand": "Chord Electronics",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Chord Electronics SE-1260 Studio Bluetooth Speaker. Crafted by Chord Electronics, this premium bluetooth speakers delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Chord Electronics bluetooth speakers with reference-grade audio quality.",
+    "isBestSeller": true,
+    "stockQuantity": 41,
+    "lowStockThreshold": 5,
+    "sku": "CHO-BLU-1093",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Chord Electronics"
+      },
+      {
+        "name": "Category",
+        "value": "Bluetooth Speakers"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.1",
+    "numReviews": 32
+  },
+  {
+    "id": 194,
+    "name": "Kef Z-5890 Reference Wirel Headphones",
+    "price": 41199,
+    "category": "Wireless Headphones",
+    "brand": "Kef",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Kef Z-5890 Reference Wirel Headphones. Crafted by Kef, this premium wireless headphones delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Kef wireless headphones with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 32,
+    "lowStockThreshold": 5,
+    "sku": "KEF-WIR-1094",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Kef"
+      },
+      {
+        "name": "Category",
+        "value": "Wireless Headphones"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.0",
+    "numReviews": 41
+  },
+  {
+    "id": 195,
+    "name": "Campfire Audio HE-2360 Evolution Turntabl",
+    "price": 42699,
+    "category": "Turntables",
+    "brand": "Campfire Audio",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Campfire Audio HE-2360 Evolution Turntabl. Crafted by Campfire Audio, this premium turntables delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Campfire Audio turntables with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 23,
+    "lowStockThreshold": 5,
+    "sku": "CAM-TUR-1095",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Campfire Audio"
+      },
+      {
+        "name": "Category",
+        "value": "Turntables"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.2",
+    "numReviews": 91
+  },
+  {
+    "id": 196,
+    "name": "Audio-Technica LCD-2020 Monitor Wirel Headphones",
+    "price": 26199,
+    "category": "Wireless Headphones",
+    "brand": "Audio-Technica",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Audio-Technica LCD-2020 Monitor Wirel Headphones. Crafted by Audio-Technica, this premium wireless headphones delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Audio-Technica wireless headphones with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 5,
+    "lowStockThreshold": 5,
+    "sku": "AUD-WIR-1096",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Audio-Technica"
+      },
+      {
+        "name": "Category",
+        "value": "Wireless Headphones"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.5",
+    "numReviews": 49
+  },
+  {
+    "id": 197,
+    "name": "Hifiman M-8360 Studio Wirel Headphones",
+    "price": 38999,
+    "category": "Wireless Headphones",
+    "brand": "Hifiman",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Hifiman M-8360 Studio Wirel Headphones. Crafted by Hifiman, this premium wireless headphones delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Hifiman wireless headphones with reference-grade audio quality.",
+    "isBestSeller": false,
+    "stockQuantity": 9,
+    "lowStockThreshold": 5,
+    "sku": "HIF-WIR-1097",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Hifiman"
+      },
+      {
+        "name": "Category",
+        "value": "Wireless Headphones"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.1",
+    "numReviews": 38
+  },
+  {
+    "id": 198,
+    "name": "Focal HE-760 Phantom IEM",
+    "price": 46099,
+    "category": "IEMs",
+    "brand": "Focal",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Focal HE-760 Phantom IEM. Crafted by Focal, this premium iems delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Focal iems with reference-grade audio quality.",
+    "isBestSeller": true,
+    "stockQuantity": 36,
+    "lowStockThreshold": 5,
+    "sku": "FOC-IEM-1098",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Focal"
+      },
+      {
+        "name": "Category",
+        "value": "IEMs"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.6",
+    "numReviews": 4
+  },
+  {
+    "id": 199,
+    "name": "Audeze LCD-7190 Zenith Over-Ear Headphon",
+    "price": 68899,
+    "category": "Over-Ear Headphones",
+    "brand": "Audeze",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Audeze LCD-7190 Zenith Over-Ear Headphon. Crafted by Audeze, this premium over-ear headphones delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Audeze over-ear headphones with reference-grade audio quality.",
+    "isBestSeller": true,
+    "stockQuantity": 33,
+    "lowStockThreshold": 5,
+    "sku": "AUD-OVE-1099",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Audeze"
+      },
+      {
+        "name": "Category",
+        "value": "Over-Ear Headphones"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.5",
+    "numReviews": 124
+  },
+  {
+    "id": 200,
+    "name": "Meze Audio Z-5930 Master Floortanding Speakers",
+    "price": 180499,
+    "category": "Floorstanding Speakers",
+    "brand": "Meze Audio",
+    "image": "",
+    "images": [],
+    "description": "Experience the pinnacle of audio engineering with the Meze Audio Z-5930 Master Floortanding Speakers. Crafted by Meze Audio, this premium floorstanding speakers delivers unparalleled clarity, expansive soundstage, and reference-grade accuracy. Perfect for discerning audiophiles who demand nothing but the absolute best in their listening experience.",
+    "shortDescription": "Premium Meze Audio floorstanding speakers with reference-grade audio quality.",
+    "isBestSeller": true,
+    "stockQuantity": 28,
+    "lowStockThreshold": 5,
+    "sku": "MEZ-FLO-1100",
+    "isActive": true,
+    "specifications": [
+      {
+        "name": "Brand",
+        "value": "Meze Audio"
+      },
+      {
+        "name": "Category",
+        "value": "Floorstanding Speakers"
+      },
+      {
+        "name": "Warranty",
+        "value": "2 Years"
+      }
+    ],
+    "features": [
+      "Reference-grade audio tuning",
+      "Premium build quality",
+      "Audiophile grade components"
+    ],
+    "rating": "4.7",
+    "numReviews": 64
+  }
+]

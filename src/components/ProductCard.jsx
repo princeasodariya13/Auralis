@@ -28,7 +28,7 @@ const ProductCard = ({ product }) => {
         <div className="product-card" onClick={() => navigate(`/product/${product.id}`)} role="button" tabIndex="0" onKeyDown={(e) => { if(e.key==='Enter') navigate(`/product/${product.id}`) }}>
             <div className="product-image-container">
                 <img 
-                    src={product.image} 
+                    src={product.image || 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400"><rect width="400" height="400" fill="%23f1f5f9"/><text x="200" y="200" font-family="sans-serif" font-size="20" fill="%2394a3b8" text-anchor="middle" dominant-baseline="middle">Image Unavailable</text></svg>'} 
                     alt={product.name} 
                     className="product-image" 
                     loading="lazy" 

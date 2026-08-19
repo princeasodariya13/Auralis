@@ -92,7 +92,7 @@ export const getAdminProductById = async (req, res) => {
 // @route   POST /api/v1/admin/products
 export const createProduct = async (req, res) => {
     try {
-        const { name, price, category, image, description, isBestSeller, stockQuantity, lowStockThreshold, sku, isActive } = req.body;
+        const { name, price, category, image, images, description, shortDescription, brand, specifications, features, isBestSeller, stockQuantity, lowStockThreshold, sku, isActive } = req.body;
 
         // Validation
         if (!name || !name.trim()) return res.status(400).json({ success: false, error: { message: 'Name is required' }});
@@ -120,7 +120,12 @@ export const createProduct = async (req, res) => {
             price: Number(price),
             category: category.trim(),
             image: image.trim(),
+            images: Array.isArray(images) ? images : [],
             description: description.trim(),
+            shortDescription: shortDescription ? shortDescription.trim() : undefined,
+            brand: brand ? brand.trim() : undefined,
+            specifications: Array.isArray(specifications) ? specifications : [],
+            features: Array.isArray(features) ? features : [],
             isBestSeller: Boolean(isBestSeller),
             stockQuantity: Number(stockQuantity),
             lowStockThreshold: Number(lowStockThreshold),
@@ -163,16 +168,20 @@ export const updateProduct = async (req, res) => {
             return res.status(404).json({ success: false, error: { message: 'Product not found' }});
         }
 
-        const allowedUpdates = ['name', 'price', 'category', 'image', 'description', 'isBestSeller', 'stockQuantity', 'lowStockThreshold', 'sku', 'isActive'];
+        const allowedUpdates = ['name', 'price', 'category', 'image', 'images', 'description', 'shortDescription', 'brand', 'specifications', 'features', 'isBestSeller', 'stockQuantity', 'lowStockThreshold', 'sku', 'isActive'];
         const updates = {};
         
         for (const key of allowedUpdates) {
             if (req.body[key] !== undefined) {
-                if (key === 'name' || key === 'category' || key === 'image' || key === 'description' || key === 'sku') {
+                if (key === 'name' || key === 'category' || key === 'image' || key === 'description' || key === 'sku' || key === 'shortDescription' || key === 'brand') {
                     if (typeof req.body[key] === 'string' && req.body[key].trim() === '') {
-                        return res.status(400).json({ success: false, error: { message: `${key} cannot be empty` }});
+                        if (key === 'name' || key === 'category' || key === 'image' || key === 'description' || key === 'sku') {
+                            return res.status(400).json({ success: false, error: { message: `${key} cannot be empty` }});
+                        }
                     }
-                    updates[key] = req.body[key].trim();
+                    updates[key] = req.body[key] ? req.body[key].trim() : undefined;
+                } else if (key === 'images' || key === 'specifications' || key === 'features') {
+                    updates[key] = Array.isArray(req.body[key]) ? req.body[key] : [];
                 } else if (key === 'price' || key === 'stockQuantity' || key === 'lowStockThreshold') {
                     const num = Number(req.body[key]);
                     if (isNaN(num) || num < 0) {

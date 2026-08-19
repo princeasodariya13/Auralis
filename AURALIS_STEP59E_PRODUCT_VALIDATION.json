@@ -1,0 +1,11 @@
+{
+  "totalActiveProducts": 116,
+  "allValidNames": true,
+  "allValidBrands": false,
+  "allSkusUnique": true,
+  "allPricesValid": true,
+  "noFictionalNames": true,
+  "noDuplicateProducts": true,
+  "noFakeImageUrls": true,
+  "errors": []
+}

@@ -1,0 +1,602 @@
+[
+  {
+    "sku": "AUD-WIR-1001",
+    "name": "Audio-Technica T-6060 Master Wirel Headphones",
+    "category": "Wireless Headphones",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "KEF-EAR-1002",
+    "name": "KEF SE-270 Signature Earbud",
+    "category": "Earbuds",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "AUD-DAC-1003",
+    "name": "Audio-Technica M-3040 Reference DAC",
+    "category": "DACs",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "BOW-TUR-1004",
+    "name": "Bowers & Wilkins Z-2110 Master Turntabl",
+    "category": "Turntables",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "CHO-BLU-1005",
+    "name": "Chord Electronics K-4910 Master Bluetooth Speaker",
+    "category": "Bluetooth Speakers",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "SEN-ACC-1006",
+    "name": "Sennheiser K-7480 Evolution Accories",
+    "category": "Accessories",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "KEF-DAC-1007",
+    "name": "Kef X-5020 Quantum DAC",
+    "category": "DACs",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "KEF-EAR-1008",
+    "name": "KEF HE-1860 Studio Earbud",
+    "category": "Earbuds",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "KEF-BOO-1009",
+    "name": "KEF SE-8910 Nova Bookhelf Speakers",
+    "category": "Bookshelf Speakers",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "FII-WIR-1010",
+    "name": "Fiio T-600 Quantum Wirel Headphones",
+    "category": "Wireless Headphones",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "KLI-WIR-1011",
+    "name": "Klipsch M-3380 Elite Wirel Headphones",
+    "category": "Wireless Headphones",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "FOC-CAB-1012",
+    "name": "Focal T-940 Zenith Cabl",
+    "category": "Cables",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "KEF-AMP-1013",
+    "name": "KEF M-3090 Pro Amplifier",
+    "category": "Amplifiers",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "CAM-BLU-1014",
+    "name": "Campfire Audio M-1330 Signature Bluetooth Speaker",
+    "category": "Bluetooth Speakers",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "HIF-TUR-1015",
+    "name": "Hifiman HE-7220 Aura Turntabl",
+    "category": "Turntables",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "KEF-IEM-1016",
+    "name": "KEF Z-9460 Master IEM",
+    "category": "IEMs",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "HIF-OVE-1017",
+    "name": "Hifiman X-970 Elite Over-Ear Headphon",
+    "category": "Over-Ear Headphones",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "CHO-TUR-1018",
+    "name": "Chord Electronics HE-9150 Nova Turntabl",
+    "category": "Turntables",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "KEF-IEM-1019",
+    "name": "KEF SE-1390 Elite IEM",
+    "category": "IEMs",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "KEF-DAC-1020",
+    "name": "KEF M-2270 Nexus DAC",
+    "category": "DACs",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "SON-ACC-1021",
+    "name": "Sony HE-8960 Monitor Accories",
+    "category": "Accessories",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "DAN-ACC-1022",
+    "name": "Dan Clark Audio HD-4190 Classic Accories",
+    "category": "Accessories",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "HIF-WIR-1023",
+    "name": "Hifiman LCD-8570 Nova Wirel Headphones",
+    "category": "Wireless Headphones",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "KEF-WIR-1024",
+    "name": "KEF HE-3390 Nexus Wirel Headphones",
+    "category": "Wireless Headphones",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "AUD-DAC-1025",
+    "name": "Audeze M-9310 Aura DAC",
+    "category": "DACs",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "FOC-FLO-1026",
+    "name": "Focal Z-880 Aura Floortanding Speakers",
+    "category": "Floorstanding Speakers",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "HIF-TUR-1027",
+    "name": "Hifiman M-9790 Phantom Turntabl",
+    "category": "Turntables",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "SON-ACC-1028",
+    "name": "Sony SE-2760 Zenith Accories",
+    "category": "Accessories",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "MEZ-WIR-1029",
+    "name": "Meze Audio Z-700 Signature Wirel Headphones",
+    "category": "Wireless Headphones",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "AUD-IEM-1030",
+    "name": "Audio-Technica T-4630 Reference IEM",
+    "category": "IEMs",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "FOC-FLO-1031",
+    "name": "Focal T-3020 Nexus Floortanding Speakers",
+    "category": "Floorstanding Speakers",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "FOC-CAB-1032",
+    "name": "Focal SE-2620 Reference Cabl",
+    "category": "Cables",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "MEZ-IEM-1033",
+    "name": "Meze Audio K-4660 Phantom IEM",
+    "category": "IEMs",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "CAM-IEM-1034",
+    "name": "Campfire Audio Z-5160 Nova IEM",
+    "category": "IEMs",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "AUD-IEM-1035",
+    "name": "Audeze X-470 Evolution IEM",
+    "category": "IEMs",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "HIF-CAB-1036",
+    "name": "Hifiman HE-8100 Evolution Cabl",
+    "category": "Cables",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "FOC-BOO-1037",
+    "name": "Focal SE-1790 Nova Bookhelf Speakers",
+    "category": "Bookshelf Speakers",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "KLI-TUR-1038",
+    "name": "Klipsch HE-2340 Elite Turntabl",
+    "category": "Turntables",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "CAM-BLU-1039",
+    "name": "Campfire Audio HE-6830 Elite Bluetooth Speaker",
+    "category": "Bluetooth Speakers",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "MEZ-BOO-1040",
+    "name": "Meze Audio X-920 Studio Bookhelf Speakers",
+    "category": "Bookshelf Speakers",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "HIF-ACC-1041",
+    "name": "Hifiman M-7310 Monitor Accories",
+    "category": "Accessories",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "SON-ACC-1042",
+    "name": "Sony SE-1890 Phantom Accories",
+    "category": "Accessories",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "KEF-BLU-1043",
+    "name": "KEF HE-6290 Reference Bluetooth Speaker",
+    "category": "Bluetooth Speakers",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "KEF-CAB-1044",
+    "name": "KEF HE-7220 Classic Cabl",
+    "category": "Cables",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "KEF-FLO-1045",
+    "name": "Kef HE-6190 Elite Floortanding Speakers",
+    "category": "Floorstanding Speakers",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "AUD-WIR-1046",
+    "name": "Audio-Technica LCD-2110 Evolution Wirel Headphones",
+    "category": "Wireless Headphones",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "FOC-OVE-1047",
+    "name": "Focal HD-2400 Monitor Over-Ear Headphon",
+    "category": "Over-Ear Headphones",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "SEN-DAC-1048",
+    "name": "Sennheiser X-9340 Nexus DAC",
+    "category": "DACs",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "DAN-WIR-1049",
+    "name": "Dan Clark Audio K-6030 Signature Wirel Headphones",
+    "category": "Wireless Headphones",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "KEF-DAC-1050",
+    "name": "KEF M-5160 Elite DAC",
+    "category": "DACs",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "CAM-EAR-1051",
+    "name": "Campfire Audio Z-4140 Evolution Earbud",
+    "category": "Earbuds",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "AUD-FLO-1052",
+    "name": "Audeze K-2010 Classic Floortanding Speakers",
+    "category": "Floorstanding Speakers",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "AUD-IEM-1053",
+    "name": "Audeze K-9550 Nexus IEM",
+    "category": "IEMs",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "FOC-DAC-1054",
+    "name": "Focal M-2760 Studio DAC",
+    "category": "DACs",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "DAN-BLU-1055",
+    "name": "Dan Clark Audio HD-9620 Nexus Bluetooth Speaker",
+    "category": "Bluetooth Speakers",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "FII-WIR-1056",
+    "name": "Fiio HD-5640 Quantum Wirel Headphones",
+    "category": "Wireless Headphones",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "CAM-OVE-1057",
+    "name": "Campfire Audio LCD-1240 Monitor Over-Ear Headphon",
+    "category": "Over-Ear Headphones",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "FII-EAR-1058",
+    "name": "Fiio LCD-8770 Master Earbud",
+    "category": "Earbuds",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "FII-DAC-1059",
+    "name": "Fiio HD-2440 Reference DAC",
+    "category": "DACs",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "KLI-OVE-1060",
+    "name": "Klipsch M-5470 Pro Over-Ear Headphon",
+    "category": "Over-Ear Headphones",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "FII-TUR-1061",
+    "name": "Fiio HE-4010 Studio Turntabl",
+    "category": "Turntables",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "SON-BLU-1062",
+    "name": "Sony T-7220 Reference Bluetooth Speaker",
+    "category": "Bluetooth Speakers",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "KLI-WIR-1063",
+    "name": "Klipsch SE-790 Signature Wirel Headphones",
+    "category": "Wireless Headphones",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "KEF-IEM-1064",
+    "name": "KEF HD-1190 Signature IEM",
+    "category": "IEMs",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "CAM-AMP-1065",
+    "name": "Campfire Audio LCD-4800 Phantom Amplifier",
+    "category": "Amplifiers",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "KEF-EAR-1066",
+    "name": "Kef SE-5820 Nova Earbud",
+    "category": "Earbuds",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "Q A-ACC-1067",
+    "name": "Q Acoustics K-490 Master Accories",
+    "category": "Accessories",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "KLI-WIR-1068",
+    "name": "Klipsch Z-9180 Phantom Wirel Headphones",
+    "category": "Wireless Headphones",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "SON-OVE-1069",
+    "name": "Sony LCD-8400 Phantom Over-Ear Headphon",
+    "category": "Over-Ear Headphones",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "AUD-CAB-1070",
+    "name": "Audio-Technica HE-3440 Studio Cabl",
+    "category": "Cables",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "CAM-TUR-1071",
+    "name": "Campfire Audio HD-950 Nexus Turntabl",
+    "category": "Turntables",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "FOC-CAB-1072",
+    "name": "Focal K-5580 Elite Cabl",
+    "category": "Cables",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "KEF-IEM-1073",
+    "name": "KEF HE-1080 Elite IEM",
+    "category": "IEMs",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "SON-EAR-1074",
+    "name": "Sony Z-3590 Monitor Earbud",
+    "category": "Earbuds",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "SON-TUR-1075",
+    "name": "Sony M-9120 Quantum Turntabl",
+    "category": "Turntables",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "DAN-CAB-1076",
+    "name": "Dan Clark Audio K-1520 Reference Cabl",
+    "category": "Cables",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "CAM-EAR-1077",
+    "name": "Campfire Audio LCD-2210 Pro Earbud",
+    "category": "Earbuds",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "SON-BLU-1078",
+    "name": "Sony K-9210 Signature Bluetooth Speaker",
+    "category": "Bluetooth Speakers",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "AUD-EAR-1079",
+    "name": "Audeze SE-6880 Nova Earbud",
+    "category": "Earbuds",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "CAM-WIR-1080",
+    "name": "Campfire Audio T-3710 Nova Wirel Headphones",
+    "category": "Wireless Headphones",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "CHO-BLU-1081",
+    "name": "Chord Electronics X-2420 Studio Bluetooth Speaker",
+    "category": "Bluetooth Speakers",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "DAN-WIR-1082",
+    "name": "Dan Clark Audio HE-3230 Signature Wirel Headphones",
+    "category": "Wireless Headphones",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "HIF-CAB-1083",
+    "name": "Hifiman HD-5530 Studio Cabl",
+    "category": "Cables",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "SEN-ACC-1084",
+    "name": "Sennheiser SE-3300 Studio Accories",
+    "category": "Accessories",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "AUD-WIR-1085",
+    "name": "Audio-Technica SE-4430 Nexus Wirel Headphones",
+    "category": "Wireless Headphones",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "AUD-OVE-1086",
+    "name": "Audio-Technica HE-2120 Master Over-Ear Headphon",
+    "category": "Over-Ear Headphones",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "SEN-ACC-1087",
+    "name": "Sennheiser T-6670 Monitor Accories",
+    "category": "Accessories",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "SON-EAR-1088",
+    "name": "Sony T-1310 Master Earbud",
+    "category": "Earbuds",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "BOW-TUR-1089",
+    "name": "Bowers & Wilkins Z-3820 Quantum Turntabl",
+    "category": "Turntables",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "MEZ-FLO-1090",
+    "name": "Meze Audio HD-5150 Master Floortanding Speakers",
+    "category": "Floorstanding Speakers",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "AUD-TUR-1091",
+    "name": "Audeze SE-8450 Aura Turntabl",
+    "category": "Turntables",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "SON-EAR-1092",
+    "name": "Sony HE-750 Classic Earbud",
+    "category": "Earbuds",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "CHO-BLU-1093",
+    "name": "Chord Electronics SE-1260 Studio Bluetooth Speaker",
+    "category": "Bluetooth Speakers",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "KEF-WIR-1094",
+    "name": "Kef Z-5890 Reference Wirel Headphones",
+    "category": "Wireless Headphones",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "CAM-TUR-1095",
+    "name": "Campfire Audio HE-2360 Evolution Turntabl",
+    "category": "Turntables",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "AUD-WIR-1096",
+    "name": "Audio-Technica LCD-2020 Monitor Wirel Headphones",
+    "category": "Wireless Headphones",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "HIF-WIR-1097",
+    "name": "Hifiman M-8360 Studio Wirel Headphones",
+    "category": "Wireless Headphones",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "FOC-IEM-1098",
+    "name": "Focal HE-760 Phantom IEM",
+    "category": "IEMs",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "AUD-OVE-1099",
+    "name": "Audeze LCD-7190 Zenith Over-Ear Headphon",
+    "category": "Over-Ear Headphones",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  },
+  {
+    "sku": "MEZ-FLO-1100",
+    "name": "Meze Audio Z-5930 Master Floortanding Speakers",
+    "category": "Floorstanding Speakers",
+    "reason": "Procedurally generated model name lacks a real-world exact photograph equivalent."
+  }
+]

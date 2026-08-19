@@ -20,11 +20,39 @@ const productSchema = new mongoose.Schema({
     },
     image: {
         type: String,
-        required: true
+        default: ''
     },
+    images: [{
+        publicId: String,
+        url: String,
+        alt: String,
+        width: Number,
+        height: Number
+    }],
     description: {
         type: String,
         required: true
+    },
+    shortDescription: {
+        type: String
+    },
+    brand: {
+        type: String
+    },
+    specifications: [{
+        name: String,
+        value: String
+    }],
+    features: [{
+        type: String
+    }],
+    rating: {
+        type: Number,
+        default: 0
+    },
+    numReviews: {
+        type: Number,
+        default: 0
     },
     isBestSeller: {
         type: Boolean,

@@ -14,6 +14,8 @@ const AdminProductForm = () => {
         sku: '',
         price: '',
         category: '',
+        brand: '',
+        shortDescription: '',
         image: '',
         stockQuantity: '',
         lowStockThreshold: 5,
@@ -36,6 +38,8 @@ const AdminProductForm = () => {
                         sku: data.sku || '',
                         price: data.price !== undefined ? data.price : '',
                         category: data.category || '',
+                        brand: data.brand || '',
+                        shortDescription: data.shortDescription || '',
                         image: data.image || '',
                         stockQuantity: data.stockQuantity !== undefined ? data.stockQuantity : '',
                         lowStockThreshold: data.lowStockThreshold !== undefined ? data.lowStockThreshold : 5,
@@ -67,7 +71,7 @@ const AdminProductForm = () => {
         setSubmitting(true);
 
         // Basic front-end validation
-        if (!formData.name.trim() || !formData.sku.trim() || !formData.category.trim() || !formData.image.trim() || !formData.description.trim()) {
+        if (!formData.name.trim() || !formData.sku.trim() || !formData.category.trim() || !formData.description.trim()) {
             setError('Please fill in all required text fields.');
             setSubmitting(false);
             return;
@@ -164,7 +168,18 @@ const AdminProductForm = () => {
                                 />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="description">Description *</label>
+                                <label htmlFor="shortDescription">Short Description</label>
+                                <input 
+                                    type="text" 
+                                    id="shortDescription" 
+                                    name="shortDescription" 
+                                    className="form-control"
+                                    value={formData.shortDescription}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="description">Full Description *</label>
                                 <textarea 
                                     id="description" 
                                     name="description" 
@@ -184,7 +199,7 @@ const AdminProductForm = () => {
                         </div>
                         <div className="panel-body">
                             <div className="form-group">
-                                <label htmlFor="image">Image URL *</label>
+                                <label htmlFor="image">Image URL</label>
                                 <input 
                                     type="url" 
                                     id="image" 
@@ -193,7 +208,6 @@ const AdminProductForm = () => {
                                     value={formData.image}
                                     onChange={handleChange}
                                     placeholder="https://example.com/image.jpg"
-                                    required 
                                 />
                                 <small className="text-muted mt-1 d-block">Provide a valid image URL for the storefront display.</small>
                             </div>
@@ -241,7 +255,7 @@ const AdminProductForm = () => {
                         </div>
                         <div className="panel-body">
                             <div className="form-group mb-4">
-                                <label htmlFor="price">Price (USD) *</label>
+                                <label htmlFor="price">Price (INR) *</label>
                                 <div className="input-group">
                                     <span className="input-group-text">₹</span>
                                     <input 
@@ -268,6 +282,18 @@ const AdminProductForm = () => {
                                     onChange={handleChange}
                                     placeholder="e.g., Headphones"
                                     required 
+                                />
+                            </div>
+                            <div className="form-group mb-4">
+                                <label htmlFor="brand">Brand</label>
+                                <input 
+                                    type="text" 
+                                    id="brand" 
+                                    name="brand" 
+                                    className="form-control"
+                                    value={formData.brand}
+                                    onChange={handleChange}
+                                    placeholder="e.g., Sennheiser"
                                 />
                             </div>
                         </div>

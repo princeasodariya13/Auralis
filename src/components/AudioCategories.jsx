@@ -27,7 +27,17 @@ const AudioCategories = () => {
                         categories.map((category) => (
                             <Link to={`/shop?category=${category.id}`} key={category.id} className="collection-card">
                                 <div className="collection-image-wrapper">
-                                    <img src={category.image} alt={category.name} className="collection-image" />
+                                    {category.image ? (
+                                        <img src={category.image} alt={category.name} className="collection-image" />
+                                    ) : (
+                                        <div className="collection-image-placeholder" style={{width: '100%', height: '100%', backgroundColor: 'var(--color-gray-100)', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--color-gray-400)" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+                                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                                <polyline points="21 15 16 10 5 21"></polyline>
+                                            </svg>
+                                        </div>
+                                    )}
                                     <div className="collection-overlay">
                                         <h3 className="collection-name">{category.name}</h3>
                                     </div>

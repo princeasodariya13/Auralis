@@ -2,10 +2,7 @@
     position: relative;
     height: 85vh;
     min-height: 600px;
-    background-image: url('https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
+    background: linear-gradient(135deg, var(--color-slate-900) 0%, var(--color-primary-dark) 100%);
     display: flex;
     align-items: center;
 }

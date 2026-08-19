@@ -23,8 +23,8 @@ const About = () => {
                             From the crisp highs of a studio monitor to the deep bass of our ANC headphones, our gear is designed for those who refuse to compromise on sound quality.
                         </p>
                     </div>
-                    <div className="about-image">
-                        <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Audio equipment" />
+                    <div className="about-image" style={{backgroundColor: 'var(--color-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 'var(--radius-lg)', minHeight: '300px'}}>
+                        <h3 style={{color: 'white', opacity: 0.8}}>AURALIS</h3>
                     </div>
                 </div>
 

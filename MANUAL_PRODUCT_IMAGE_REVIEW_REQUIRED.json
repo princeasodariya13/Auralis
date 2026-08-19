@@ -1,0 +1,698 @@
+[
+  {
+    "sku": "AUR-HP-0001",
+    "productName": "Sony WH-1000XM5",
+    "brand": "Sony",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-HP-0002",
+    "productName": "Sennheiser HD 800 S",
+    "brand": "Sennheiser",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-HP-0003",
+    "productName": "Sennheiser HD 600",
+    "brand": "Sennheiser",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-HP-0004",
+    "productName": "Sennheiser Momentum 4 Wireless",
+    "brand": "Sennheiser",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-HP-0005",
+    "productName": "Bose QuietComfort Ultra",
+    "brand": "Bose",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-HP-0006",
+    "productName": "Apple AirPods Max",
+    "brand": "Apple",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-HP-0007",
+    "productName": "Audio-Technica ATH-M50x",
+    "brand": "Audio-Technica",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-HP-0008",
+    "productName": "Audio-Technica ATH-M40x",
+    "brand": "Audio-Technica",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-HP-0009",
+    "productName": "Beyerdynamic DT 770 PRO",
+    "brand": "Beyerdynamic",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-HP-0010",
+    "productName": "Beyerdynamic DT 990 PRO",
+    "brand": "Beyerdynamic",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-HP-0011",
+    "productName": "Focal Utopia",
+    "brand": "Focal",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-HP-0012",
+    "productName": "Focal Clear Mg",
+    "brand": "Focal",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-HP-0013",
+    "productName": "Meze Empyrean II",
+    "brand": "Meze Audio",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-HP-0014",
+    "productName": "Audeze LCD-X",
+    "brand": "Audeze",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-HP-0015",
+    "productName": "Audeze LCD-5",
+    "brand": "Audeze",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-HP-0016",
+    "productName": "HiFiMAN Arya Stealth",
+    "brand": "HiFiMAN",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-HP-0017",
+    "productName": "HiFiMAN Sundara",
+    "brand": "HiFiMAN",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-HP-0018",
+    "productName": "Shure SRH1540",
+    "brand": "Shure",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-HP-0019",
+    "productName": "AKG K361",
+    "brand": "AKG",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-HP-0020",
+    "productName": "AKG K702",
+    "brand": "AKG",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-HP-0021",
+    "productName": "Philips Fidelio X2HR",
+    "brand": "Philips",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-IEM-0001",
+    "productName": "Moondrop Aria",
+    "brand": "Moondrop",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-IEM-0002",
+    "productName": "Moondrop Blessing 3",
+    "brand": "Moondrop",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-IEM-0003",
+    "productName": "Moondrop Chu II",
+    "brand": "Moondrop",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-IEM-0004",
+    "productName": "7Hz Timeless",
+    "brand": "7Hz",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-IEM-0005",
+    "productName": "Sennheiser IE 200",
+    "brand": "Sennheiser",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-IEM-0006",
+    "productName": "Sennheiser IE 600",
+    "brand": "Sennheiser",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-IEM-0007",
+    "productName": "Sennheiser IE 900",
+    "brand": "Sennheiser",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-IEM-0008",
+    "productName": "Shure SE215",
+    "brand": "Shure",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-IEM-0009",
+    "productName": "Shure SE846",
+    "brand": "Shure",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-IEM-0010",
+    "productName": "Campfire Audio Andromeda",
+    "brand": "Campfire Audio",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-IEM-0011",
+    "productName": "Campfire Audio Solaris",
+    "brand": "Campfire Audio",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-IEM-0012",
+    "productName": "Thieaudio Monarch MKII",
+    "brand": "Thieaudio",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-IEM-0013",
+    "productName": "Truthear x Crinacle Zero",
+    "brand": "Truthear",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-IEM-0014",
+    "productName": "KZ ZS10 Pro",
+    "brand": "KZ",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-IEM-0015",
+    "productName": "FiiO FH3",
+    "brand": "FiiO",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-IEM-0016",
+    "productName": "FiiO FD5",
+    "brand": "FiiO",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-IEM-0017",
+    "productName": "Meze Rai Penta",
+    "brand": "Meze Audio",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-IEM-0018",
+    "productName": "Sony IER-Z1R",
+    "brand": "Sony",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-IEM-0019",
+    "productName": "Etymotic ER4SR",
+    "brand": "Etymotic",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-TWS-0001",
+    "productName": "Sony WF-1000XM5",
+    "brand": "Sony",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-TWS-0002",
+    "productName": "Apple AirPods Pro (2nd Gen)",
+    "brand": "Apple",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-TWS-0003",
+    "productName": "Sennheiser Momentum True Wireless 3",
+    "brand": "Sennheiser",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-TWS-0004",
+    "productName": "Bose QuietComfort Earbuds II",
+    "brand": "Bose",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-TWS-0005",
+    "productName": "Samsung Galaxy Buds2 Pro",
+    "brand": "Samsung",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-TWS-0006",
+    "productName": "Jabra Elite 8 Active",
+    "brand": "Jabra",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-TWS-0007",
+    "productName": "Jabra Elite 10",
+    "brand": "Jabra",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-TWS-0008",
+    "productName": "Beats Fit Pro",
+    "brand": "Beats",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-TWS-0009",
+    "productName": "Anker Soundcore Liberty 4",
+    "brand": "Anker",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-TWS-0010",
+    "productName": "EarFun Air Pro 3",
+    "brand": "EarFun",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-TWS-0011",
+    "productName": "Sony LinkBuds S",
+    "brand": "Sony",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-TWS-0012",
+    "productName": "Cambridge Audio Melomania 1+",
+    "brand": "Cambridge Audio",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-TWS-0013",
+    "productName": "Nothing Ear (2)",
+    "brand": "Nothing",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-TWS-0014",
+    "productName": "Technics EAH-AZ80",
+    "brand": "Technics",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-TWS-0015",
+    "productName": "Bowers & Wilkins Pi7 S2",
+    "brand": "Bowers & Wilkins",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-SPK-0001",
+    "productName": "KEF LS50 Wireless II",
+    "brand": "KEF",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-SPK-0002",
+    "productName": "KEF Q350",
+    "brand": "KEF",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-SPK-0003",
+    "productName": "Sony SRS-XB13",
+    "brand": "Sony",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-SPK-0004",
+    "productName": "Sony SRS-XG300",
+    "brand": "Sony",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-SPK-0005",
+    "productName": "JBL Charge 5",
+    "brand": "JBL",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-SPK-0006",
+    "productName": "JBL Flip 6",
+    "brand": "JBL",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-SPK-0007",
+    "productName": "Marshall Stanmore III",
+    "brand": "Marshall",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-SPK-0008",
+    "productName": "Marshall Emberton II",
+    "brand": "Marshall",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-SPK-0009",
+    "productName": "Sonos Era 100",
+    "brand": "Sonos",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-SPK-0010",
+    "productName": "Sonos Era 300",
+    "brand": "Sonos",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-SPK-0011",
+    "productName": "Sonos Roam",
+    "brand": "Sonos",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-SPK-0012",
+    "productName": "Edifier R1280T",
+    "brand": "Edifier",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-SPK-0013",
+    "productName": "Edifier S2000MKIII",
+    "brand": "Edifier",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-SPK-0014",
+    "productName": "Audioengine A2+",
+    "brand": "Audioengine",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-SPK-0015",
+    "productName": "Audioengine A5+",
+    "brand": "Audioengine",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-SPK-0016",
+    "productName": "Klipsch R-51M",
+    "brand": "Klipsch",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-SPK-0017",
+    "productName": "Klipsch The Fives",
+    "brand": "Klipsch",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-SPK-0018",
+    "productName": "Bowers & Wilkins Zeppelin",
+    "brand": "Bowers & Wilkins",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-SPK-0019",
+    "productName": "Ultimate Ears BOOM 3",
+    "brand": "Ultimate Ears",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-MIC-0001",
+    "productName": "Shure SM7B",
+    "brand": "Shure",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-MIC-0002",
+    "productName": "Shure SM58",
+    "brand": "Shure",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-MIC-0003",
+    "productName": "RODE NT1-A",
+    "brand": "RODE",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-MIC-0004",
+    "productName": "RODE PodMic",
+    "brand": "RODE",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-MIC-0005",
+    "productName": "RODE Wireless GO II",
+    "brand": "RODE",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-MIC-0006",
+    "productName": "Blue Yeti",
+    "brand": "Blue",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-MIC-0007",
+    "productName": "Blue Snowball iCE",
+    "brand": "Blue",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-MIC-0008",
+    "productName": "Audio-Technica AT2020",
+    "brand": "Audio-Technica",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-MIC-0009",
+    "productName": "Audio-Technica AT2020USB+",
+    "brand": "Audio-Technica",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-MIC-0010",
+    "productName": "Elgato Wave:3",
+    "brand": "Elgato",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-MIC-0011",
+    "productName": "HyperX QuadCast S",
+    "brand": "HyperX",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-MIC-0012",
+    "productName": "Sennheiser MKH 416",
+    "brand": "Sennheiser",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-MIC-0013",
+    "productName": "AKG Pro Audio C414",
+    "brand": "AKG",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-MIC-0014",
+    "productName": "Neumann U87 Ai",
+    "brand": "Neumann",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-DAC-0001",
+    "productName": "Focusrite Scarlett 2i2 (4th Gen)",
+    "brand": "Focusrite",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-DAC-0002",
+    "productName": "Universal Audio Apollo Twin X",
+    "brand": "Universal Audio",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-DAC-0003",
+    "productName": "MOTU M2",
+    "brand": "MOTU",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-DAC-0004",
+    "productName": "Audient iD14 MKII",
+    "brand": "Audient",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-DAC-0005",
+    "productName": "FiiO E10K",
+    "brand": "FiiO",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-DAC-0006",
+    "productName": "FiiO K5 Pro ESS",
+    "brand": "FiiO",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-DAC-0007",
+    "productName": "FiiO BTR7",
+    "brand": "FiiO",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-DAC-0008",
+    "productName": "Chord Mojo 2",
+    "brand": "Chord Electronics",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-DAC-0009",
+    "productName": "Chord Hugo 2",
+    "brand": "Chord Electronics",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-DAC-0010",
+    "productName": "iFi Zen DAC V2",
+    "brand": "iFi Audio",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-DAC-0011",
+    "productName": "iFi hip-dac2",
+    "brand": "iFi Audio",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-DAC-0012",
+    "productName": "Topping DX3 Pro+",
+    "brand": "Topping",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-DAC-0013",
+    "productName": "Schiit Magni+",
+    "brand": "Schiit",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-DAC-0014",
+    "productName": "Schiit Modi+",
+    "brand": "Schiit",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-DAC-0015",
+    "productName": "AudioQuest DragonFly Cobalt",
+    "brand": "AudioQuest",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-ACC-0001",
+    "productName": "Sennheiser Headphone Stand",
+    "brand": "Sennheiser",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-ACC-0002",
+    "productName": "FiiO LC-BT2",
+    "brand": "FiiO",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-ACC-0003",
+    "productName": "Audio-Technica AT-PEQ30",
+    "brand": "Audio-Technica",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-ACC-0004",
+    "productName": "Geekria Headphone Case",
+    "brand": "Geekria",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-ACC-0005",
+    "productName": "SpinFit CP145",
+    "brand": "SpinFit",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-ACC-0006",
+    "productName": "Comply Foam Tips",
+    "brand": "Comply",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-ACC-0007",
+    "productName": "Shure RMCE-BT2",
+    "brand": "Shure",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-ACC-0008",
+    "productName": "FiiO LF-RB Magnetic Cable",
+    "brand": "FiiO",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-ACC-0009",
+    "productName": "DDHiFi TC35B",
+    "brand": "DDHiFi",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-ACC-0010",
+    "productName": "AudioQuest Tower RCA Cable",
+    "brand": "AudioQuest",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-ACC-0011",
+    "productName": "UGREEN 3.5mm Aux Cable",
+    "brand": "UGREEN",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-ACC-0012",
+    "productName": "Anker USB-C to 3.5mm Adapter",
+    "brand": "Anker",
+    "reason": "No exact verified image source available in current environment."
+  },
+  {
+    "sku": "AUR-ACC-0013",
+    "productName": "Dekoni Choice Leather Earpads",
+    "brand": "Dekoni",
+    "reason": "No exact verified image source available in current environment."
+  }
+]
