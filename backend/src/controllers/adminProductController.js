@@ -146,9 +146,9 @@ export const createProduct = async (req, res) => {
             images: imagesArray,
             description: description.trim(),
             shortDescription: shortDescription ? shortDescription.trim() : undefined,
-            brand: brand ? brand.trim() : undefined,
-            specifications: specifications ? (Array.isArray(specifications) ? specifications : JSON.parse(specifications)) : [],
-            features: features ? (Array.isArray(features) ? features : JSON.parse(features)) : [],
+            brand: brand && brand !== 'undefined' ? brand.trim() : undefined,
+            specifications: specifications && specifications !== 'undefined' ? (Array.isArray(specifications) ? specifications : JSON.parse(specifications)) : [],
+            features: features && features !== 'undefined' ? (Array.isArray(features) ? features : JSON.parse(features)) : [],
             isBestSeller: Boolean(isBestSeller),
             stockQuantity: Number(stockQuantity),
             lowStockThreshold: Number(lowStockThreshold),
@@ -172,12 +172,12 @@ export const createProduct = async (req, res) => {
 
         res.status(201).json({ success: true, data: product });
     } catch (error) {
-        console.error(`Error in createProduct: ${error.message}`);
+        console.error(`Error in createProduct:`, error);
         // Handle mongo duplicate key error for SKU in case of race condition
         if (error.code === 11000) {
             return res.status(400).json({ success: false, error: { message: 'Duplicate value exists (likely SKU)' }});
         }
-        res.status(500).json({ success: false, error: { message: 'Server error creating product' }});
+        res.status(500).json({ success: false, error: { message: `Server error creating product: ${error.message}` }});
     }
 };
 
