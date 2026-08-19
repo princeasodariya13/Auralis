@@ -128,8 +128,16 @@ const ProductDetails = () => {
 
                 {/* Product Info */}
                 <div className="product-info-column">
-                    <span className="product-category-tag">{product.category}</span>
+                    <div className="product-meta-top">
+                        {product.brand && <span className="product-brand">Visit the {product.brand} Store</span>}
+                        <span className="product-category-tag">{product.category}</span>
+                    </div>
+                    
                     <h1 className="details-title">{product.name}</h1>
+                    
+                    {product.shortDescription && (
+                        <p className="product-short-desc">{product.shortDescription}</p>
+                    )}
 
                     <div className="rating-container">
                         <div className="stars">
@@ -149,16 +157,15 @@ const ProductDetails = () => {
 
                     <div className="price-container">
                         <span className="current-price">₹{product.price.toLocaleString()}</span>
+                        <div className="price-tax-info">Inclusive of all taxes</div>
                     </div>
 
-                    <p className="product-description">{product.description}</p>
-
-                    <div style={{ marginBottom: '1.5rem' }}>
+                    <div className="stock-status-container" style={{ marginBottom: '1.5rem' }}>
                         {product.availability === 'out_of_stock' && (
                             <span style={{ color: '#dc2626', fontWeight: 600 }}>Out of Stock</span>
                         )}
                         {product.availability === 'low_stock' && (
-                            <span style={{ color: '#d97706', fontWeight: 600 }}>Only a few left</span>
+                            <span style={{ color: '#d97706', fontWeight: 600 }}>Only a few left in stock - order soon.</span>
                         )}
                         {product.availability === 'in_stock' && (
                             <span style={{ color: '#16a34a', fontWeight: 600 }}>In Stock</span>
@@ -192,6 +199,37 @@ const ProductDetails = () => {
                             <Heart size={18} fill={isInWishlist(product.id) ? "currentColor" : "none"} />
                         </button>
                     </div>
+
+                    {/* About this item (Features) */}
+                    {product.features && product.features.length > 0 && (
+                        <div className="about-this-item">
+                            <h3>About this item</h3>
+                            <ul className="feature-bullets">
+                                {product.features.map((feature, idx) => (
+                                    <li key={idx}>{feature}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+                    
+                    <p className="product-description">{product.description}</p>
+                    
+                    {/* Specifications Table */}
+                    {product.specifications && product.specifications.length > 0 && (
+                        <div className="product-specifications">
+                            <h3>Product Specifications</h3>
+                            <table className="specs-table">
+                                <tbody>
+                                    {product.specifications.map((spec, idx) => (
+                                        <tr key={idx}>
+                                            <th className="spec-name">{spec.name}</th>
+                                            <td className="spec-value">{spec.value}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
 
                     <div className="features-list">
                         <div className="feature-item">
