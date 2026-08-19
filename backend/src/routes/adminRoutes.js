@@ -6,6 +6,7 @@ import { getAdminOrders, getAdminOrderDetails, updateOrderStatus, getOrderHistor
 import { getAnalytics } from '../controllers/adminAnalyticsController.js';
 import { getSystemHealth } from '../controllers/adminHealthController.js';
 import { protect, admin } from '../middleware/authMiddleware.js';
+import { upload } from '../middleware/uploadMiddleware.js';
 
 const router = express.Router();
 
@@ -18,8 +19,8 @@ router.get('/analytics', getAnalytics);
 
 router.get('/products', getAdminProducts);
 router.get('/products/:id', getAdminProductById);
-router.post('/products', createProduct);
-router.patch('/products/:id', updateProduct);
+router.post('/products', upload.single('imageFile'), createProduct);
+router.patch('/products/:id', upload.single('imageFile'), updateProduct);
 router.delete('/products/:id', deleteProduct);
 
 router.get('/inventory', getInventory);

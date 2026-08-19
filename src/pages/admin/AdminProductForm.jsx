@@ -27,6 +27,8 @@ const AdminProductForm = () => {
     const [loading, setLoading] = useState(isEditMode);
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState(null);
+    const [imageFile, setImageFile] = useState(null);
+    const [imagePreview, setImagePreview] = useState('');
 
     useEffect(() => {
         if (isEditMode) {
@@ -47,6 +49,7 @@ const AdminProductForm = () => {
                         isBestSeller: data.isBestSeller || false,
                         description: data.description || ''
                     });
+                    if (data.image) setImagePreview(data.image);
                 } catch (err) {
                     setError(err.message || 'Failed to load product for editing');
                 } finally {
@@ -63,6 +66,14 @@ const AdminProductForm = () => {
             ...prev,
             [name]: type === 'checkbox' ? checked : value
         }));
+    };
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setImageFile(file);
+            setImagePreview(URL.createObjectURL(file));
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -90,17 +101,31 @@ const AdminProductForm = () => {
         }
 
         try {
-            const payload = {
-                ...formData,
-                price: Number(formData.price),
-                stockQuantity: Number(formData.stockQuantity),
-                lowStockThreshold: Number(formData.lowStockThreshold)
-            };
+            const formDataToSend = new FormData();
+            
+            // Append basic fields
+            Object.keys(formData).forEach(key => {
+                if (key === 'price') {
+                    formDataToSend.append('price', Number(formData.price));
+                } else if (key === 'stockQuantity') {
+                    formDataToSend.append('stockQuantity', Number(formData.stockQuantity));
+                } else if (key === 'lowStockThreshold') {
+                    formDataToSend.append('lowStockThreshold', Number(formData.lowStockThreshold));
+                } else if (key === 'isActive' || key === 'isBestSeller') {
+                    formDataToSend.append(key, formData[key] === true ? 'true' : 'false');
+                } else {
+                    formDataToSend.append(key, formData[key]);
+                }
+            });
+
+            if (imageFile) {
+                formDataToSend.append('imageFile', imageFile);
+            }
 
             if (isEditMode) {
-                await adminService.updateProduct(id, payload);
+                await adminService.updateProduct(id, formDataToSend);
             } else {
-                await adminService.createProduct(payload);
+                await adminService.createProduct(formDataToSend);
             }
             
             navigate('/admin/products');
@@ -199,21 +224,20 @@ const AdminProductForm = () => {
                         </div>
                         <div className="panel-body">
                             <div className="form-group">
-                                <label htmlFor="image">Image URL</label>
+                                <label htmlFor="imageFile">Product Image</label>
                                 <input 
-                                    type="url" 
-                                    id="image" 
-                                    name="image" 
+                                    type="file" 
+                                    id="imageFile" 
+                                    name="imageFile" 
                                     className="form-control"
-                                    value={formData.image}
-                                    onChange={handleChange}
-                                    placeholder="https://example.com/image.jpg"
+                                    accept="image/*"
+                                    onChange={handleImageChange}
                                 />
-                                <small className="text-muted mt-1 d-block">Provide a valid image URL for the storefront display.</small>
+                                <small className="text-muted mt-1 d-block">Upload a clear product image for the storefront.</small>
                             </div>
-                            {formData.image && (
-                                <div className="img-preview">
-                                    <img src={formData.image} alt="Preview" onError={(e) => e.target.style.display = 'none'} />
+                            {imagePreview && (
+                                <div className="img-preview mt-3">
+                                    <img src={imagePreview} alt="Preview" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px' }} onError={(e) => e.target.style.display = 'none'} />
                                 </div>
                             )}
                         </div>

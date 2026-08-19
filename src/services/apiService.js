@@ -138,10 +138,15 @@ export const productService = {
 const getFetchOptions = (method, body) => {
     const options = {
         method,
-        headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
     };
-    if (body) options.body = JSON.stringify(body);
+    if (body instanceof FormData) {
+        options.body = body;
+        // Don't set Content-Type header; browser will automatically set it with boundary
+    } else if (body) {
+        options.headers = { 'Content-Type': 'application/json' };
+        options.body = JSON.stringify(body);
+    }
     return options;
 };
 

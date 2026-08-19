@@ -1,5 +1,7 @@
 import Product from '../models/Product.js';
 import { recordAdminAction, getChangedFields } from '../services/adminAuditService.js';
+import { uploadImage, deleteImage } from '../services/cloudinary.service.js';
+import fs from 'fs';
 
 // Helper to escape regex
 const escapeRegex = (string) => string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -92,17 +94,38 @@ export const getAdminProductById = async (req, res) => {
 // @route   POST /api/v1/admin/products
 export const createProduct = async (req, res) => {
     try {
-        const { name, price, category, image, images, description, shortDescription, brand, specifications, features, isBestSeller, stockQuantity, lowStockThreshold, sku, isActive } = req.body;
+        let { name, price, category, image, description, shortDescription, brand, specifications, features, isBestSeller, stockQuantity, lowStockThreshold, sku, isActive } = req.body;
 
         // Validation
         if (!name || !name.trim()) return res.status(400).json({ success: false, error: { message: 'Name is required' }});
         if (price === undefined || price < 0 || isNaN(price)) return res.status(400).json({ success: false, error: { message: 'Valid positive price is required' }});
         if (!category || !category.trim()) return res.status(400).json({ success: false, error: { message: 'Category is required' }});
-        if (!image || !image.trim()) return res.status(400).json({ success: false, error: { message: 'Image URL is required' }});
         if (!description || !description.trim()) return res.status(400).json({ success: false, error: { message: 'Description is required' }});
         if (!sku || !sku.trim()) return res.status(400).json({ success: false, error: { message: 'SKU is required' }});
         if (stockQuantity === undefined || stockQuantity < 0 || isNaN(stockQuantity)) return res.status(400).json({ success: false, error: { message: 'Valid non-negative stock quantity is required' }});
         if (lowStockThreshold === undefined || lowStockThreshold < 0 || isNaN(lowStockThreshold)) return res.status(400).json({ success: false, error: { message: 'Valid non-negative low stock threshold is required' }});
+
+        let finalImage = image ? image.trim() : '';
+        let imagesArray = [];
+
+        // If a file was uploaded, send to Cloudinary
+        if (req.file) {
+            try {
+                const uploadResult = await uploadImage(req.file.path, 'auralis/products');
+                finalImage = uploadResult.url;
+                imagesArray.push({
+                    publicId: uploadResult.publicId,
+                    url: uploadResult.url,
+                    alt: name.trim()
+                });
+                fs.unlinkSync(req.file.path);
+            } catch (err) {
+                if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
+                return res.status(500).json({ success: false, error: { message: 'Failed to upload image to Cloudinary: ' + err.message }});
+            }
+        }
+
+        if (!finalImage) return res.status(400).json({ success: false, error: { message: 'Image (URL or File) is required' }});
 
         // Check SKU uniqueness
         const skuExists = await Product.findOne({ sku: sku.trim() });
@@ -119,13 +142,13 @@ export const createProduct = async (req, res) => {
             name: name.trim(),
             price: Number(price),
             category: category.trim(),
-            image: image.trim(),
-            images: Array.isArray(images) ? images : [],
+            image: finalImage,
+            images: imagesArray,
             description: description.trim(),
             shortDescription: shortDescription ? shortDescription.trim() : undefined,
             brand: brand ? brand.trim() : undefined,
-            specifications: Array.isArray(specifications) ? specifications : [],
-            features: Array.isArray(features) ? features : [],
+            specifications: specifications ? (Array.isArray(specifications) ? specifications : JSON.parse(specifications)) : [],
+            features: features ? (Array.isArray(features) ? features : JSON.parse(features)) : [],
             isBestSeller: Boolean(isBestSeller),
             stockQuantity: Number(stockQuantity),
             lowStockThreshold: Number(lowStockThreshold),
@@ -168,20 +191,24 @@ export const updateProduct = async (req, res) => {
             return res.status(404).json({ success: false, error: { message: 'Product not found' }});
         }
 
-        const allowedUpdates = ['name', 'price', 'category', 'image', 'images', 'description', 'shortDescription', 'brand', 'specifications', 'features', 'isBestSeller', 'stockQuantity', 'lowStockThreshold', 'sku', 'isActive'];
+        const allowedUpdates = ['name', 'price', 'category', 'image', 'description', 'shortDescription', 'brand', 'specifications', 'features', 'isBestSeller', 'stockQuantity', 'lowStockThreshold', 'sku', 'isActive'];
         const updates = {};
         
         for (const key of allowedUpdates) {
             if (req.body[key] !== undefined) {
                 if (key === 'name' || key === 'category' || key === 'image' || key === 'description' || key === 'sku' || key === 'shortDescription' || key === 'brand') {
                     if (typeof req.body[key] === 'string' && req.body[key].trim() === '') {
-                        if (key === 'name' || key === 'category' || key === 'image' || key === 'description' || key === 'sku') {
+                        if (key === 'name' || key === 'category' || key === 'description' || key === 'sku') {
                             return res.status(400).json({ success: false, error: { message: `${key} cannot be empty` }});
                         }
                     }
                     updates[key] = req.body[key] ? req.body[key].trim() : undefined;
-                } else if (key === 'images' || key === 'specifications' || key === 'features') {
-                    updates[key] = Array.isArray(req.body[key]) ? req.body[key] : [];
+                } else if (key === 'specifications' || key === 'features') {
+                    try {
+                        updates[key] = typeof req.body[key] === 'string' ? JSON.parse(req.body[key]) : req.body[key];
+                    } catch(e) {
+                        updates[key] = [];
+                    }
                 } else if (key === 'price' || key === 'stockQuantity' || key === 'lowStockThreshold') {
                     const num = Number(req.body[key]);
                     if (isNaN(num) || num < 0) {
@@ -189,8 +216,30 @@ export const updateProduct = async (req, res) => {
                     }
                     updates[key] = num;
                 } else if (key === 'isBestSeller' || key === 'isActive') {
-                    updates[key] = Boolean(req.body[key]);
+                    updates[key] = Boolean(req.body[key] === 'true' || req.body[key] === true);
                 }
+            }
+        }
+
+        // If a new file is provided, upload it and delete the old one
+        if (req.file) {
+            try {
+                const uploadResult = await uploadImage(req.file.path, 'auralis/products');
+                updates.image = uploadResult.url;
+                updates.images = [{
+                    publicId: uploadResult.publicId,
+                    url: uploadResult.url,
+                    alt: updates.name || product.name
+                }];
+                fs.unlinkSync(req.file.path);
+                
+                // Optional: Delete old image from Cloudinary if it exists and has public_id
+                if (product.images && product.images.length > 0 && product.images[0].publicId) {
+                    await deleteImage(product.images[0].publicId).catch(err => console.error('Failed to delete old image', err));
+                }
+            } catch (err) {
+                if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
+                return res.status(500).json({ success: false, error: { message: 'Failed to upload new image to Cloudinary: ' + err.message }});
             }
         }
 
