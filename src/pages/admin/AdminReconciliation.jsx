@@ -121,7 +121,7 @@ const AdminReconciliation = () => {
                     <div className="summary-card">
                         <div className="summary-icon warning"><AlertTriangle size={24} /></div>
                         <div className="summary-info">
-                            <h3>${summary.totalRefunded.toFixed(2)}</h3>
+                            <h3>₹{summary.totalRefunded.toFixed(2)}</h3>
                             <p>Total Refunded</p>
                         </div>
                     </div>

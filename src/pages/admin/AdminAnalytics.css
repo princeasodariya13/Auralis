@@ -10,10 +10,10 @@
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    background-color: var(--card);
+    background-color: var(--color-surface);
     padding: 0.5rem 1rem;
     border-radius: var(--radius-md);
-    border: 1px solid var(--border);
+    border: 1px solid var(--color-border);
     box-shadow: var(--shadow-sm);
 }
 
@@ -22,7 +22,7 @@
     background: transparent;
     font-size: 0.95rem;
     font-weight: 500;
-    color: var(--foreground);
+    color: var(--color-slate-900);
     cursor: pointer;
     outline: none;
 }
@@ -38,7 +38,7 @@
     justify-content: space-between;
     align-items: center;
     padding-bottom: 1rem;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--color-border);
 }
 
 .pipeline-stat:last-child {
@@ -74,7 +74,7 @@
 }
 
 .health-label {
-    color: var(--muted-foreground);
+    color: var(--color-slate-500);
 }
 
 .health-status {
@@ -97,8 +97,8 @@
 }
 
 .health-status.neutral {
-    background-color: var(--secondary);
-    color: var(--foreground);
+    background-color: var(--color-slate-100);
+    color: var(--color-slate-900);
 }
 
 .admin-metric-card.highlight {

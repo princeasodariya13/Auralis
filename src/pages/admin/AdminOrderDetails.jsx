@@ -171,9 +171,9 @@ const AdminOrderDetails = () => {
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className="text-right">${item.unitPrice.toFixed(2)}</td>
+                                            <td className="text-right">₹{item.unitPrice.toFixed(2)}</td>
                                             <td className="text-center">{item.quantity}</td>
-                                            <td className="text-right"><strong>${item.lineTotal.toFixed(2)}</strong></td>
+                                            <td className="text-right"><strong>₹{item.lineTotal.toFixed(2)}</strong></td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -181,21 +181,21 @@ const AdminOrderDetails = () => {
                             <div className="order-summary-footer p-4 bg-light">
                                 <div className="summary-row">
                                     <span>Subtotal:</span>
-                                    <span>${order.subtotal.toFixed(2)}</span>
+                                    <span>₹{order.subtotal.toFixed(2)}</span>
                                 </div>
                                 {order.discountAmount > 0 && (
                                     <div className="summary-row text-success">
                                         <span>Discount {order.couponCode ? `(${order.couponCode})` : ''}:</span>
-                                        <span>-${order.discountAmount.toFixed(2)}</span>
+                                        <span>-₹{order.discountAmount.toFixed(2)}</span>
                                     </div>
                                 )}
                                 <div className="summary-row">
                                     <span>Shipping:</span>
-                                    <span>${order.shippingCost.toFixed(2)}</span>
+                                    <span>₹{order.shippingCost.toFixed(2)}</span>
                                 </div>
                                 <div className="summary-row">
                                     <span>Tax:</span>
-                                    <span>${order.tax.toFixed(2)}</span>
+                                    <span>₹{order.tax.toFixed(2)}</span>
                                 </div>
                                 {order.razorpayPaymentId && (
                                     <div className="summary-row">
@@ -211,7 +211,7 @@ const AdminOrderDetails = () => {
                                 )}
                                 <div className="summary-row total-row">
                                     <span>Grand Total:</span>
-                                    <span>${order.total.toFixed(2)} {order.currency}</span>
+                                    <span>₹{order.total.toFixed(2)} {order.currency}</span>
                                 </div>
                             </div>
                         </div>

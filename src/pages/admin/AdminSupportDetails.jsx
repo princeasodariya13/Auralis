@@ -103,7 +103,7 @@ const AdminSupportDetails = () => {
         <div className="admin-page p-6 max-w-7xl mx-auto flex flex-col h-[calc(100vh-80px)]">
             <button 
                 onClick={() => navigate('/admin/support')}
-                className="flex items-center gap-2 text-slate-500 hover:text-slate-900 mb-4 transition-colors font-medium w-fit"
+                className="flex items-center gap-2 text-muted hover:text-slate-900 mb-4 transition-colors font-medium w-fit"
             >
                 <ArrowLeft size={18} /> Back to Tickets
             </button>
@@ -112,11 +112,11 @@ const AdminSupportDetails = () => {
                 
                 {/* LEFT COLUMN: Conversation */}
                 <div className="flex-1 bg-white border border-slate-200 rounded-lg shadow-sm flex flex-col min-h-0">
-                    <div className="p-4 border-b border-slate-200 bg-slate-50 rounded-t-lg">
+                    <div className="p-4 border-b border-slate-200 bg-surface-alt rounded-t-lg">
                         <div className="flex justify-between items-center">
                             <div>
                                 <h1 className="text-xl font-montserrat font-semibold text-slate-900">{ticket.subject}</h1>
-                                <p className="text-sm text-slate-500 mt-1">Ticket {ticket.ticketNumber}</p>
+                                <p className="text-sm text-muted mt-1">Ticket {ticket.ticketNumber}</p>
                             </div>
                             <div className="text-right">
                                 <span className="inline-block px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-xs font-semibold mb-1">
@@ -127,7 +127,7 @@ const AdminSupportDetails = () => {
                     </div>
 
                     {/* Messages Area */}
-                    <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-slate-50/50">
+                    <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-surface-alt/50">
                         {messages.map((msg, index) => {
                             const isCustomer = msg.senderType === 'CUSTOMER';
                             const isSystem = msg.senderType === 'SYSTEM';
@@ -137,9 +137,9 @@ const AdminSupportDetails = () => {
                                 <div key={msg._id || index} className={`flex ${isCustomer ? 'justify-start' : 'justify-end'}`}>
                                     <div className={`max-w-[85%] flex flex-col ${isCustomer ? 'items-start' : 'items-end'}`}>
                                         <div className="flex items-center gap-2 mb-1 px-1">
-                                            {isCustomer && <UserIcon size={14} className="text-slate-500" />}
+                                            {isCustomer && <UserIcon size={14} className="text-muted" />}
                                             {!isCustomer && !isSystem && <Shield size={14} className="text-indigo-600" />}
-                                            <span className="text-xs font-medium text-slate-500">
+                                            <span className="text-xs font-medium text-muted">
                                                 {isCustomer ? ticket.userId?.name : (isSystem ? 'System' : msg.senderId?.name || 'Admin')}
                                             </span>
                                             {isInternalNote && (
@@ -160,7 +160,7 @@ const AdminSupportDetails = () => {
                                                 </React.Fragment>
                                             ))}
                                         </div>
-                                        <span className="text-[10px] text-slate-400 mt-1 px-1">
+                                        <span className="text-[10px] text-muted mt-1 px-1">
                                             {new Date(msg.createdAt).toLocaleString()}
                                         </span>
                                     </div>
@@ -177,7 +177,7 @@ const AdminSupportDetails = () => {
                                 value={replyText}
                                 onChange={(e) => setReplyText(e.target.value)}
                                 placeholder="Type a reply or internal note..."
-                                className="w-full p-3 border border-slate-300 rounded focus:outline-none focus:border-indigo-500 resize-none"
+                                className="full-width p-3 border border-slate-300 rounded focus:outline-none focus:border-indigo-500 resize-none"
                                 rows="3"
                                 required
                             />
@@ -206,13 +206,13 @@ const AdminSupportDetails = () => {
                 </div>
 
                 {/* RIGHT COLUMN: Metadata & Controls */}
-                <div className="w-full lg:w-80 flex flex-col gap-6 overflow-y-auto">
+                <div className="full-width lg:w-80 flex flex-col gap-6 overflow-y-auto">
                     {/* Customer Info */}
                     <div className="bg-white border border-slate-200 rounded-lg shadow-sm p-4">
                         <h3 className="text-sm font-semibold text-slate-800 uppercase tracking-wider mb-4 border-b border-slate-100 pb-2">Customer</h3>
                         <div className="flex flex-col gap-2 text-sm">
                             <div className="flex items-center gap-2 font-medium text-slate-900">
-                                <UserIcon size={16} className="text-slate-400"/> {ticket.userId?.name}
+                                <UserIcon size={16} className="text-muted"/> {ticket.userId?.name}
                             </div>
                             <div className="text-slate-600 pl-6">
                                 {ticket.userId?.email}
@@ -225,11 +225,11 @@ const AdminSupportDetails = () => {
                         <h3 className="text-sm font-semibold text-slate-800 uppercase tracking-wider border-b border-slate-100 pb-2">Ticket Settings</h3>
                         
                         <div>
-                            <label className="block text-xs font-medium text-slate-500 mb-1">Status</label>
+                            <label className="block text-xs font-medium text-muted mb-1">Status</label>
                             <select 
                                 value={ticket.status} 
                                 onChange={(e) => handleStatusChange(e.target.value)}
-                                className="w-full p-2 border border-slate-300 rounded text-sm focus:outline-none focus:border-indigo-500 bg-white"
+                                className="full-width p-2 border border-slate-300 rounded text-sm focus:outline-none focus:border-indigo-500 bg-white"
                             >
                                 <option value="OPEN">Open</option>
                                 <option value="IN_PROGRESS">In Progress</option>
@@ -240,11 +240,11 @@ const AdminSupportDetails = () => {
                         </div>
 
                         <div>
-                            <label className="block text-xs font-medium text-slate-500 mb-1">Priority</label>
+                            <label className="block text-xs font-medium text-muted mb-1">Priority</label>
                             <select 
                                 value={ticket.priority} 
                                 onChange={(e) => handlePriorityChange(e.target.value)}
-                                className="w-full p-2 border border-slate-300 rounded text-sm focus:outline-none focus:border-indigo-500 bg-white"
+                                className="full-width p-2 border border-slate-300 rounded text-sm focus:outline-none focus:border-indigo-500 bg-white"
                             >
                                 <option value="URGENT">Urgent</option>
                                 <option value="HIGH">High</option>
@@ -254,18 +254,18 @@ const AdminSupportDetails = () => {
                         </div>
                         
                         <div>
-                            <label className="block text-xs font-medium text-slate-500 mb-1">Category</label>
-                            <div className="p-2 bg-slate-50 border border-slate-200 rounded text-sm text-slate-700 cursor-not-allowed">
+                            <label className="block text-xs font-medium text-muted mb-1">Category</label>
+                            <div className="p-2 bg-surface-alt border border-slate-200 rounded text-sm text-slate-700 cursor-not-allowed">
                                 {ticket.category}
                             </div>
                         </div>
 
                         {ticket.orderNumber && (
                             <div className="pt-2 border-t border-slate-100 mt-2">
-                                <label className="block text-xs font-medium text-slate-500 mb-1">Linked Order</label>
+                                <label className="block text-xs font-medium text-muted mb-1">Linked Order</label>
                                 <button 
                                     onClick={() => navigate(`/admin/orders/${ticket.orderNumber}`)}
-                                    className="flex items-center justify-between w-full p-2 border border-indigo-200 bg-indigo-50 text-indigo-700 rounded text-sm hover:bg-indigo-100 transition-colors"
+                                    className="flex items-center justify-between full-width p-2 border border-indigo-200 bg-indigo-50 text-indigo-700 rounded text-sm hover:bg-indigo-100 transition-colors"
                                 >
                                     <span className="flex items-center gap-2"><FileText size={14}/> {ticket.orderNumber}</span>
                                     <Search size={14} />
@@ -275,10 +275,10 @@ const AdminSupportDetails = () => {
                         
                         {ticket.returnRequestId && (
                             <div className="pt-2 border-t border-slate-100 mt-2">
-                                <label className="block text-xs font-medium text-slate-500 mb-1">Linked Return</label>
+                                <label className="block text-xs font-medium text-muted mb-1">Linked Return</label>
                                 <button 
                                     onClick={() => navigate(`/admin/returns/${ticket.returnRequestId}`)}
-                                    className="flex items-center justify-between w-full p-2 border border-orange-200 bg-orange-50 text-orange-700 rounded text-sm hover:bg-orange-100 transition-colors"
+                                    className="flex items-center justify-between full-width p-2 border border-orange-200 bg-orange-50 text-orange-700 rounded text-sm hover:bg-orange-100 transition-colors"
                                 >
                                     <span className="flex items-center gap-2"><FileText size={14}/> View Return</span>
                                     <Search size={14} />

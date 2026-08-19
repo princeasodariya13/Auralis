@@ -13,17 +13,19 @@ import About from './pages/About';
 import Contact from './pages/Contact';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import Account from './pages/Account';
-import Wishlist from './pages/Wishlist';
-import Checkout from './pages/Checkout';
-import Orders from './pages/Orders';
-import OrderDetails from './pages/OrderDetails';
-import Notifications from './pages/Notifications';
-import Returns from './pages/Returns';
-import ReturnRequestForm from './pages/ReturnRequestForm';
-import SupportTickets from './pages/SupportTickets';
-import SupportTicketDetail from './pages/SupportTicketDetail';
-import Loyalty from './pages/Loyalty';
+
+// Lazy Loaded Storefront Routes
+const Account = lazy(() => import('./pages/Account'));
+const Wishlist = lazy(() => import('./pages/Wishlist'));
+const Checkout = lazy(() => import('./pages/Checkout'));
+const Orders = lazy(() => import('./pages/Orders'));
+const OrderDetails = lazy(() => import('./pages/OrderDetails'));
+const Notifications = lazy(() => import('./pages/Notifications'));
+const Returns = lazy(() => import('./pages/Returns'));
+const ReturnRequestForm = lazy(() => import('./pages/ReturnRequestForm'));
+const SupportTickets = lazy(() => import('./pages/SupportTickets'));
+const SupportTicketDetail = lazy(() => import('./pages/SupportTicketDetail'));
+const Loyalty = lazy(() => import('./pages/Loyalty'));
 import ProtectedRoute from './components/ProtectedRoute';
 
 // Admin Components (Lazy Loaded)

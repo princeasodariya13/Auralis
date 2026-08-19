@@ -1,5 +1,5 @@
 .testimonials-section {
-    background-color: var(--color-gray-50);
+    background-color: var(--color-slate-50);
 }
 
 .testimonials-grid {
@@ -16,7 +16,7 @@
     transition: transform 0.3s ease;
 }
 
-.testimonial-card:hover {
+.testimonial-card:hover , .testimonial-card:focus-visible {
     transform: translateY(-5px);
 }
 
@@ -29,7 +29,7 @@
     margin: 1.5rem 0;
     font-style: italic;
     font-size: 1.05rem;
-    color: var(--color-gray-800);
+    color: var(--color-slate-800);
 }
 
 .testimonial-author {

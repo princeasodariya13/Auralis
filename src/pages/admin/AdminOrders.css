@@ -9,13 +9,13 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    color: var(--color-gray-500);
+    color: var(--color-slate-500);
     text-decoration: none;
     font-size: 0.9rem;
     transition: color 0.2s;
 }
 
-.back-link:hover {
+.back-link:hover , .back-link:focus-visible {
     color: var(--color-primary);
 }
 
@@ -37,16 +37,16 @@
     justify-content: space-between;
     width: 250px;
     font-size: 0.95rem;
-    color: var(--color-gray-700);
+    color: var(--color-slate-700);
 }
 
 .summary-row.total {
     font-weight: 700;
     font-size: 1.1rem;
-    color: var(--color-gray-900);
+    color: var(--color-slate-900);
     margin-top: 0.5rem;
     padding-top: 0.5rem;
-    border-top: 1px solid var(--color-gray-300);
+    border-top: 1px solid var(--color-slate-300);
 }
 
 .history-timeline {
@@ -82,7 +82,7 @@
     top: 0.5rem;
     bottom: -0.5rem;
     width: 2px;
-    background-color: var(--color-gray-200);
+    background-color: var(--color-border);
     z-index: 1;
 }
 
@@ -96,7 +96,7 @@
 
 .history-text {
     font-size: 0.95rem;
-    color: var(--color-gray-800);
+    color: var(--color-slate-800);
 }
 
 .capitalize {
@@ -109,7 +109,7 @@
 }
 
 .add-note-form {
-    border-top: 1px solid var(--color-gray-200);
+    border-top: 1px solid var(--color-border);
 }
 
 /* Status Colors */

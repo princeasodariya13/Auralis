@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { returnService } from '../services/apiService';
 import { Package, ArrowLeft, RotateCcw } from 'lucide-react';
+import { EmptyState, ErrorState } from '../components/States';
 
 const Returns = () => {
     const [returns, setReturns] = useState([]);
@@ -43,6 +44,14 @@ const Returns = () => {
             </div>
         );
     }
+    
+    if (error) {
+        return (
+            <div className="section container">
+                <ErrorState message={error} onRetry={() => window.location.reload()} />
+            </div>
+        );
+    }
 
     return (
         <div className="section container" style={{ minHeight: '70vh' }}>
@@ -55,36 +64,26 @@ const Returns = () => {
                     <h1 style={{ fontSize: '2rem', margin: 0 }}>My Returns</h1>
                 </div>
 
-                {error && (
-                    <div style={{ padding: '1rem', backgroundColor: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', borderRadius: '4px', marginBottom: '2rem' }}>
-                        {error}
-                    </div>
-                )}
-
-                {returns.length === 0 && !error ? (
-                    <div style={{ 
-                        textAlign: 'center', 
-                        padding: '4rem 2rem', 
-                        backgroundColor: 'rgba(255,255,255,0.02)', 
-                        borderRadius: 'var(--radius-lg)',
-                        border: '1px solid rgba(255,255,255,0.05)'
-                    }}>
-                        <RotateCcw size={48} color="var(--color-slate-500)" style={{ margin: '0 auto 1rem' }} />
-                        <h2 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', color: 'var(--color-slate-300)' }}>No Returns Yet</h2>
-                        <p style={{ color: 'var(--color-slate-400)', marginBottom: '1.5rem' }}>You haven't requested any returns.</p>
-                        <Link to="/orders" className="btn btn-outline">View Orders</Link>
-                    </div>
+                {returns.length === 0 ? (
+                    <EmptyState 
+                        icon={RotateCcw}
+                        title="No Returns Yet"
+                        message="You haven't requested any returns."
+                        actionText="View Orders"
+                        onAction={() => window.location.href = '/orders'}
+                    />
                 ) : (
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                         {returns.map(req => (
                             <div key={req._id} style={{ 
-                                backgroundColor: 'rgba(255,255,255,0.02)', 
+                                backgroundColor: 'var(--color-surface)', 
                                 borderRadius: 'var(--radius-lg)',
-                                border: '1px solid rgba(255,255,255,0.05)',
+                                border: '1px solid var(--color-border)',
                                 padding: '1.5rem',
                                 display: 'flex',
                                 flexDirection: 'column',
-                                gap: '1rem'
+                                gap: '1rem',
+                                boxShadow: 'var(--shadow-sm)'
                             }}>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem' }}>
                                     <div>
@@ -108,8 +107,8 @@ const Returns = () => {
                                     </div>
                                 </div>
                                 
-                                <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '1rem' }}>
-                                    <h4 style={{ fontSize: '0.875rem', color: 'var(--color-slate-300)', marginBottom: '0.5rem' }}>Items to Return:</h4>
+                                <div style={{ borderTop: '1px solid var(--color-border)', paddingTop: '1rem' }}>
+                                    <h4 style={{ fontSize: '0.875rem', color: 'var(--color-slate-600)', marginBottom: '0.5rem' }}>Items to Return:</h4>
                                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                                         {req.items.map((item, idx) => (
                                             <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.875rem' }}>

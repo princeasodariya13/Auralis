@@ -1,3 +1,4 @@
+import { safeFetch } from './apiService.js';
 const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '/api/v1' : 'http://localhost:5000/api/v1');
 
 // Fetch options for auth requests to handle credentials
@@ -17,7 +18,7 @@ const getFetchOptions = (method, body) => {
 
 export const authService = {
     async register(name, email, password) {
-        const response = await fetch(`${API_URL}/auth/register`, getFetchOptions('POST', { name, email, password }));
+        const response = await safeFetch(`${API_URL}/auth/register`, getFetchOptions('POST', { name, email, password }));
         const json = await response.json();
         if (!response.ok || !json.success) {
             throw new Error(json?.error?.message || 'Registration failed');
@@ -26,7 +27,7 @@ export const authService = {
     },
 
     async login(email, password) {
-        const response = await fetch(`${API_URL}/auth/login`, getFetchOptions('POST', { email, password }));
+        const response = await safeFetch(`${API_URL}/auth/login`, getFetchOptions('POST', { email, password }));
         const json = await response.json();
         if (!response.ok || !json.success) {
             throw new Error(json?.error?.message || 'Login failed');
@@ -35,7 +36,7 @@ export const authService = {
     },
 
     async logout() {
-        const response = await fetch(`${API_URL}/auth/logout`, getFetchOptions('POST'));
+        const response = await safeFetch(`${API_URL}/auth/logout`, getFetchOptions('POST'));
         const json = await response.json();
         if (!response.ok || !json.success) {
             throw new Error('Logout failed');
@@ -44,7 +45,7 @@ export const authService = {
     },
 
     async getMe() {
-        const response = await fetch(`${API_URL}/auth/me`, getFetchOptions('GET'));
+        const response = await safeFetch(`${API_URL}/auth/me`, getFetchOptions('GET'));
         if (response.status === 401) {
             return null; // Not authenticated
         }
@@ -60,7 +61,7 @@ export const authService = {
         if (preferences !== undefined) {
             payload.preferences = preferences;
         }
-        const response = await fetch(`${API_URL}/users/me`, getFetchOptions('PATCH', payload));
+        const response = await safeFetch(`${API_URL}/users/me`, getFetchOptions('PATCH', payload));
         const json = await response.json();
         if (!response.ok || !json.success) {
             throw new Error(json?.error?.message || 'Failed to update profile');

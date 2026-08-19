@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { adminService } from '../../services/apiService';
 import { Plus, Edit2, Trash2, Tag, Calendar, Users, AlertTriangle } from 'lucide-react';
+import { formatINR } from '../../utils/formatCurrency';
 import './AdminCoupons.css';
 
 const AdminCoupons = () => {
@@ -160,7 +161,7 @@ const AdminCoupons = () => {
                                                 : `₹${coupon.discountValue} OFF`}
                                         </div>
                                         {coupon.minimumOrderValue > 0 && (
-                                            <div className="text-muted small">Min: ${coupon.minimumOrderValue}</div>
+                                            <div className="text-muted small">Min: {formatINR(coupon.minimumOrderValue)}</div>
                                         )}
                                     </td>
                                     <td>

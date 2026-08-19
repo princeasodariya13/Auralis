@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link, useNavigate, useLocation } from 'react-router-dom';
 import { useOrder } from '../hooks/useData';
 import { orderService, paymentService, returnService } from '../services/apiService';
 import { ArrowLeft, MapPin, Package, AlertCircle, CreditCard, XCircle, Headphones } from 'lucide-react';
@@ -24,7 +24,8 @@ const OrderDetails = () => {
     const navigate = useNavigate();
     const { data: order, loading, error, refetch } = useOrder(orderNumber);
     const [isCancelling, setIsCancelling] = useState(false);
-    const [cancelError, setCancelError] = useState(null);
+    const location = useLocation();
+    const [actionError, setActionError] = useState(location.state?.paymentError || null);
     const [isPaying, setIsPaying] = useState(false);
     const { user } = useAuth();
 
@@ -32,12 +33,12 @@ const OrderDetails = () => {
         if (!window.confirm('Are you sure you want to cancel this order?')) return;
         
         setIsCancelling(true);
-        setCancelError(null);
+        setActionError(null);
         try {
             await orderService.cancelOrder(orderNumber);
             refetch();
         } catch (err) {
-            setCancelError(err.message || 'Failed to cancel order');
+            setActionError(err.message || 'Failed to cancel order. Please try again.');
         } finally {
             setIsCancelling(false);
         }
@@ -45,7 +46,7 @@ const OrderDetails = () => {
 
     const handleRetryPayment = async () => {
         setIsPaying(true);
-        setCancelError(null);
+        setActionError(null);
         try {
             const paymentInit = await paymentService.createPaymentOrder(orderNumber);
             
@@ -66,12 +67,12 @@ const OrderDetails = () => {
                         });
                         
                         if (verificationResult.inventoryIssue) {
-                            alert(verificationResult.message);
+                            setActionError(verificationResult.message || 'Payment succeeded but an inventory issue occurred.');
                         }
                         
                         refetch();
                     } catch (err) {
-                        setCancelError(err.message || 'Payment verification failed');
+                        setActionError(err.message || 'Payment verification failed. Please check your order history or contact support.');
                     }
                 },
                 prefill: {
@@ -93,12 +94,12 @@ const OrderDetails = () => {
             
             rzp.on('payment.failed', function (response){
                 setIsPaying(false);
-                setCancelError(response.error.description || 'Payment failed');
+                setActionError(response.error.description || 'Payment failed. Please try a different payment method.');
             });
             
             rzp.open();
         } catch (err) {
-            setCancelError(err.message || 'Failed to initiate payment');
+            setActionError(err.message || 'Failed to initiate payment. Please try again.');
             setIsPaying(false);
         }
     };
@@ -114,9 +115,13 @@ const OrderDetails = () => {
     if (error || !order) {
         return (
             <div className="section container">
-                <div className="error-state">
-                    <p>{error || 'Order not found'}</p>
-                    <Link to="/orders" className="btn btn-primary mt-4">Back to Orders</Link>
+                <div style={{ maxWidth: '600px', margin: '0 auto', textAlign: 'center' }}>
+                    <div style={{ marginBottom: '1.5rem', color: 'var(--color-slate-600)' }}>
+                        <AlertCircle size={48} style={{ margin: '0 auto 1rem auto', color: 'var(--color-danger)' }} />
+                        <h2 style={{ marginBottom: '0.5rem', color: 'var(--color-slate-900)' }}>Order Not Found</h2>
+                        <p>{error || 'We couldnt locate this order.'}</p>
+                    </div>
+                    <Link to="/orders" className="btn btn-primary">Back to Orders</Link>
                 </div>
             </div>
         );
@@ -127,13 +132,13 @@ const OrderDetails = () => {
 
     return (
         <div className="section container order-details-page">
-            <button onClick={() => navigate('/orders')} className="back-btn mb-6">
+            <button onClick={() => navigate('/orders')} className="btn btn-outline btn-sm" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem', border: 'none', padding: 0 }}>
                 <ArrowLeft size={18} /> Back to Orders
             </button>
 
-            <div className="order-details-header mb-8">
+            <div className="order-details-header" style={{ marginBottom: '2rem' }}>
                 <div>
-                    <h1 className="mb-2">Order #{order.orderNumber}</h1>
+                    <h1 style={{ marginBottom: '0.5rem' }}>Order #{order.orderNumber}</h1>
                     <p className="text-muted">Placed on {new Date(order.createdAt).toLocaleString()}</p>
                 </div>
                 <div className="order-status-badges">
@@ -144,9 +149,9 @@ const OrderDetails = () => {
                 </div>
             </div>
 
-            {cancelError && (
-                <div className="error-state mb-6 text-sm" style={{ padding: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <AlertCircle size={16} /> {cancelError}
+            {actionError && (
+                <div className="error-state" style={{ marginBottom: '1.5rem', fontSize: '0.875rem', padding: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <AlertCircle size={16} /> {actionError}
                 </div>
             )}
 
@@ -177,7 +182,7 @@ const OrderDetails = () => {
                 <OrderShipmentTracking orderNumber={order.orderNumber} />
 
                 <div className="order-sidebar">
-                    <div className="order-summary-card mb-6">
+                    <div className="order-summary-card" style={{ marginBottom: '1.5rem' }}>
                         <h2 className="section-title">Summary</h2>
                         <div className="summary-row">
                             <span>Subtotal</span>
@@ -203,7 +208,7 @@ const OrderDetails = () => {
                         </div>
                     </div>
 
-                    <div className="order-shipping-card mb-6">
+                    <div className="order-shipping-card" style={{ marginBottom: '1.5rem' }}>
                         <h2 className="section-title"><MapPin size={20} /> Shipping Address</h2>
                         <div className="shipping-address-display">
                             <p className="font-semibold">{order.shippingAddress.fullName}</p>
@@ -211,14 +216,15 @@ const OrderDetails = () => {
                             {order.shippingAddress.addressLine2 && <p>{order.shippingAddress.addressLine2}</p>}
                             <p>{order.shippingAddress.city}, {order.shippingAddress.state} {order.shippingAddress.postalCode}</p>
                             <p>{order.shippingAddress.country}</p>
-                            <p className="phone text-muted mt-2">{order.shippingAddress.phone}</p>
+                            <p className="phone text-muted" style={{ marginTop: '0.5rem' }}>{order.shippingAddress.phone}</p>
                         </div>
                     </div>
 
-                    <div className="order-actions-card flex-col gap-3">
+                    <div className="order-actions-card" style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                         {order.paymentStatus === 'pending' && canCancel && (
                             <button 
-                                className="btn btn-primary w-full flex justify-center items-center gap-2 mb-3"
+                                className="btn btn-primary"
+                                style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}
                                 onClick={handleRetryPayment}
                                 disabled={isPaying || isCancelling}
                             >
@@ -228,7 +234,8 @@ const OrderDetails = () => {
                         )}
                         {canCancel && (
                             <button 
-                                className="btn btn-outline text-danger w-full flex items-center justify-center gap-2"
+                                className="btn btn-outline text-danger"
+                                style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem' }}
                                 onClick={handleCancelOrder}
                                 disabled={isCancelling || isPaying}
                             >
@@ -239,7 +246,8 @@ const OrderDetails = () => {
                         {canReturn && (
                             <Link 
                                 to={`/account/returns/${order.orderNumber}/request`}
-                                className="btn btn-outline w-full flex items-center justify-center gap-2"
+                                className="btn btn-outline"
+                                style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem' }}
                             >
                                 <Package size={18} />
                                 Request Return
@@ -248,13 +256,14 @@ const OrderDetails = () => {
                         <Link 
                             to="/account/support"
                             state={{ prefillOrder: order.orderNumber }}
-                            className="btn btn-outline w-full flex items-center justify-center gap-2"
+                            className="btn btn-outline"
+                            style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem' }}
                         >
                             <Headphones size={18} />
                             Contact Support
                         </Link>
                         {(canCancel || canReturn) && (
-                            <p className="text-xs text-muted text-center mt-3">
+                            <p className="text-muted" style={{ fontSize: '0.75rem', textAlign: 'center', marginTop: '0.75rem' }}>
                                 {canReturn ? 'You can request a return within the eligible return window.' : 'You can cancel this order because it has not shipped yet.'}
                             </p>
                         )}

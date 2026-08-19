@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { reviewService } from '../services/apiService';
-import { Star, Edit2, Trash2, ShieldCheck, ThumbsUp, Flag } from 'lucide-react';
+import { Star, Edit2, Trash2, ShieldCheck, ThumbsUp, Flag, MessageSquare } from 'lucide-react';
+import { EmptyState } from './States';
 import './Reviews.css';
 
 const ReviewForm = ({ productId, initialData, onSuccess, onCancel }) => {
@@ -162,7 +163,11 @@ const Reviews = ({ productId, reviewsData, onReviewChanged }) => {
                         </div>
                     </div>
                 ) : (
-                    <p className="text-muted">No reviews yet.</p>
+                    <EmptyState 
+                        icon={MessageSquare}
+                        title="No reviews yet"
+                        message="Be the first to share your experience with this product."
+                    />
                 )}
             </div>
 

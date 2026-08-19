@@ -1,18 +1,26 @@
 .skeleton-card {
     pointer-events: none;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background-color: var(--color-surface);
+    overflow: hidden;
 }
 
 .skeleton-image-container {
     width: 100%;
     aspect-ratio: 1;
-    background-color: var(--color-gray-100);
-    animation: pulse 1.5s infinite ease-in-out;
+    background-color: var(--color-slate-100);
+    animation: shimmer 2s infinite linear;
+    background: linear-gradient(to right, var(--color-slate-100) 4%, var(--color-slate-200) 25%, var(--color-slate-100) 36%);
+    background-size: 1000px 100%;
 }
 
 .skeleton-text {
-    background-color: var(--color-gray-100);
-    border-radius: 2px;
-    animation: pulse 1.5s infinite ease-in-out;
+    background-color: var(--color-slate-100);
+    border-radius: var(--radius-sm);
+    animation: shimmer 2s infinite linear;
+    background: linear-gradient(to right, var(--color-slate-100) 4%, var(--color-slate-200) 25%, var(--color-slate-100) 36%);
+    background-size: 1000px 100%;
 }
 
 .skeleton-category {
@@ -35,17 +43,21 @@
 .skeleton-main-image {
     width: 100%;
     aspect-ratio: 1/1;
-    background-color: var(--color-gray-100);
-    border-radius: 4px;
-    animation: pulse 1.5s infinite ease-in-out;
+    border-radius: var(--radius-lg);
+    background-color: var(--color-slate-100);
+    animation: shimmer 2s infinite linear;
+    background: linear-gradient(to right, var(--color-slate-100) 4%, var(--color-slate-200) 25%, var(--color-slate-100) 36%);
+    background-size: 1000px 100%;
 }
 
 .skeleton-thumbnail {
     width: 80px;
     height: 80px;
-    background-color: var(--color-gray-100);
-    border-radius: 4px;
-    animation: pulse 1.5s infinite ease-in-out;
+    border-radius: var(--radius-md);
+    background-color: var(--color-slate-100);
+    animation: shimmer 2s infinite linear;
+    background: linear-gradient(to right, var(--color-slate-100) 4%, var(--color-slate-200) 25%, var(--color-slate-100) 36%);
+    background-size: 1000px 100%;
 }
 
 .skeleton-back-btn {
@@ -59,10 +71,12 @@
 .skeleton-h2 { height: 24px; width: 100px; }
 .skeleton-p { height: 14px; width: 100%; }
 .skeleton-btn { 
-    height: 48px; 
-    background-color: var(--color-gray-100);
-    border-radius: 2px;
-    animation: pulse 1.5s infinite ease-in-out;
+    height: 44px; 
+    border-radius: var(--radius-md);
+    background-color: var(--color-slate-100);
+    animation: shimmer 2s infinite linear;
+    background: linear-gradient(to right, var(--color-slate-100) 4%, var(--color-slate-200) 25%, var(--color-slate-100) 36%);
+    background-size: 1000px 100%;
 }
 .skeleton-feature { height: 20px; width: 60%; margin-bottom: 12px; }
 
@@ -70,8 +84,7 @@
 .mb-4 { margin-bottom: 16px; }
 .mb-6 { margin-bottom: 24px; }
 
-@keyframes pulse {
-    0% { opacity: 0.6; }
-    50% { opacity: 0.2; }
-    100% { opacity: 0.6; }
+@keyframes shimmer {
+    0% { background-position: -1000px 0; }
+    100% { background-position: 1000px 0; }
 }

@@ -1,10 +1,13 @@
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
-import { Trash2, Plus, Minus, ArrowRight } from 'lucide-react';
+import { Trash2, Plus, Minus, ArrowRight, ShoppingCart } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { EmptyState } from '../components/States';
 import './Cart.css';
 
 const Cart = () => {
     const { cart, removeFromCart, updateQuantity, cartTotal, clearCart, isCartLoading } = useCart();
+    const navigate = useNavigate();
 
     if (isCartLoading) {
         return (
@@ -16,12 +19,14 @@ const Cart = () => {
 
     if (cart.length === 0) {
         return (
-            <div className="cart-page container section cart-empty">
-                <h1 className="cart-title">Shopping Cart</h1>
-                <p>Your cart is waiting for something worth hearing.</p>
-                <Link to="/shop" className="btn btn-primary mt-4">
-                    Continue Shopping
-                </Link>
+            <div className="cart-page container section">
+                <EmptyState 
+                    icon={ShoppingCart}
+                    title="Your cart is waiting." 
+                    message="Your cart is waiting for something worth hearing." 
+                    actionText="Continue Shopping" 
+                    onAction={() => navigate('/shop')} 
+                />
             </div>
         );
     }

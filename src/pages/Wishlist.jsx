@@ -1,12 +1,14 @@
 import { useWishlist } from '../context/WishlistContext';
 import ProductCard from '../components/ProductCard';
 import { Heart } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { ProductCardSkeleton } from '../components/Skeletons';
+import { EmptyState } from '../components/States';
 import './Wishlist.css';
 
 const Wishlist = () => {
     const { wishlist, isWishlistLoading } = useWishlist();
+    const navigate = useNavigate();
 
     if (isWishlistLoading) {
         return (
@@ -26,14 +28,13 @@ const Wishlist = () => {
     if (!wishlist || wishlist.length === 0) {
         return (
             <div className="container section">
-                <div className="wishlist-empty">
-                    <Heart size={48} className="empty-icon" />
-                    <h2>Your wishlist is waiting.</h2>
-                    <p>Save audio gear you love and come back to it later.</p>
-                    <Link to="/shop" className="btn btn-primary">
-                        Explore Audio Gear
-                    </Link>
-                </div>
+                <EmptyState 
+                    icon={Heart}
+                    title="Your wishlist is waiting." 
+                    message="Save audio gear you love and come back to it later." 
+                    actionText="Explore Audio Gear" 
+                    onAction={() => navigate('/shop')} 
+                />
             </div>
         );
     }

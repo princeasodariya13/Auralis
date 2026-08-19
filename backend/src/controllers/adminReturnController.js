@@ -259,7 +259,7 @@ export const updateReturnStatus = async (req, res) => {
                     userId: returnReq.userId,
                     type: 'PAYMENT_SUCCESS', // Green check mark
                     title: 'Refund Processed',
-                    message: `A refund of $${returnReq.refundAmount} for order #${returnReq.orderNumber} has been processed. It may take a few days to reflect in your account.`,
+                    message: `A refund of ₹${returnReq.refundAmount} for order #${returnReq.orderNumber} has been processed. It may take a few days to reflect in your account.`,
                     orderNumber: returnReq.orderNumber,
                     idempotencyKey: `RETURN_REF_${returnReq._id}`
                 }).catch(console.error);

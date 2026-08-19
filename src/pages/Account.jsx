@@ -52,7 +52,7 @@ const Account = () => {
                     alignItems: 'center',
                     marginBottom: 'var(--spacing-xl)',
                     paddingBottom: 'var(--spacing-md)',
-                    borderBottom: '1px solid rgba(255,255,255,0.05)'
+                    borderBottom: '1px solid var(--color-border)'
                 }}>
                     <h1 style={{ fontSize: 'var(--font-size-3xl)' }}>My Account</h1>
                     <button 
@@ -73,10 +73,11 @@ const Account = () => {
                 }}>
                     {/* Profile Information */}
                     <div style={{ 
-                        backgroundColor: 'rgba(255,255,255,0.02)', 
+                        backgroundColor: 'var(--color-surface)', 
                         padding: 'var(--spacing-lg)', 
                         borderRadius: 'var(--radius-lg)',
-                        border: '1px solid rgba(255,255,255,0.05)'
+                        border: '1px solid var(--color-border)',
+                        boxShadow: 'var(--shadow-sm)'
                     }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: 'var(--spacing-lg)' }}>
                             <UserIcon size={24} color="var(--color-indigo)" />
@@ -149,11 +150,12 @@ const Account = () => {
                     {/* Quick Links */}
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-md)' }}>
                         <div style={{ 
-                            backgroundColor: 'rgba(255,255,255,0.01)', 
+                            backgroundColor: 'var(--color-surface)', 
                             padding: 'var(--spacing-lg)', 
                             borderRadius: 'var(--radius-lg)',
-                            border: '1px solid rgba(255,255,255,0.03)',
-                            color: 'var(--color-slate-400)'
+                            border: '1px solid var(--color-border)',
+                            color: 'var(--color-slate-600)',
+                            boxShadow: 'var(--shadow-sm)'
                         }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
                                 <h3 style={{ fontSize: '1rem', color: 'var(--color-slate-300)', margin: 0 }}>Order History</h3>
@@ -163,11 +165,12 @@ const Account = () => {
                         </div>
                         
                         <div style={{ 
-                            backgroundColor: 'rgba(255,255,255,0.01)', 
+                            backgroundColor: 'var(--color-surface)', 
                             padding: 'var(--spacing-lg)', 
                             borderRadius: 'var(--radius-lg)',
-                            border: '1px solid rgba(255,255,255,0.03)',
-                            color: 'var(--color-slate-400)'
+                            border: '1px solid var(--color-border)',
+                            color: 'var(--color-slate-600)',
+                            boxShadow: 'var(--shadow-sm)'
                         }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
                                 <h3 style={{ fontSize: '1rem', color: 'var(--color-slate-300)', margin: 0 }}>My Wishlist</h3>
@@ -177,11 +180,12 @@ const Account = () => {
                         </div>
 
                         <div style={{ 
-                            backgroundColor: 'rgba(255,255,255,0.01)', 
+                            backgroundColor: 'var(--color-surface)', 
                             padding: 'var(--spacing-lg)', 
                             borderRadius: 'var(--radius-lg)',
-                            border: '1px solid rgba(255,255,255,0.03)',
-                            color: 'var(--color-slate-400)'
+                            border: '1px solid var(--color-border)',
+                            color: 'var(--color-slate-600)',
+                            boxShadow: 'var(--shadow-sm)'
                         }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
                                 <h3 style={{ fontSize: '1rem', color: 'var(--color-slate-300)', margin: 0 }}>Notifications</h3>
@@ -191,11 +195,12 @@ const Account = () => {
                         </div>
 
                         <div style={{ 
-                            backgroundColor: 'rgba(255,255,255,0.01)', 
+                            backgroundColor: 'var(--color-surface)', 
                             padding: 'var(--spacing-lg)', 
                             borderRadius: 'var(--radius-lg)',
-                            border: '1px solid rgba(255,255,255,0.03)',
-                            color: 'var(--color-slate-400)'
+                            border: '1px solid var(--color-border)',
+                            color: 'var(--color-slate-600)',
+                            boxShadow: 'var(--shadow-sm)'
                         }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
                                 <h3 style={{ fontSize: '1rem', color: 'var(--color-slate-300)', margin: 0 }}>Returns & Refunds</h3>
@@ -205,11 +210,12 @@ const Account = () => {
                         </div>
                         
                         <div style={{ 
-                            backgroundColor: 'rgba(255,255,255,0.01)', 
+                            backgroundColor: 'var(--color-surface)', 
                             padding: 'var(--spacing-lg)', 
                             borderRadius: 'var(--radius-lg)',
-                            border: '1px solid rgba(255,255,255,0.03)',
-                            color: 'var(--color-slate-400)'
+                            border: '1px solid var(--color-border)',
+                            color: 'var(--color-slate-600)',
+                            boxShadow: 'var(--shadow-sm)'
                         }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
                                 <h3 style={{ fontSize: '1rem', color: 'var(--color-slate-300)', margin: 0 }}>Customer Support</h3>
@@ -219,11 +225,12 @@ const Account = () => {
                         </div>
 
                         <div style={{ 
-                            backgroundColor: 'rgba(255,255,255,0.01)', 
+                            backgroundColor: 'var(--color-surface)', 
                             padding: 'var(--spacing-lg)', 
                             borderRadius: 'var(--radius-lg)',
-                            border: '1px solid rgba(255,255,255,0.03)',
-                            color: 'var(--color-slate-400)'
+                            border: '1px solid var(--color-border)',
+                            color: 'var(--color-slate-600)',
+                            boxShadow: 'var(--shadow-sm)'
                         }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
                                 <h3 style={{ fontSize: '1rem', color: 'var(--color-slate-300)', margin: 0 }}>Auralis Rewards</h3>
@@ -236,10 +243,11 @@ const Account = () => {
 
                 {/* Addresses Section */}
                 <div style={{ 
-                    backgroundColor: 'rgba(255,255,255,0.02)', 
+                    backgroundColor: 'var(--color-surface)', 
                     padding: 'var(--spacing-lg)', 
                     borderRadius: 'var(--radius-lg)',
-                    border: '1px solid rgba(255,255,255,0.05)'
+                    border: '1px solid var(--color-border)',
+                    boxShadow: 'var(--shadow-sm)'
                 }}>
                     <AddressManager />
                 </div>

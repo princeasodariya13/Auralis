@@ -116,8 +116,7 @@ const Checkout = () => {
                         setIsCreatingOrder(false);
                         setOrderError('Payment cancelled. Your order has been saved and can be paid from your order history.');
                         // We can set successOrder if we want them to see the order created page
-                        // but it's better they go to orders
-                        navigate(`/orders/${order.orderNumber}`);
+                        navigate(`/orders/${order.orderNumber}`, { state: { paymentError: 'Payment was cancelled. Your order is saved and you can try paying again.' } });
                     }
                 }
             };
@@ -126,8 +125,7 @@ const Checkout = () => {
             
             rzp.on('payment.failed', function (response){
                 setIsCreatingOrder(false);
-                setOrderError(response.error.description || 'Payment failed');
-                navigate(`/orders/${order.orderNumber}`);
+                navigate(`/orders/${order.orderNumber}`, { state: { paymentError: response.error.description || 'Your payment could not be completed. No changes were made to your order status.' } });
             });
             
             rzp.open();
@@ -262,13 +260,14 @@ const Checkout = () => {
                                 {/* Coupon Input Form */}
                                 <div className="coupon-section mt-4 mb-4">
                                     {appliedCoupon ? (
-                                        <div className="applied-coupon bg-light p-3 rounded d-flex justify-content-between align-items-center border">
+                                        <div className="applied-coupon" style={{ backgroundColor: 'var(--color-slate-50)', padding: '1rem', borderRadius: 'var(--radius-md)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px dashed var(--color-border)' }}>
                                             <div>
                                                 <span className="font-semibold text-success">✓ Coupon Applied:</span>
-                                                <span className="ml-2 font-mono">{appliedCoupon}</span>
+                                                <span className="font-mono" style={{ marginLeft: '0.5rem' }}>{appliedCoupon}</span>
                                             </div>
                                             <button 
-                                                className="btn-text text-danger text-sm" 
+                                                className="btn-outline" 
+                                                style={{ color: 'var(--color-danger)', border: 'none', background: 'none', padding: 0, textDecoration: 'underline' }}
                                                 onClick={() => {
                                                     setAppliedCoupon('');
                                                     setCouponCode('');
@@ -280,10 +279,10 @@ const Checkout = () => {
                                         </div>
                                     ) : (
                                         <div className="coupon-form">
-                                            <div className="d-flex gap-2">
+                                            <div className="form-group" style={{ display: 'flex', flexDirection: 'row', gap: '0.5rem', marginBottom: 0 }}>
                                                 <input 
                                                     type="text" 
-                                                    className="form-control mb-0" 
+                                                    className="form-control"
                                                     placeholder="Discount code" 
                                                     value={couponCode}
                                                     onChange={(e) => {
@@ -326,13 +325,14 @@ const Checkout = () => {
                                         <p className="text-sm text-muted mb-3">You have <strong>{availablePoints}</strong> available points.</p>
                                         
                                         {appliedPoints > 0 ? (
-                                            <div className="applied-coupon bg-light p-3 rounded d-flex justify-content-between align-items-center border">
+                                            <div className="applied-coupon" style={{ backgroundColor: 'var(--color-slate-50)', padding: '1rem', borderRadius: 'var(--radius-md)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px dashed var(--color-border)' }}>
                                                 <div>
                                                     <span className="font-semibold text-primary">✓ Points Applied:</span>
-                                                    <span className="ml-2 font-mono">{appliedPoints}</span>
+                                                    <span className="font-mono" style={{ marginLeft: '0.5rem' }}>{appliedPoints}</span>
                                                 </div>
                                                 <button 
-                                                    className="btn-text text-danger text-sm" 
+                                                    className="btn-outline" 
+                                                    style={{ color: 'var(--color-danger)', border: 'none', background: 'none', padding: 0, textDecoration: 'underline' }}
                                                     onClick={() => {
                                                         setAppliedPoints(0);
                                                         setPointsToRedeem('');
@@ -343,10 +343,10 @@ const Checkout = () => {
                                             </div>
                                         ) : (
                                             <div className="coupon-form">
-                                                <div className="d-flex gap-2">
+                                                <div className="form-group" style={{ display: 'flex', flexDirection: 'row', gap: '0.5rem', marginBottom: 0 }}>
                                                     <input 
                                                         type="number" 
-                                                        className="form-control mb-0" 
+                                                        className="form-control"
                                                         placeholder="Points to redeem" 
                                                         value={pointsToRedeem}
                                                         max={availablePoints}

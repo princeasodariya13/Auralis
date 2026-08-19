@@ -237,7 +237,7 @@ const AdminProducts = () => {
                                                     </div>
                                                 </td>
                                                 <td><span className="td-sku">{product.sku}</span></td>
-                                                <td>${product.price.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
+                                                <td>₹{product.price.toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
                                                 <td>
                                                     <div className={`td-stock ${isOutOfStock ? 'out' : isLowStock ? 'low' : 'in'}`}>
                                                         {product.stockQuantity}

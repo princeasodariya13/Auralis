@@ -73,16 +73,16 @@ const AdminCustomers = () => {
                     <h1 className="text-2xl font-bold text-slate-800 flex items-center gap-2 mb-1">
                         <Users size={28} className="text-primary" /> Customer Intelligence
                     </h1>
-                    <p className="text-slate-500 text-sm">Analyze customer lifecycle and behavior.</p>
+                    <p className="text-muted text-sm">Analyze customer lifecycle and behavior.</p>
                 </div>
-                <div className="text-slate-500 text-sm font-medium">
+                <div className="text-muted text-sm font-medium">
                     Total Customers: <span className="text-slate-800">{totalCustomers}</span>
                 </div>
             </div>
 
-            <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm mb-6 flex flex-wrap gap-4 items-center">
+            <div className="card mb-6 flex flex-wrap gap-4 items-center">
                 <div className="relative flex-grow max-w-md">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" size={18} />
                     <input 
                         type="text" 
                         placeholder="Search by name or email..." 
@@ -93,7 +93,7 @@ const AdminCustomers = () => {
                 </div>
                 
                 <div className="flex items-center gap-2">
-                    <Filter size={18} className="text-slate-400" />
+                    <Filter size={18} className="text-muted" />
                     <select 
                         className="form-select w-auto" 
                         value={segment} 
@@ -110,12 +110,12 @@ const AdminCustomers = () => {
                 </div>
             </div>
 
-            <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+            <div className="card p-0 overflow-hidden">
                 {error && <div className="p-4 bg-red-50 text-red-600 border-b border-red-100">{error}</div>}
                 
                 <div className="overflow-x-auto">
-                    <table className="w-full text-sm text-left">
-                        <thead className="bg-slate-50 text-slate-600 font-semibold border-b border-slate-200">
+                    <table className="full-width text-sm text-left">
+                        <thead className="bg-surface-alt text-slate-600 font-semibold border-b border-slate-200">
                             <tr>
                                 <th className="px-6 py-4 cursor-pointer hover:bg-slate-100" onClick={() => handleSort('name')}>
                                     Customer {sortField === 'name' && (sortOrder === 1 ? '↑' : '↓')}
@@ -137,21 +137,21 @@ const AdminCustomers = () => {
                         <tbody className="divide-y divide-slate-100">
                             {loading ? (
                                 <tr>
-                                    <td colSpan="7" className="px-6 py-8 text-center text-slate-400">Loading customers...</td>
+                                    <td colSpan="7" className="px-6 py-8 text-center text-muted">Loading customers...</td>
                                 </tr>
                             ) : customers.length === 0 ? (
                                 <tr>
-                                    <td colSpan="7" className="px-6 py-12 text-center text-slate-500">
+                                    <td colSpan="7" className="px-6 py-12 text-center text-muted">
                                         No customers found.
                                     </td>
                                 </tr>
                             ) : (
                                 customers.map(cust => (
-                                    <tr key={cust._id} className="hover:bg-slate-50 transition-colors">
+                                    <tr key={cust._id} className="hover:bg-surface-alt transition-colors">
                                         <td className="px-6 py-4">
                                             <div className="font-semibold text-slate-800">{cust.name}</div>
-                                            <div className="text-xs text-slate-500">{cust.email}</div>
-                                            <div className="text-[10px] text-slate-400 mt-1">Joined: {new Date(cust.createdAt).toLocaleDateString()}</div>
+                                            <div className="text-xs text-muted">{cust.email}</div>
+                                            <div className="text-[10px] text-muted mt-1">Joined: {new Date(cust.createdAt).toLocaleDateString()}</div>
                                         </td>
                                         <td className="px-6 py-4">
                                             <span className={`text-xs px-2 py-1 rounded-full border ${getSegmentBadge(cust.segment)}`}>
@@ -163,18 +163,18 @@ const AdminCustomers = () => {
                                         </td>
                                         <td className="px-6 py-4">
                                             <div className="font-medium text-slate-800">${(cust.lifetimeRevenue || 0).toFixed(2)}</div>
-                                            <div className="text-xs text-slate-500 mt-0.5">Avg: ${(cust.averageOrderValue || 0).toFixed(2)}</div>
+                                            <div className="text-xs text-muted mt-0.5">Avg: ${(cust.averageOrderValue || 0).toFixed(2)}</div>
                                         </td>
                                         <td className="px-6 py-4 text-slate-600">
                                             {cust.lastPurchaseDate 
                                                 ? new Date(cust.lastPurchaseDate).toLocaleDateString()
-                                                : <span className="text-slate-400">-</span>
+                                                : <span className="text-muted">-</span>
                                             }
                                         </td>
                                         <td className="px-6 py-4">
                                             <div className="flex gap-2">
                                                 {cust.hasAbandonedCart && <ShoppingCart size={16} className="text-orange-500" title="Active abandoned cart" />}
-                                                {cust.returnCount > 0 && <RotateCcw size={16} className="text-slate-500" title={`${cust.returnCount} returns`} />}
+                                                {cust.returnCount > 0 && <RotateCcw size={16} className="text-muted" title={`${cust.returnCount} returns`} />}
                                                 {cust.openSupportTickets > 0 && <Headphones size={16} className="text-red-500" title={`${cust.openSupportTickets} open support tickets`} />}
                                             </div>
                                         </td>
@@ -195,7 +195,7 @@ const AdminCustomers = () => {
                 
                 {/* Pagination */}
                 {totalPages > 1 && (
-                    <div className="px-6 py-4 border-t border-slate-200 flex justify-between items-center bg-slate-50">
+                    <div className="px-6 py-4 border-t border-slate-200 flex justify-between items-center bg-surface-alt">
                         <span className="text-sm text-slate-600">
                             Page {page} of {totalPages}
                         </span>

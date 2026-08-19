@@ -202,7 +202,7 @@ export const processJobs = async () => {
                                 </td>
                                 <td style="padding: 10px; border-bottom: 1px solid #e2e8f0; font-family: sans-serif; color: #1e293b;">
                                     <strong>${p.name}</strong><br/>
-                                    <span style="color: #64748b;">$${p.price.toFixed(2)}</span>
+                                    <span style="color: #64748b;">₹${p.price.toFixed(2)}</span>
                                 </td>
                             </tr>`
                         ).join('');

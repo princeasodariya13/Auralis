@@ -106,7 +106,7 @@ const AdminReturns = () => {
                                             <div style={{ fontSize: '0.875rem', color: 'var(--color-slate-400)' }}>{req.userId?.email || 'N/A'}</div>
                                         </td>
                                         <td>{new Date(req.createdAt).toLocaleDateString()}</td>
-                                        <td>${req.refundAmount.toFixed(2)}</td>
+                                        <td>₹{req.refundAmount.toFixed(2)}</td>
                                         <td>{getStatusBadge(req.status)}</td>
                                         <td>
                                             <div className="action-buttons">

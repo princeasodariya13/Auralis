@@ -146,11 +146,11 @@ const AdminReturnDetails = () => {
                         
                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
                             <span style={{ color: 'var(--color-slate-400)' }}>Order Total:</span>
-                            <span>${order?.total.toFixed(2) || '0.00'}</span>
+                            <span>₹{order?.total.toFixed(2) || '0.00'}</span>
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem', paddingBottom: '1rem', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
                             <span style={{ color: 'var(--color-slate-400)' }}>Calculated Refund:</span>
-                            <span style={{ color: 'var(--color-indigo)', fontWeight: 'bold' }}>${req.refundAmount.toFixed(2)}</span>
+                            <span style={{ color: 'var(--color-indigo)', fontWeight: 'bold' }}>₹{req.refundAmount.toFixed(2)}</span>
                         </div>
                         
                         {req.refundReference && (
@@ -227,7 +227,7 @@ const AdminReturnDetails = () => {
                                     <DollarSign size={16} style={{ marginRight: '0.5rem' }} /> Execute Razorpay Refund
                                 </button>
                                 <div style={{ fontSize: '0.75rem', color: 'var(--color-slate-400)', textAlign: 'center' }}>
-                                    This will permanently refund ${req.refundAmount.toFixed(2)} to the customer.
+                                    This will permanently refund ₹{req.refundAmount.toFixed(2)} to the customer.
                                 </div>
                             </div>
                         )}

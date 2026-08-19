@@ -171,7 +171,7 @@ const AdminOrders = () => {
                                                 <div className="text-xs text-muted">{order.customerEmail}</div>
                                             </td>
                                             <td>
-                                                <strong>${order.total.toFixed(2)}</strong>
+                                                <strong>₹{order.total.toFixed(2)}</strong>
                                                 <div className="text-xs text-muted">{order.itemsCount} item(s)</div>
                                             </td>
                                             <td>

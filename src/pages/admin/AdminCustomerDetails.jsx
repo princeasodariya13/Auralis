@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { adminService } from '../../services/apiService';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, User, Mail, Calendar, DollarSign, ShoppingBag, RotateCcw, Headphones, ShoppingCart, Activity, AlertTriangle, Award } from 'lucide-react';
+import { formatINR } from '../../utils/formatCurrency';
 
 const AdminCustomerDetails = () => {
     const { id } = useParams();
@@ -57,7 +58,7 @@ const AdminCustomerDetails = () => {
     if (error) {
         return (
             <div className="admin-page p-6 max-w-5xl mx-auto">
-                <button onClick={() => navigate('/admin/customers')} className="flex items-center text-slate-500 hover:text-primary mb-6 transition-colors">
+                <button onClick={() => navigate('/admin/customers')} className="flex items-center text-muted hover:text-primary mb-6 transition-colors">
                     <ArrowLeft size={16} className="mr-1" /> Back to Customers
                 </button>
                 <div className="p-4 bg-red-50 text-red-600 rounded-xl border border-red-100">{error}</div>
@@ -83,19 +84,19 @@ const AdminCustomerDetails = () => {
 
     return (
         <div className="admin-page p-6 max-w-6xl mx-auto space-y-6">
-            <button onClick={() => navigate('/admin/customers')} className="flex items-center text-slate-500 hover:text-primary transition-colors">
+            <button onClick={() => navigate('/admin/customers')} className="flex items-center text-muted hover:text-primary transition-colors">
                 <ArrowLeft size={16} className="mr-1" /> Back to Customers
             </button>
 
             {/* Header */}
             <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row justify-between md:items-center gap-4">
                 <div className="flex items-center gap-4">
-                    <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center text-2xl font-bold text-slate-400">
+                    <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center text-2xl font-bold text-muted">
                         {customer.name.charAt(0).toUpperCase()}
                     </div>
                     <div>
                         <h1 className="text-2xl font-bold text-slate-800">{customer.name}</h1>
-                        <div className="flex items-center gap-3 text-slate-500 mt-1">
+                        <div className="flex items-center gap-3 text-muted mt-1">
                             <span className="flex items-center gap-1 text-sm"><Mail size={14} /> {customer.email}</span>
                             <span className="flex items-center gap-1 text-sm"><Calendar size={14} /> Joined {new Date(customer.createdAt).toLocaleDateString()}</span>
                         </div>
@@ -111,26 +112,26 @@ const AdminCustomerDetails = () => {
             {/* Metrics Grid */}
             <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                 <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-                    <div className="text-slate-500 text-sm font-medium mb-1 flex items-center gap-2"><DollarSign size={16}/> Lifetime Revenue</div>
-                    <div className="text-3xl font-bold text-slate-800">${metrics.lifetimeRevenue.toFixed(2)}</div>
+                    <div className="text-muted text-sm font-medium mb-1 flex items-center gap-2"><DollarSign size={16}/> Lifetime Revenue</div>
+                    <div className="text-3xl font-bold text-slate-800">{formatINR(metrics.lifetimeRevenue)}</div>
                 </div>
                 <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-                    <div className="text-slate-500 text-sm font-medium mb-1 flex items-center gap-2"><ShoppingBag size={16}/> Paid Orders</div>
+                    <div className="text-muted text-sm font-medium mb-1 flex items-center gap-2"><ShoppingBag size={16}/> Paid Orders</div>
                     <div className="text-3xl font-bold text-slate-800">{metrics.paidOrderCount}</div>
                 </div>
                 <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-                    <div className="text-slate-500 text-sm font-medium mb-1 flex items-center gap-2"><Activity size={16}/> Average Order Val</div>
-                    <div className="text-3xl font-bold text-slate-800">${metrics.averageOrderValue.toFixed(2)}</div>
+                    <div className="text-muted text-sm font-medium mb-1 flex items-center gap-2"><Activity size={16}/> Average Order Val</div>
+                    <div className="text-3xl font-bold text-slate-800">{formatINR(metrics.averageOrderValue)}</div>
                 </div>
                 <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-                    <div className="text-slate-500 text-sm font-medium mb-1 flex items-center justify-between">
+                    <div className="text-muted text-sm font-medium mb-1 flex items-center justify-between">
                         <span className="flex items-center gap-2"><Award size={16}/> Loyalty Points</span>
                         <button onClick={() => setIsAdjusting(true)} className="text-xs text-primary hover:underline">Adjust</button>
                     </div>
                     <div className="text-3xl font-bold text-slate-800">{metrics.loyaltyBalance || 0}</div>
                 </div>
                 <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-                    <div className="text-slate-500 text-sm font-medium mb-1">Last Purchase</div>
+                    <div className="text-muted text-sm font-medium mb-1">Last Purchase</div>
                     <div className="text-xl font-semibold text-slate-800 mt-2">
                         {metrics.lastPurchaseDate ? new Date(metrics.lastPurchaseDate).toLocaleDateString() : 'Never'}
                     </div>
@@ -142,17 +143,17 @@ const AdminCustomerDetails = () => {
                 {/* Left Column */}
                 <div className="lg:col-span-2 space-y-6">
                     {/* Recent Orders */}
-                    <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-                        <div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+                    <div className="card p-0 overflow-hidden">
+                        <div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-surface-alt">
                             <h3 className="font-bold text-slate-800 flex items-center gap-2"><ShoppingBag size={18}/> Recent Orders</h3>
                             <Link to={`/admin/orders?search=${customer.email}`} className="text-sm text-primary hover:underline">View All</Link>
                         </div>
                         <div className="p-0">
                             {recentOrders.length === 0 ? (
-                                <div className="p-6 text-center text-slate-500">No orders found.</div>
+                                <div className="p-6 text-center text-muted">No orders found.</div>
                             ) : (
-                                <table className="w-full text-sm text-left">
-                                    <thead className="text-slate-500 border-b border-slate-100">
+                                <table className="full-width text-sm text-left">
+                                    <thead className="text-muted border-b border-slate-100">
                                         <tr>
                                             <th className="px-6 py-3">Order #</th>
                                             <th className="px-6 py-3">Date</th>
@@ -162,7 +163,7 @@ const AdminCustomerDetails = () => {
                                     </thead>
                                     <tbody className="divide-y divide-slate-50">
                                         {recentOrders.map(order => (
-                                            <tr key={order._id} className="hover:bg-slate-50">
+                                            <tr key={order._id} className="hover:bg-surface-alt">
                                                 <td className="px-6 py-3">
                                                     <Link to={`/admin/orders/${order.orderNumber}`} className="text-primary hover:underline font-medium">
                                                         {order.orderNumber}
@@ -176,7 +177,7 @@ const AdminCustomerDetails = () => {
                                                         {order.paymentStatus}
                                                     </span>
                                                 </td>
-                                                <td className="px-6 py-3 font-medium">${order.total.toFixed(2)}</td>
+                                                <td className="px-6 py-3 font-medium">{formatINR(order.total)}</td>
                                             </tr>
                                         ))}
                                     </tbody>
@@ -186,13 +187,13 @@ const AdminCustomerDetails = () => {
                     </div>
 
                     {/* Products of Interest */}
-                    <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-                        <div className="px-6 py-4 border-b border-slate-100 bg-slate-50">
+                    <div className="card p-0 overflow-hidden">
+                        <div className="px-6 py-4 border-b border-slate-100 bg-surface-alt">
                             <h3 className="font-bold text-slate-800">Purchased Products Summary</h3>
                         </div>
                         <div className="p-6">
                             {interests.uniqueProductsPurchased.length === 0 ? (
-                                <span className="text-slate-500">No purchase history.</span>
+                                <span className="text-muted">No purchase history.</span>
                             ) : (
                                 <div className="flex flex-wrap gap-2">
                                     {interests.uniqueProductsPurchased.map((product, idx) => (
@@ -209,8 +210,8 @@ const AdminCustomerDetails = () => {
                 {/* Right Column */}
                 <div className="space-y-6">
                     {/* Cart Status */}
-                    <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-                        <div className="px-6 py-4 border-b border-slate-100 flex items-center gap-2 bg-slate-50">
+                    <div className="card p-0 overflow-hidden">
+                        <div className="px-6 py-4 border-b border-slate-100 flex items-center gap-2 bg-surface-alt">
                             <ShoppingCart size={18} className="text-slate-700"/> 
                             <h3 className="font-bold text-slate-800">Cart Status</h3>
                         </div>
@@ -226,14 +227,14 @@ const AdminCustomerDetails = () => {
                                     </div>
                                 </div>
                             ) : (
-                                <div className="text-slate-500 text-sm">No active abandoned cart.</div>
+                                <div className="text-muted text-sm">No active abandoned cart.</div>
                             )}
                         </div>
                     </div>
 
                     {/* Support & Returns Summary */}
-                    <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-                        <div className="px-6 py-4 border-b border-slate-100 bg-slate-50">
+                    <div className="card p-0 overflow-hidden">
+                        <div className="px-6 py-4 border-b border-slate-100 bg-surface-alt">
                             <h3 className="font-bold text-slate-800 flex items-center gap-2"><Headphones size={18}/> Support Activity</h3>
                         </div>
                         <div className="p-6">
@@ -253,8 +254,8 @@ const AdminCustomerDetails = () => {
                         </div>
                     </div>
 
-                    <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-                        <div className="px-6 py-4 border-b border-slate-100 bg-slate-50">
+                    <div className="card p-0 overflow-hidden">
+                        <div className="px-6 py-4 border-b border-slate-100 bg-surface-alt">
                             <h3 className="font-bold text-slate-800 flex items-center gap-2"><RotateCcw size={18}/> Return Activity</h3>
                         </div>
                         <div className="p-6">
@@ -276,7 +277,7 @@ const AdminCustomerDetails = () => {
             {/* Loyalty Adjustment Modal */}
             {isAdjusting && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-                    <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6">
+                    <div className="bg-white rounded-xl shadow-xl max-w-md full-width p-6">
                         <h2 className="text-xl font-bold text-slate-800 mb-4">Adjust Loyalty Points</h2>
                         <form onSubmit={handleAdjustPoints} className="space-y-4">
                             <div>
@@ -284,7 +285,7 @@ const AdminCustomerDetails = () => {
                                 <input 
                                     type="number" 
                                     required 
-                                    className="w-full px-3 py-2 border rounded-lg"
+                                    className="full-width px-3 py-2 border rounded-lg"
                                     placeholder="e.g., 50 or -50"
                                     value={adjustPoints}
                                     onChange={(e) => setAdjustPoints(e.target.value)}
@@ -295,7 +296,7 @@ const AdminCustomerDetails = () => {
                                 <input 
                                     type="text" 
                                     required 
-                                    className="w-full px-3 py-2 border rounded-lg"
+                                    className="full-width px-3 py-2 border rounded-lg"
                                     placeholder="e.g., Goodwill credit"
                                     value={adjustNotes}
                                     onChange={(e) => setAdjustNotes(e.target.value)}

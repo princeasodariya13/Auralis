@@ -1,3 +1,66 @@
+
+export const safeFetch = async (url, options = {}) => {
+    try {
+        const response = await fetch(url, options);
+        let json;
+        const contentType = response.headers.get('content-type');
+        
+        if (contentType && contentType.includes('application/json')) {
+            try {
+                json = await response.json();
+            } catch (e) {
+                if (!response.ok) {
+                    throw new Error(getNetworkErrorMessage(response.status));
+                }
+                throw new Error('Received an unexpected response from the server.');
+            }
+        } else {
+            if (!response.ok) {
+                throw new Error(getNetworkErrorMessage(response.status));
+            }
+            json = { success: true }; // Dummy for non-json successes
+        }
+
+        if (!response.ok || (json && typeof json.success !== 'undefined' && !json.success)) {
+            const backendMessage = json?.error?.message;
+            // Never expose generic server messages directly if it's a 500, or raw 401/403/404 generic error if we can polish it
+            if (response.status === 401 || response.status === 403 || response.status === 404 || response.status === 429 || response.status >= 500) {
+                // If it's 401 and backend has a very specific message, maybe use it? 
+                // Wait, backend often says "Not authorized to access this route" (mongoose error)
+                // We prefer our polished message
+                throw new Error(getNetworkErrorMessage(response.status));
+            }
+            throw new Error(backendMessage || getNetworkErrorMessage(response.status));
+        }
+        
+        // Mock standard fetch interface for existing code that checks response.ok and calls response.json()
+        return {
+            ok: response.ok,
+            status: response.status,
+            json: async () => json
+        };
+    } catch (error) {
+        if (error.name === 'TypeError' || error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+            throw new Error('We couldn\'t connect to Auralis. Please check your connection and try again.');
+        }
+        throw error;
+    }
+};
+
+const getNetworkErrorMessage = (status) => {
+    switch (status) {
+        case 401: return 'Your session has expired. Please sign in again.';
+        case 403: return 'You don\'t have permission to access this page.';
+        case 404: return 'We couldn\'t find what you\'re looking for.';
+        case 429: return 'You\'re doing that a little too quickly. Please wait a moment.';
+        case 500:
+        case 502:
+        case 503:
+        case 504: return 'Something went wrong on our side. Please try again.';
+        default: return 'An unexpected error occurred. Please try again.';
+    }
+};
+
 import { testimonials } from '../data/mockData';
 
 const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '/api/v1' : 'http://localhost:5000/api/v1');
@@ -19,14 +82,14 @@ export const productService = {
         const queryString = urlParams.toString();
         const endpoint = queryString ? `${API_URL}/products?${queryString}` : `${API_URL}/products`;
 
-        const response = await fetch(endpoint);
+        const response = await safeFetch(endpoint);
         if (!response.ok) throw new Error('Failed to fetch products');
         const json = await response.json();
         return json.data;
     },
     
     async getProductById(id) {
-        const response = await fetch(`${API_URL}/products/${id}`);
+        const response = await safeFetch(`${API_URL}/products/${id}`);
         const json = await response.json();
         if (!response.ok || !json.success) {
             throw new Error(json?.error?.message || 'Product not found');
@@ -35,21 +98,21 @@ export const productService = {
     },
 
     async getRelatedProducts(id, limit = 4) {
-        const response = await fetch(`${API_URL}/recommendations/related/${id}?limit=${limit}`);
+        const response = await safeFetch(`${API_URL}/recommendations/related/${id}?limit=${limit}`);
         if (!response.ok) throw new Error('Failed to fetch related products');
         const json = await response.json();
         return json.data;
     },
 
     async getFrequentlyBoughtTogether(id, limit = 4) {
-        const response = await fetch(`${API_URL}/recommendations/frequently-bought/${id}?limit=${limit}`);
+        const response = await safeFetch(`${API_URL}/recommendations/frequently-bought/${id}?limit=${limit}`);
         if (!response.ok) throw new Error('Failed to fetch frequently bought together products');
         const json = await response.json();
         return json.data;
     },
 
     async getCategories() {
-        const response = await fetch(`${API_URL}/categories`);
+        const response = await safeFetch(`${API_URL}/categories`);
         if (!response.ok) throw new Error('Failed to fetch categories');
         const json = await response.json();
         return json.data;
@@ -72,25 +135,25 @@ const getFetchOptions = (method, body) => {
 
 export const wishlistService = {
     async getWishlist() {
-        const response = await fetch(`${API_URL}/wishlist`, getFetchOptions('GET'));
+        const response = await safeFetch(`${API_URL}/wishlist`, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch wishlist');
         return json.data;
     },
     async addToWishlist(productId) {
-        const response = await fetch(`${API_URL}/wishlist/${productId}`, getFetchOptions('POST'));
+        const response = await safeFetch(`${API_URL}/wishlist/${productId}`, getFetchOptions('POST'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to add to wishlist');
         return json.data;
     },
     async removeFromWishlist(productId) {
-        const response = await fetch(`${API_URL}/wishlist/${productId}`, getFetchOptions('DELETE'));
+        const response = await safeFetch(`${API_URL}/wishlist/${productId}`, getFetchOptions('DELETE'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to remove from wishlist');
         return json.data;
     },
     async clearWishlist() {
-        const response = await fetch(`${API_URL}/wishlist`, getFetchOptions('DELETE'));
+        const response = await safeFetch(`${API_URL}/wishlist`, getFetchOptions('DELETE'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to clear wishlist');
         return json.data;
@@ -106,13 +169,13 @@ export const reviewService = {
             if (params.limit) urlParams.append('limit', params.limit);
             endpoint += `?${urlParams.toString()}`;
         }
-        const response = await fetch(endpoint, getFetchOptions('GET'));
+        const response = await safeFetch(endpoint, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch reviews');
         return json.data;
     },
     async createReview(productId, reviewData) {
-        const response = await fetch(`${API_URL}/products/${productId}/reviews`, getFetchOptions('POST', reviewData));
+        const response = await safeFetch(`${API_URL}/products/${productId}/reviews`, getFetchOptions('POST', reviewData));
         const json = await response.json();
         if (!response.ok || !json.success) {
             const error = new Error(json?.error?.message || 'Failed to create review');
@@ -122,7 +185,7 @@ export const reviewService = {
         return json.data;
     },
     async updateReview(productId, reviewId, reviewData) {
-        const response = await fetch(`${API_URL}/products/${productId}/reviews/${reviewId}`, getFetchOptions('PATCH', reviewData));
+        const response = await safeFetch(`${API_URL}/products/${productId}/reviews/${reviewId}`, getFetchOptions('PATCH', reviewData));
         const json = await response.json();
         if (!response.ok || !json.success) {
             const error = new Error(json?.error?.message || 'Failed to update review');
@@ -133,25 +196,25 @@ export const reviewService = {
     },
     async deleteReview(productId, reviewId) {
         // Fallback for older components that might use the old path (although our backend expects /api/v1/reviews/:reviewId for delete)
-        const response = await fetch(`${API_URL}/reviews/${reviewId}`, getFetchOptions('DELETE'));
+        const response = await safeFetch(`${API_URL}/reviews/${reviewId}`, getFetchOptions('DELETE'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to delete review');
         return json.data;
     },
     async reportReview(reviewId, reason) {
-        const response = await fetch(`${API_URL}/reviews/${reviewId}/report`, getFetchOptions('POST', { reason }));
+        const response = await safeFetch(`${API_URL}/reviews/${reviewId}/report`, getFetchOptions('POST', { reason }));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to report review');
         return json.data;
     },
     async voteReview(reviewId, value) {
-        const response = await fetch(`${API_URL}/reviews/${reviewId}/helpful`, getFetchOptions('POST', { value }));
+        const response = await safeFetch(`${API_URL}/reviews/${reviewId}/helpful`, getFetchOptions('POST', { value }));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to vote on review');
         return json.data;
     },
     async adminDeleteReview(reviewId) {
-        const response = await fetch(`${API_URL}/admin/reviews/${reviewId}`, getFetchOptions('DELETE'));
+        const response = await safeFetch(`${API_URL}/admin/reviews/${reviewId}`, getFetchOptions('DELETE'));
         const json = await response.json();
         if (!response.ok || !json.success) {
             const error = new Error(json?.error?.message || 'Failed to delete review');
@@ -164,31 +227,31 @@ export const reviewService = {
 
 export const addressService = {
     async getAddresses() {
-        const response = await fetch(`${API_URL}/addresses`, getFetchOptions('GET'));
+        const response = await safeFetch(`${API_URL}/addresses`, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch addresses');
         return json.data;
     },
     async createAddress(addressData) {
-        const response = await fetch(`${API_URL}/addresses`, getFetchOptions('POST', addressData));
+        const response = await safeFetch(`${API_URL}/addresses`, getFetchOptions('POST', addressData));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to create address');
         return json.data;
     },
     async updateAddress(id, addressData) {
-        const response = await fetch(`${API_URL}/addresses/${id}`, getFetchOptions('PATCH', addressData));
+        const response = await safeFetch(`${API_URL}/addresses/${id}`, getFetchOptions('PATCH', addressData));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to update address');
         return json.data;
     },
     async deleteAddress(id) {
-        const response = await fetch(`${API_URL}/addresses/${id}`, getFetchOptions('DELETE'));
+        const response = await safeFetch(`${API_URL}/addresses/${id}`, getFetchOptions('DELETE'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to delete address');
         return json.data;
     },
     async setDefaultAddress(id) {
-        const response = await fetch(`${API_URL}/addresses/${id}/default`, getFetchOptions('PATCH'));
+        const response = await safeFetch(`${API_URL}/addresses/${id}/default`, getFetchOptions('PATCH'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to set default address');
         return json.data;
@@ -200,7 +263,7 @@ export const orderService = {
         const payload = {};
         if (couponCode) payload.couponCode = couponCode;
         if (pointsToRedeem) payload.pointsToRedeem = pointsToRedeem;
-        const response = await fetch(`${API_URL}/orders/preview`, getFetchOptions('POST', payload));
+        const response = await safeFetch(`${API_URL}/orders/preview`, getFetchOptions('POST', payload));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to preview checkout');
         return json.data;
@@ -209,31 +272,31 @@ export const orderService = {
         const payload = { addressId };
         if (couponCode) payload.couponCode = couponCode;
         if (pointsToRedeem) payload.pointsToRedeem = pointsToRedeem;
-        const response = await fetch(`${API_URL}/orders`, getFetchOptions('POST', payload));
+        const response = await safeFetch(`${API_URL}/orders`, getFetchOptions('POST', payload));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to create order');
         return json.data;
     },
     async getMyOrders(page = 1, limit = 10) {
-        const response = await fetch(`${API_URL}/orders?page=${page}&limit=${limit}`, getFetchOptions('GET'));
+        const response = await safeFetch(`${API_URL}/orders?page=${page}&limit=${limit}`, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch orders');
         return json.data;
     },
     async getOrderByNumber(orderNumber) {
-        const response = await fetch(`${API_URL}/orders/${orderNumber}`, getFetchOptions('GET'));
+        const response = await safeFetch(`${API_URL}/orders/${orderNumber}`, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch order');
         return json.data;
     },
     async cancelOrder(orderNumber) {
-        const response = await fetch(`${API_URL}/orders/${orderNumber}/cancel`, getFetchOptions('POST'));
+        const response = await safeFetch(`${API_URL}/orders/${orderNumber}/cancel`, getFetchOptions('POST'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to cancel order');
         return json.data;
     },
     async getOrderShipments(orderNumber) {
-        const response = await fetch(`${API_URL}/orders/${orderNumber}/shipments`, getFetchOptions('GET'));
+        const response = await safeFetch(`${API_URL}/orders/${orderNumber}/shipments`, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) {
             if (response.status === 404) return []; // No shipments yet
@@ -245,7 +308,7 @@ export const orderService = {
 
 export const adminService = {
     async getDashboard() {
-        const response = await fetch(`${API_URL}/admin/dashboard`, getFetchOptions('GET'));
+        const response = await safeFetch(`${API_URL}/admin/dashboard`, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) {
             const error = new Error(json?.error?.message || 'Failed to fetch dashboard');
@@ -266,31 +329,31 @@ export const adminService = {
         const queryString = urlParams.toString();
         const endpoint = queryString ? `${API_URL}/admin/products?${queryString}` : `${API_URL}/admin/products`;
 
-        const response = await fetch(endpoint, getFetchOptions('GET'));
+        const response = await safeFetch(endpoint, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch products');
         return json.data;
     },
     async getProductById(id) {
-        const response = await fetch(`${API_URL}/admin/products/${id}`, getFetchOptions('GET'));
+        const response = await safeFetch(`${API_URL}/admin/products/${id}`, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch product');
         return json.data;
     },
     async createProduct(productData) {
-        const response = await fetch(`${API_URL}/admin/products`, getFetchOptions('POST', productData));
+        const response = await safeFetch(`${API_URL}/admin/products`, getFetchOptions('POST', productData));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to create product');
         return json.data;
     },
     async updateProduct(id, productData) {
-        const response = await fetch(`${API_URL}/admin/products/${id}`, getFetchOptions('PATCH', productData));
+        const response = await safeFetch(`${API_URL}/admin/products/${id}`, getFetchOptions('PATCH', productData));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to update product');
         return json.data;
     },
     async deleteProduct(id) {
-        const response = await fetch(`${API_URL}/admin/products/${id}`, getFetchOptions('DELETE'));
+        const response = await safeFetch(`${API_URL}/admin/products/${id}`, getFetchOptions('DELETE'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to deactivate product');
         return json.data;
@@ -307,19 +370,19 @@ export const adminService = {
         const queryString = urlParams.toString();
         const endpoint = queryString ? `${API_URL}/admin/inventory?${queryString}` : `${API_URL}/admin/inventory`;
 
-        const response = await fetch(endpoint, getFetchOptions('GET'));
+        const response = await safeFetch(endpoint, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch inventory');
         return json.data;
     },
     async getInventorySummary() {
-        const response = await fetch(`${API_URL}/admin/inventory/summary`, getFetchOptions('GET'));
+        const response = await safeFetch(`${API_URL}/admin/inventory/summary`, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch inventory summary');
         return json.data;
     },
     async adjustInventory(productId, adjustmentData) {
-        const response = await fetch(`${API_URL}/admin/inventory/${productId}/adjust`, getFetchOptions('POST', adjustmentData));
+        const response = await safeFetch(`${API_URL}/admin/inventory/${productId}/adjust`, getFetchOptions('POST', adjustmentData));
         const json = await response.json();
         if (!response.ok || !json.success) {
             const error = new Error(json?.error?.message || 'Failed to adjust inventory');
@@ -329,7 +392,7 @@ export const adminService = {
         return json.data;
     },
     async getInventoryHistory(productId, page = 1, limit = 10) {
-        const response = await fetch(`${API_URL}/admin/inventory/${productId}/history?page=${page}&limit=${limit}`, getFetchOptions('GET'));
+        const response = await safeFetch(`${API_URL}/admin/inventory/${productId}/history?page=${page}&limit=${limit}`, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch inventory history');
         return json.data;
@@ -346,19 +409,19 @@ export const adminService = {
         const queryString = urlParams.toString();
         const endpoint = queryString ? `${API_URL}/admin/orders?${queryString}` : `${API_URL}/admin/orders`;
 
-        const response = await fetch(endpoint, getFetchOptions('GET'));
+        const response = await safeFetch(endpoint, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch orders');
         return json.data;
     },
     async getOrderDetails(orderNumber) {
-        const response = await fetch(`${API_URL}/admin/orders/${orderNumber}`, getFetchOptions('GET'));
+        const response = await safeFetch(`${API_URL}/admin/orders/${orderNumber}`, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch order details');
         return json.data;
     },
     async updateOrderStatus(orderNumber, status) {
-        const response = await fetch(`${API_URL}/admin/orders/${orderNumber}/status`, getFetchOptions('PATCH', { status }));
+        const response = await safeFetch(`${API_URL}/admin/orders/${orderNumber}/status`, getFetchOptions('PATCH', { status }));
         const json = await response.json();
         if (!response.ok || !json.success) {
             const error = new Error(json?.error?.message || 'Failed to update order status');
@@ -368,25 +431,25 @@ export const adminService = {
         return json.data;
     },
     async getOrderHistory(orderNumber, page = 1, limit = 10) {
-        const response = await fetch(`${API_URL}/admin/orders/${orderNumber}/history?page=${page}&limit=${limit}`, getFetchOptions('GET'));
+        const response = await safeFetch(`${API_URL}/admin/orders/${orderNumber}/history?page=${page}&limit=${limit}`, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch order history');
         return json.data;
     },
     async getOrderNotes(orderNumber) {
-        const response = await fetch(`${API_URL}/admin/orders/${orderNumber}/notes`, getFetchOptions('GET'));
+        const response = await safeFetch(`${API_URL}/admin/orders/${orderNumber}/notes`, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch order notes');
         return json.data;
     },
     async addNote(orderNumber, note) {
-        const response = await fetch(`${API_URL}/admin/orders/${orderNumber}/notes`, getFetchOptions('POST', { note }));
+        const response = await safeFetch(`${API_URL}/admin/orders/${orderNumber}/notes`, getFetchOptions('POST', { note }));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to add note');
         return json.data;
     },
     async getShipments(orderNumber) {
-        const response = await fetch(`${API_URL}/admin/orders/${orderNumber}/shipments`, getFetchOptions('GET'));
+        const response = await safeFetch(`${API_URL}/admin/orders/${orderNumber}/shipments`, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) {
             if (response.status === 404) return [];
@@ -395,13 +458,13 @@ export const adminService = {
         return json.data;
     },
     async createShipment(orderNumber, shipmentData) {
-        const response = await fetch(`${API_URL}/admin/orders/${orderNumber}/shipments`, getFetchOptions('POST', shipmentData));
+        const response = await safeFetch(`${API_URL}/admin/orders/${orderNumber}/shipments`, getFetchOptions('POST', shipmentData));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to create shipment');
         return json.data;
     },
     async updateShipment(shipmentId, updates) {
-        const response = await fetch(`${API_URL}/admin/shipments/${shipmentId}`, getFetchOptions('PATCH', updates));
+        const response = await safeFetch(`${API_URL}/admin/shipments/${shipmentId}`, getFetchOptions('PATCH', updates));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to update shipment');
         return json.data;
@@ -417,25 +480,25 @@ export const adminService = {
         const queryString = urlParams.toString();
         const endpoint = queryString ? `${API_URL}/admin/shipment-exceptions?${queryString}` : `${API_URL}/admin/shipment-exceptions`;
 
-        const response = await fetch(endpoint, getFetchOptions('GET'));
+        const response = await safeFetch(endpoint, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch shipment exceptions');
         return json; // returning full response for pagination
     },
     async getExceptionsSummary() {
-        const response = await fetch(`${API_URL}/admin/shipment-exceptions/summary`, getFetchOptions('GET'));
+        const response = await safeFetch(`${API_URL}/admin/shipment-exceptions/summary`, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch exceptions summary');
         return json.data;
     },
     async acknowledgeException(id) {
-        const response = await fetch(`${API_URL}/admin/shipment-exceptions/${id}/acknowledge`, getFetchOptions('PATCH'));
+        const response = await safeFetch(`${API_URL}/admin/shipment-exceptions/${id}/acknowledge`, getFetchOptions('PATCH'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to acknowledge exception');
         return json.data;
     },
     async resolveException(id, resolutionNote) {
-        const response = await fetch(`${API_URL}/admin/shipment-exceptions/${id}/resolve`, getFetchOptions('PATCH', { resolutionNote }));
+        const response = await safeFetch(`${API_URL}/admin/shipment-exceptions/${id}/resolve`, getFetchOptions('PATCH', { resolutionNote }));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to resolve exception');
         return json.data;
@@ -452,37 +515,37 @@ export const adminService = {
         const queryString = urlParams.toString();
         const endpoint = queryString ? `${API_URL}/admin/customers?${queryString}` : `${API_URL}/admin/customers`;
 
-        const response = await fetch(endpoint, getFetchOptions('GET'));
+        const response = await safeFetch(endpoint, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch customers');
         return json;
     },
     async getCustomerDetails(id) {
-        const response = await fetch(`${API_URL}/admin/customers/${id}`, getFetchOptions('GET'));
+        const response = await safeFetch(`${API_URL}/admin/customers/${id}`, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch customer details');
         return json.data;
     },
     async getCustomerLoyalty(id, page = 1, limit = 20) {
-        const response = await fetch(`${API_URL}/admin/customers/${id}/loyalty?page=${page}&limit=${limit}`, getFetchOptions('GET'));
+        const response = await safeFetch(`${API_URL}/admin/customers/${id}/loyalty?page=${page}&limit=${limit}`, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch customer loyalty');
         return json.data;
     },
     async adjustCustomerLoyalty(id, adjustmentData) {
-        const response = await fetch(`${API_URL}/admin/customers/${id}/loyalty-adjustment`, getFetchOptions('POST', adjustmentData));
+        const response = await safeFetch(`${API_URL}/admin/customers/${id}/loyalty-adjustment`, getFetchOptions('POST', adjustmentData));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to adjust loyalty');
         return json.data;
     },
     async getCoupons() {
-        const response = await fetch(`${API_URL}/admin/coupons`, getFetchOptions('GET'));
+        const response = await safeFetch(`${API_URL}/admin/coupons`, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch coupons');
         return json.data;
     },
     async createCoupon(couponData) {
-        const response = await fetch(`${API_URL}/admin/coupons`, getFetchOptions('POST', couponData));
+        const response = await safeFetch(`${API_URL}/admin/coupons`, getFetchOptions('POST', couponData));
         const json = await response.json();
         if (!response.ok || !json.success) {
             const error = new Error(json?.error?.message || 'Failed to create coupon');
@@ -492,7 +555,7 @@ export const adminService = {
         return json.data;
     },
     async updateCoupon(id, couponData) {
-        const response = await fetch(`${API_URL}/admin/coupons/${id}`, getFetchOptions('PATCH', couponData));
+        const response = await safeFetch(`${API_URL}/admin/coupons/${id}`, getFetchOptions('PATCH', couponData));
         const json = await response.json();
         if (!response.ok || !json.success) {
             const error = new Error(json?.error?.message || 'Failed to update coupon');
@@ -502,7 +565,7 @@ export const adminService = {
         return json.data;
     },
     async deleteCoupon(id) {
-        const response = await fetch(`${API_URL}/admin/coupons/${id}`, getFetchOptions('DELETE'));
+        const response = await safeFetch(`${API_URL}/admin/coupons/${id}`, getFetchOptions('DELETE'));
         const json = await response.json();
         if (!response.ok || !json.success) {
             const error = new Error(json?.error?.message || 'Failed to delete coupon');
@@ -520,19 +583,19 @@ export const adminService = {
         const queryString = urlParams.toString();
         const endpoint = queryString ? `${API_URL}/admin/returns?${queryString}` : `${API_URL}/admin/returns`;
 
-        const response = await fetch(endpoint, getFetchOptions('GET'));
+        const response = await safeFetch(endpoint, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch returns');
         return json.data;
     },
     async getReturnDetails(id) {
-        const response = await fetch(`${API_URL}/admin/returns/${id}`, getFetchOptions('GET'));
+        const response = await safeFetch(`${API_URL}/admin/returns/${id}`, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch return details');
         return json.data;
     },
     async updateReturnStatus(id, payload) {
-        const response = await fetch(`${API_URL}/admin/returns/${id}/status`, getFetchOptions('PATCH', payload));
+        const response = await safeFetch(`${API_URL}/admin/returns/${id}/status`, getFetchOptions('PATCH', payload));
         const json = await response.json();
         if (!response.ok || !json.success) {
             throw new Error(json?.error?.message || 'Failed to update return status');
@@ -540,7 +603,7 @@ export const adminService = {
         return json.data;
     },
     async getReconciliationSummary() {
-        const response = await fetch(`${API_URL}/admin/reconciliation/summary`, getFetchOptions('GET'));
+        const response = await safeFetch(`${API_URL}/admin/reconciliation/summary`, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch reconciliation summary');
         return json.data;
@@ -555,7 +618,7 @@ export const adminService = {
         const queryString = urlParams.toString();
         const endpoint = queryString ? `${API_URL}/admin/reconciliation/anomalies?${queryString}` : `${API_URL}/admin/reconciliation/anomalies`;
 
-        const response = await fetch(endpoint, getFetchOptions('GET'));
+        const response = await safeFetch(endpoint, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch anomalies');
     },
@@ -571,13 +634,13 @@ export const adminService = {
         const queryString = urlParams.toString();
         const endpoint = queryString ? `${API_URL}/admin/audit-logs?${queryString}` : `${API_URL}/admin/audit-logs`;
 
-        const response = await fetch(endpoint, getFetchOptions('GET'));
+        const response = await safeFetch(endpoint, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch audit logs');
         return json.data;
     },
     async getAuditFilters() {
-        const response = await fetch(`${API_URL}/admin/audit-logs/filters`, getFetchOptions('GET'));
+        const response = await safeFetch(`${API_URL}/admin/audit-logs/filters`, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch audit filters');
         return json.data;
@@ -586,13 +649,13 @@ export const adminService = {
 
 export const paymentService = {
     async createPaymentOrder(orderNumber) {
-        const response = await fetch(`${API_URL}/payments/create-order`, getFetchOptions('POST', { orderNumber }));
+        const response = await safeFetch(`${API_URL}/payments/create-order`, getFetchOptions('POST', { orderNumber }));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to initialize payment');
         return json.data;
     },
     async verifyPayment(paymentData) {
-        const response = await fetch(`${API_URL}/payments/verify`, getFetchOptions('POST', paymentData));
+        const response = await safeFetch(`${API_URL}/payments/verify`, getFetchOptions('POST', paymentData));
         const json = await response.json();
         if (!response.ok || !json.success) {
             const err = new Error(json?.error?.message || 'Failed to verify payment');
@@ -605,7 +668,7 @@ export const paymentService = {
 
 export const couponService = {
     async validateCoupon(couponCode) {
-        const response = await fetch(`${API_URL}/coupons/validate`, getFetchOptions('POST', { couponCode }));
+        const response = await safeFetch(`${API_URL}/coupons/validate`, getFetchOptions('POST', { couponCode }));
         const json = await response.json();
         if (!response.ok || !json.success) {
             const error = new Error(json?.error?.message || 'Invalid coupon');
@@ -618,7 +681,7 @@ export const couponService = {
 
 export const notificationService = {
     async getNotifications(page = 1, limit = 15) {
-        const response = await fetch(`${API_URL}/notifications?page=${page}&limit=${limit}`, getFetchOptions('GET'));
+        const response = await safeFetch(`${API_URL}/notifications?page=${page}&limit=${limit}`, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) {
             throw new Error(json?.error?.message || 'Failed to fetch notifications');
@@ -626,13 +689,13 @@ export const notificationService = {
         return json.data;
     },
     async getUnreadCount() {
-        const response = await fetch(`${API_URL}/notifications/unread-count`, getFetchOptions('GET'));
+        const response = await safeFetch(`${API_URL}/notifications/unread-count`, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) return 0;
         return json.data.unreadCount;
     },
     async markAsRead(id) {
-        const response = await fetch(`${API_URL}/notifications/${id}/read`, getFetchOptions('PATCH'));
+        const response = await safeFetch(`${API_URL}/notifications/${id}/read`, getFetchOptions('PATCH'));
         const json = await response.json();
         if (!response.ok || !json.success) {
             throw new Error(json?.error?.message || 'Failed to mark as read');
@@ -640,7 +703,7 @@ export const notificationService = {
         return json.data;
     },
     async markAllAsRead() {
-        const response = await fetch(`${API_URL}/notifications/read-all`, getFetchOptions('PATCH'));
+        const response = await safeFetch(`${API_URL}/notifications/read-all`, getFetchOptions('PATCH'));
         const json = await response.json();
         if (!response.ok || !json.success) {
             throw new Error(json?.error?.message || 'Failed to mark all as read');
@@ -651,31 +714,31 @@ export const notificationService = {
 
 export const returnService = {
     async getEligibility(orderNumber) {
-        const response = await fetch(`${API_URL}/returns/eligibility/${orderNumber}`, getFetchOptions('GET'));
+        const response = await safeFetch(`${API_URL}/returns/eligibility/${orderNumber}`, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to check eligibility');
         return json.data;
     },
     async createReturnRequest(payload) {
-        const response = await fetch(`${API_URL}/returns`, getFetchOptions('POST', payload));
+        const response = await safeFetch(`${API_URL}/returns`, getFetchOptions('POST', payload));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to create return request');
         return json.data;
     },
     async getMyReturns() {
-        const response = await fetch(`${API_URL}/returns`, getFetchOptions('GET'));
+        const response = await safeFetch(`${API_URL}/returns`, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch returns');
         return json.data;
     },
     async getReturnDetails(id) {
-        const response = await fetch(`${API_URL}/returns/${id}`, getFetchOptions('GET'));
+        const response = await safeFetch(`${API_URL}/returns/${id}`, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch return details');
         return json.data;
     },
     async cancelReturnRequest(id) {
-        const response = await fetch(`${API_URL}/returns/${id}/cancel`, getFetchOptions('PATCH'));
+        const response = await safeFetch(`${API_URL}/returns/${id}/cancel`, getFetchOptions('PATCH'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to cancel return');
         return json.data;
@@ -688,32 +751,32 @@ export const analyticsService = {
         if (productId) payload.productId = productId;
         
         // Fire and forget
-        fetch(`${API_URL}/analytics/events`, getFetchOptions('POST', payload))
+        safeFetch(`${API_URL}/analytics/events`, getFetchOptions('POST', payload))
             .catch(console.error);
     }
 };
 
 export const supportService = {
     async createTicket(payload) {
-        const response = await fetch(`${API_URL}/support`, getFetchOptions('POST', payload));
+        const response = await safeFetch(`${API_URL}/support`, getFetchOptions('POST', payload));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to create ticket');
         return json.data;
     },
     async getTickets(page = 1, limit = 10) {
-        const response = await fetch(`${API_URL}/support?page=${page}&limit=${limit}`, getFetchOptions('GET'));
+        const response = await safeFetch(`${API_URL}/support?page=${page}&limit=${limit}`, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch tickets');
         return json.data;
     },
     async getTicketDetails(ticketNumber) {
-        const response = await fetch(`${API_URL}/support/${ticketNumber}`, getFetchOptions('GET'));
+        const response = await safeFetch(`${API_URL}/support/${ticketNumber}`, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch ticket details');
         return json.data;
     },
     async replyToTicket(ticketNumber, message) {
-        const response = await fetch(`${API_URL}/support/${ticketNumber}/messages`, getFetchOptions('POST', { message }));
+        const response = await safeFetch(`${API_URL}/support/${ticketNumber}/messages`, getFetchOptions('POST', { message }));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to reply to ticket');
         return json.data;
@@ -735,37 +798,37 @@ export const adminSupportService = {
         const queryString = urlParams.toString();
         const endpoint = queryString ? `${API_URL}/admin/support?${queryString}` : `${API_URL}/admin/support`;
 
-        const response = await fetch(endpoint, getFetchOptions('GET'));
+        const response = await safeFetch(endpoint, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch tickets');
         return json.data;
     },
     async getTicketDetails(ticketNumber) {
-        const response = await fetch(`${API_URL}/admin/support/${ticketNumber}`, getFetchOptions('GET'));
+        const response = await safeFetch(`${API_URL}/admin/support/${ticketNumber}`, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch ticket details');
         return json.data;
     },
     async updateTicketStatus(ticketNumber, status) {
-        const response = await fetch(`${API_URL}/admin/support/${ticketNumber}/status`, getFetchOptions('PATCH', { status }));
+        const response = await safeFetch(`${API_URL}/admin/support/${ticketNumber}/status`, getFetchOptions('PATCH', { status }));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to update ticket status');
         return json.data;
     },
     async updateTicketPriority(ticketNumber, priority) {
-        const response = await fetch(`${API_URL}/admin/support/${ticketNumber}/priority`, getFetchOptions('PATCH', { priority }));
+        const response = await safeFetch(`${API_URL}/admin/support/${ticketNumber}/priority`, getFetchOptions('PATCH', { priority }));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to update ticket priority');
         return json.data;
     },
     async assignTicket(ticketNumber, assignedAdminId) {
-        const response = await fetch(`${API_URL}/admin/support/${ticketNumber}/assignment`, getFetchOptions('PATCH', { assignedAdminId }));
+        const response = await safeFetch(`${API_URL}/admin/support/${ticketNumber}/assignment`, getFetchOptions('PATCH', { assignedAdminId }));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to assign ticket');
         return json.data;
     },
     async addMessage(ticketNumber, payload) {
-        const response = await fetch(`${API_URL}/admin/support/${ticketNumber}/messages`, getFetchOptions('POST', payload));
+        const response = await safeFetch(`${API_URL}/admin/support/${ticketNumber}/messages`, getFetchOptions('POST', payload));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to add message');
         return json.data;
@@ -782,19 +845,19 @@ export const adminReviewService = {
         if (params.page) urlParams.append('page', params.page);
         if (params.limit) urlParams.append('limit', params.limit);
 
-        const response = await fetch(`${API_URL}/admin/reviews?${urlParams.toString()}`, getFetchOptions('GET'));
+        const response = await safeFetch(`${API_URL}/admin/reviews?${urlParams.toString()}`, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch reviews');
         return json.data;
     },
     async updateModeration(reviewId, status) {
-        const response = await fetch(`${API_URL}/admin/reviews/${reviewId}/moderation`, getFetchOptions('PATCH', { status }));
+        const response = await safeFetch(`${API_URL}/admin/reviews/${reviewId}/moderation`, getFetchOptions('PATCH', { status }));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to update review moderation');
         return json.data;
     },
     async getReports(reviewId) {
-        const response = await fetch(`${API_URL}/admin/reviews/${reviewId}/reports`, getFetchOptions('GET'));
+        const response = await safeFetch(`${API_URL}/admin/reviews/${reviewId}/reports`, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch review reports');
         return json.data;
@@ -803,7 +866,7 @@ export const adminReviewService = {
 
 export const loyaltyService = {
     async getMyLoyalty(page = 1, limit = 20) {
-        const response = await fetch(`${API_URL}/loyalty?page=${page}&limit=${limit}`, getFetchOptions('GET'));
+        const response = await safeFetch(`${API_URL}/loyalty?page=${page}&limit=${limit}`, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch loyalty data');
         return json.data;

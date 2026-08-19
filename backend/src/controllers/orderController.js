@@ -247,7 +247,8 @@ export const getMyOrders = async (req, res) => {
         const orders = await Order.find({ userId: req.user._id })
             .sort({ createdAt: -1 })
             .skip(startIndex)
-            .limit(safeLimit);
+            .limit(safeLimit)
+            .lean();
             
         res.json({ 
             success: true, 
@@ -270,7 +271,7 @@ export const getMyOrders = async (req, res) => {
 // @route   GET /api/v1/orders/:orderNumber
 export const getOrderByNumber = async (req, res) => {
     try {
-        const order = await Order.findOne({ orderNumber: req.params.orderNumber, userId: req.user._id });
+        const order = await Order.findOne({ orderNumber: req.params.orderNumber, userId: req.user._id }).lean();
         if (!order) {
             return res.status(404).json({ success: false, error: { message: 'Order not found' }});
         }

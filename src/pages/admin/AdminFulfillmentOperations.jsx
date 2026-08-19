@@ -95,7 +95,7 @@ const AdminFulfillmentOperations = () => {
                     <h1 className="text-2xl font-bold text-slate-800 flex items-center gap-2 mb-1">
                         <Truck size={28} className="text-primary" /> Fulfillment Operations
                     </h1>
-                    <p className="text-slate-500 text-sm">Monitor SLA risks, delivery failures, and shipment exceptions.</p>
+                    <p className="text-muted text-sm">Monitor SLA risks, delivery failures, and shipment exceptions.</p>
                 </div>
                 <button className="btn btn-outline-primary d-flex align-items-center gap-2" onClick={() => { fetchExceptions(); fetchSummary(); }}>
                     <RefreshCw size={16} /> Refresh
@@ -105,10 +105,10 @@ const AdminFulfillmentOperations = () => {
             {/* KPI Cards */}
             {summary && (
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-                    <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                    <div className="card">
                         <div className="flex justify-between items-start">
                             <div>
-                                <p className="text-slate-500 text-sm font-medium">Active Exceptions</p>
+                                <p className="text-muted text-sm font-medium">Active Exceptions</p>
                                 <h3 className="text-3xl font-bold text-slate-800 mt-1">{summary.totalActive}</h3>
                             </div>
                             <div className="p-2 bg-red-50 text-red-600 rounded-lg">
@@ -117,10 +117,10 @@ const AdminFulfillmentOperations = () => {
                         </div>
                     </div>
                     
-                    <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                    <div className="card">
                         <div className="flex justify-between items-start">
                             <div>
-                                <p className="text-slate-500 text-sm font-medium">Delivery Failed</p>
+                                <p className="text-muted text-sm font-medium">Delivery Failed</p>
                                 <h3 className="text-3xl font-bold text-slate-800 mt-1">{summary.byType.DELIVERY_FAILED || 0}</h3>
                             </div>
                             <div className="p-2 bg-orange-50 text-orange-600 rounded-lg">
@@ -129,10 +129,10 @@ const AdminFulfillmentOperations = () => {
                         </div>
                     </div>
 
-                    <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                    <div className="card">
                         <div className="flex justify-between items-start">
                             <div>
-                                <p className="text-slate-500 text-sm font-medium">Overdue / SLA Risk</p>
+                                <p className="text-muted text-sm font-medium">Overdue / SLA Risk</p>
                                 <h3 className="text-3xl font-bold text-slate-800 mt-1">
                                     {(summary.byType.OVERDUE_DELIVERY || 0) + (summary.byType.STUCK_IN_TRANSIT || 0)}
                                 </h3>
@@ -143,10 +143,10 @@ const AdminFulfillmentOperations = () => {
                         </div>
                     </div>
 
-                    <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                    <div className="card">
                         <div className="flex justify-between items-start">
                             <div>
-                                <p className="text-slate-500 text-sm font-medium">Returned to Sender</p>
+                                <p className="text-muted text-sm font-medium">Returned to Sender</p>
                                 <h3 className="text-3xl font-bold text-slate-800 mt-1">{summary.byType.RETURNED_TO_SENDER || 0}</h3>
                             </div>
                             <div className="p-2 bg-purple-50 text-purple-600 rounded-lg">
@@ -158,7 +158,7 @@ const AdminFulfillmentOperations = () => {
             )}
 
             {/* Filters */}
-            <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm mb-6 flex flex-wrap gap-4 items-center">
+            <div className="card mb-6 flex flex-wrap gap-4 items-center">
                 <div className="flex items-center gap-2 text-slate-600 font-medium mr-2">
                     <Filter size={18} /> Filters:
                 </div>
@@ -203,12 +203,12 @@ const AdminFulfillmentOperations = () => {
             </div>
 
             {/* Data Table */}
-            <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+            <div className="card p-0 overflow-hidden">
                 {error && <div className="p-4 bg-red-50 text-red-600 border-b border-red-100">{error}</div>}
                 
                 <div className="overflow-x-auto">
-                    <table className="w-full text-sm text-left">
-                        <thead className="bg-slate-50 text-slate-600 font-semibold border-b border-slate-200">
+                    <table className="full-width text-sm text-left">
+                        <thead className="bg-surface-alt text-slate-600 font-semibold border-b border-slate-200">
                             <tr>
                                 <th className="px-6 py-4">Type & Severity</th>
                                 <th className="px-6 py-4">Order / Shipment</th>
@@ -221,11 +221,11 @@ const AdminFulfillmentOperations = () => {
                         <tbody className="divide-y divide-slate-100">
                             {loading ? (
                                 <tr>
-                                    <td colSpan="6" className="px-6 py-8 text-center text-slate-400">Loading exceptions...</td>
+                                    <td colSpan="6" className="px-6 py-8 text-center text-muted">Loading exceptions...</td>
                                 </tr>
                             ) : exceptions.length === 0 ? (
                                 <tr>
-                                    <td colSpan="6" className="px-6 py-12 text-center text-slate-500">
+                                    <td colSpan="6" className="px-6 py-12 text-center text-muted">
                                         <div className="flex flex-col items-center gap-2">
                                             <CheckCircle size={32} className="text-green-500 mb-2" />
                                             <p className="font-medium text-lg text-slate-700">All clear!</p>
@@ -235,7 +235,7 @@ const AdminFulfillmentOperations = () => {
                                 </tr>
                             ) : (
                                 exceptions.map(exc => (
-                                    <tr key={exc._id} className="hover:bg-slate-50 transition-colors">
+                                    <tr key={exc._id} className="hover:bg-surface-alt transition-colors">
                                         <td className="px-6 py-4">
                                             <div className="font-semibold text-slate-800 mb-1">{exc.type.replace(/_/g, ' ')}</div>
                                             <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${getSeverityBadge(exc.severity)}`}>
@@ -249,20 +249,20 @@ const AdminFulfillmentOperations = () => {
                                                 </Link>
                                             </div>
                                             {exc.shipmentId ? (
-                                                <div className="text-xs text-slate-500 font-mono flex flex-col gap-1">
+                                                <div className="text-xs text-muted font-mono flex flex-col gap-1">
                                                     <span>{exc.shipmentId.carrier}</span>
                                                     <span>{exc.shipmentId.trackingNumber || 'No tracking'}</span>
                                                     <span className="uppercase text-[10px] bg-slate-100 px-1 py-0.5 rounded w-fit">{exc.shipmentId.status}</span>
                                                 </div>
                                             ) : (
-                                                <span className="text-xs text-slate-400">No specific shipment</span>
+                                                <span className="text-xs text-muted">No specific shipment</span>
                                             )}
                                         </td>
                                         <td className="px-6 py-4">
                                             {exc.userId ? (
                                                 <>
                                                     <div className="font-medium text-slate-800">{exc.userId.name}</div>
-                                                    <div className="text-xs text-slate-500">{exc.userId.email}</div>
+                                                    <div className="text-xs text-muted">{exc.userId.email}</div>
                                                 </>
                                             ) : 'Unknown'}
                                         </td>
@@ -298,7 +298,7 @@ const AdminFulfillmentOperations = () => {
                                                 )}
                                                 <Link 
                                                     to={`/admin/orders/${exc.orderNumber}`}
-                                                    className="p-1 text-slate-400 hover:text-primary transition-colors"
+                                                    className="p-1 text-muted hover:text-primary transition-colors"
                                                     title="View Order"
                                                 >
                                                     <Eye size={18} />
@@ -314,7 +314,7 @@ const AdminFulfillmentOperations = () => {
                 
                 {/* Pagination */}
                 {totalPages > 1 && (
-                    <div className="px-6 py-4 border-t border-slate-200 flex justify-between items-center bg-slate-50">
+                    <div className="px-6 py-4 border-t border-slate-200 flex justify-between items-center bg-surface-alt">
                         <span className="text-sm text-slate-600">
                             Page {page} of {totalPages}
                         </span>
@@ -341,7 +341,7 @@ const AdminFulfillmentOperations = () => {
             {/* Resolve Modal */}
             {resolvingId && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                    <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-6">
+                    <div className="bg-white rounded-xl shadow-xl full-width max-w-md p-6">
                         <h3 className="text-lg font-bold text-slate-800 mb-4">Resolve Exception</h3>
                         <p className="text-sm text-slate-600 mb-4">
                             Marking this exception as resolved means the operational issue has been handled. 
@@ -350,7 +350,7 @@ const AdminFulfillmentOperations = () => {
                         <div className="mb-4">
                             <label className="block text-sm font-medium text-slate-700 mb-1">Resolution Note (Optional)</label>
                             <textarea 
-                                className="form-control w-full p-2 border rounded" 
+                                className="form-control full-width p-2 border rounded" 
                                 rows="3"
                                 value={resolutionNote}
                                 onChange={(e) => setResolutionNote(e.target.value)}

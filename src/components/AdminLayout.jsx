@@ -1,6 +1,6 @@
 import { Outlet, NavLink, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { LayoutDashboard, Package, ArchiveRestore, ShoppingCart, Users, Tag, TrendingUp, LogOut, Menu, X, RotateCcw, ShieldAlert, FileText, Headphones, Star } from 'lucide-react';
+import { LayoutDashboard, Package, ArchiveRestore, ShoppingCart, Users, Tag, TrendingUp, LogOut, Menu, X, RotateCcw, ShieldAlert, FileText, Headphones, Star, AlertTriangle } from 'lucide-react';
 import { useState } from 'react';
 import './AdminLayout.css';
 
@@ -25,7 +25,7 @@ const AdminLayout = () => {
                 <Link to="/admin" className="admin-logo">
                     AURALIS <span className="admin-badge">ADMIN</span>
                 </Link>
-                <button className="mobile-toggle" onClick={toggleSidebar}>
+                <button className="mobile-toggle" onClick={toggleSidebar} aria-label="Toggle Sidebar">
                     {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
                 </button>
             </div>

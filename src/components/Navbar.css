@@ -2,10 +2,11 @@
     position: sticky;
     top: 0;
     z-index: 1000;
-    background-color: var(--color-white);
-    border-bottom: 1px solid var(--color-gray-200);
-    padding: 1.25rem 0;
-    transition: all 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--color-border);
+    padding: 1rem 0;
+    transition: all var(--transition-normal);
 }
 
 .nav-container {
@@ -16,10 +17,11 @@
 
 .logo {
     font-family: var(--font-serif);
-    font-size: 1.75rem;
-    font-weight: 700;
-    letter-spacing: 2px;
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
     color: var(--color-black);
+    text-transform: uppercase;
 }
 
 .nav-links {
@@ -28,48 +30,67 @@
 }
 
 .nav-links a {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    font-weight: 500;
-    color: var(--color-gray-800);
-    transition: color 0.3s ease;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    color: var(--color-slate-600);
+    position: relative;
 }
 
-.nav-links a:hover {
+.nav-links a:hover, .nav-links a.active {
     color: var(--color-primary);
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-primary);
+    transition: width var(--transition-normal);
+}
+
+.nav-links a:hover::after, .nav-links a.active::after {
+    width: 100%;
 }
 
 .nav-icons {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: 1.25rem;
 }
 
 .icon-btn {
-    color: var(--color-black);
-    transition: color 0.3s ease;
+    color: var(--color-slate-700);
     position: relative;
+    padding: 0.25rem;
+    border-radius: var(--radius-md);
 }
 
-.icon-btn:hover {
+.icon-btn:hover , .icon-btn:focus-visible {
     color: var(--color-primary);
+    background-color: var(--color-slate-50);
 }
 
 .cart-badge {
     position: absolute;
-    top: -8px;
-    right: -8px;
+    top: -4px;
+    right: -4px;
     background-color: var(--color-primary);
     color: var(--color-white);
-    font-size: 0.7rem;
-    font-weight: 600;
-    width: 18px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    min-width: 18px;
     height: 18px;
-    border-radius: 50%;
+    padding: 0 4px;
+    border-radius: var(--radius-full);
     display: flex;
     align-items: center;
     justify-content: center;
+    border: 2px solid var(--color-white);
 }
 
 .mobile-only {
@@ -82,20 +103,30 @@
     top: 100%;
     left: 0;
     width: 100%;
-    background-color: var(--color-white);
-    border-bottom: 1px solid var(--color-gray-200);
-    padding: 2rem 1rem;
+    background-color: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--spacing-xl) var(--spacing-lg);
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-    align-items: center;
-    animation: slideDown 0.3s ease-out;
+    box-shadow: var(--shadow-md);
+    animation: slideDown var(--transition-fast);
 }
 
 .mobile-menu a {
-    font-family: var(--font-serif);
-    font-size: 1.25rem;
-    color: var(--color-black);
+    font-family: var(--font-sans);
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-slate-800);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--color-slate-100);
+}
+
+.mobile-menu a.active {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
 }
 
 @keyframes slideDown {
@@ -103,7 +134,6 @@
         opacity: 0;
         transform: translateY(-10px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0);
@@ -114,8 +144,10 @@
     .desktop-only {
         display: none;
     }
-
     .mobile-only {
         display: block;
+    }
+    .nav-icons {
+        gap: 0.75rem;
     }
 }

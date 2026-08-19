@@ -92,7 +92,8 @@ export const getProducts = async (req, res) => {
         const products = await Product.find(query)
             .sort(sortOption)
             .skip(skip)
-            .limit(limitNum);
+            .limit(limitNum)
+            .lean();
 
         // Strip internal fields, compute availability state
         const safeProducts = products.map(p => ({
@@ -134,7 +135,7 @@ export const getProducts = async (req, res) => {
 export const getProductById = async (req, res) => {
     try {
         // We query by the custom 'id' field, not MongoDB's '_id', and ensure it's active
-        const p = await Product.findOne({ id: parseInt(req.params.id), isActive: true });
+        const p = await Product.findOne({ id: parseInt(req.params.id), isActive: true }).lean();
         
         if (p) {
             const safeProduct = {

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useOrders } from '../hooks/useData';
 import { ArrowRight, PackageOpen, Calendar, DollarSign, ChevronLeft, ChevronRight } from 'lucide-react';
+import { EmptyState, ErrorState } from '../components/States';
 import './Orders.css';
 
 const getStatusBadge = (status) => {
@@ -39,11 +40,8 @@ const Orders = () => {
     if (error) {
         return (
             <div className="section container">
-                <h1>Order History</h1>
-                <div className="error-state">
-                    <p>{error}</p>
-                    <button className="btn btn-primary mt-4" onClick={() => window.location.reload()}>Retry</button>
-                </div>
+                <h1 style={{ marginBottom: '2rem' }}>Order History</h1>
+                <ErrorState message={error} onRetry={() => window.location.reload()} />
             </div>
         );
     }
@@ -53,15 +51,13 @@ const Orders = () => {
     if (orders.length === 0 && page === 1) {
         return (
             <div className="section container">
-                <h1>Order History</h1>
-                <div className="orders-empty">
-                    <PackageOpen size={48} className="empty-icon" />
-                    <h2>No orders yet</h2>
-                    <p>Your next great listening experience is waiting.</p>
-                    <Link to="/shop" className="btn btn-primary mt-6">
-                        Explore Audio Gear
-                    </Link>
-                </div>
+                <h1 style={{ marginBottom: '2rem' }}>Order History</h1>
+                <EmptyState 
+                    title="No orders yet" 
+                    message="Your next great listening experience is waiting." 
+                    actionText="Explore Audio Gear" 
+                    onAction={() => navigate('/shop')} 
+                />
             </div>
         );
     }

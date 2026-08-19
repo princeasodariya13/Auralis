@@ -120,6 +120,6 @@
     padding: 0;
 }
 
-.btn-close:hover {
+.btn-close:hover , .btn-close:focus-visible {
     color: #0f172a;
 }

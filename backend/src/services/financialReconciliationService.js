@@ -94,7 +94,7 @@ export const getAnomalies = async (page = 1, limit = 50, filters = {}) => {
                     _id: `ANO-OVREF-${order._id}`,
                     severity: 'CRITICAL',
                     type: 'OVER_REFUND',
-                    message: `Order #${order.orderNumber} has total refunds ($${order.totalRefund}) exceeding original order total ($${order.orderTotal}).`,
+                    message: `Order #${order.orderNumber} has total refunds (₹${order.totalRefund}) exceeding original order total (₹${order.orderTotal}).`,
                     relatedModel: 'Order',
                     relatedId: order._id,
                     orderNumber: order.orderNumber,

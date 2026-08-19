@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ShoppingBag, Heart } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
+import { formatINR } from '../utils/formatCurrency';
 import './ProductCard.css';
 
 const ProductCard = ({ product }) => {
@@ -26,7 +27,16 @@ const ProductCard = ({ product }) => {
     return (
         <div className="product-card" onClick={() => navigate(`/product/${product.id}`)} role="button" tabIndex="0" onKeyDown={(e) => { if(e.key==='Enter') navigate(`/product/${product.id}`) }}>
             <div className="product-image-container">
-                <img src={product.image} alt={product.name} className="product-image" loading="lazy" />
+                <img 
+                    src={product.image} 
+                    alt={product.name} 
+                    className="product-image" 
+                    loading="lazy" 
+                    onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400"><rect width="400" height="400" fill="%23f1f5f9"/><text x="200" y="200" font-family="sans-serif" font-size="20" fill="%2394a3b8" text-anchor="middle" dominant-baseline="middle">Image Unavailable</text></svg>';
+                    }}
+                />
                 <button 
                     className={`wishlist-btn ${isInWishlist(product.id) ? 'active' : ''}`}
                     onClick={handleWishlistClick}
@@ -61,7 +71,7 @@ const ProductCard = ({ product }) => {
                 <h3 className="product-title">
                     <Link to={`/product/${product.id}`} onClick={(e) => e.stopPropagation()}>{product.name}</Link>
                 </h3>
-                <span className="product-price">${product.price.toLocaleString()}</span>
+                <span className="product-price">{formatINR(product.price)}</span>
             </div>
         </div>
     );

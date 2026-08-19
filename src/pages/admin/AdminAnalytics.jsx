@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { adminService } from '../../services/apiService';
+import { formatINR } from '../../utils/formatCurrency';
 import { TrendingUp, Users, ShoppingCart, DollarSign, AlertTriangle, Calendar, CheckCircle, XCircle, Clock } from 'lucide-react';
 import './AdminAnalytics.css';
 
@@ -86,7 +87,7 @@ const AdminAnalytics = () => {
                                 <h3 className="metric-title">Total Revenue</h3>
                                 <DollarSign className="metric-icon" size={20} />
                             </div>
-                            <div className="metric-value">${data.revenue.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</div>
+                            <div className="metric-value">{formatINR(data.revenue)}</div>
                             <div className="metric-subtext text-muted">
                                 Confirmed paid orders only
                             </div>
@@ -99,7 +100,7 @@ const AdminAnalytics = () => {
                             </div>
                             <div className="metric-value">{data.orders.total}</div>
                             <div className="metric-subtext text-muted">
-                                Avg. Order: ${data.orders.avgOrderValue.toLocaleString(undefined, {maximumFractionDigits: 2})}
+                                Avg. Order: {formatINR(data.orders.avgOrderValue)}
                             </div>
                         </div>
 
@@ -108,7 +109,7 @@ const AdminAnalytics = () => {
                                 <h3 className="metric-title">Total Discounts</h3>
                                 <TagIcon className="metric-icon" size={20} />
                             </div>
-                            <div className="metric-value">${data.discounts.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</div>
+                            <div className="metric-value">{formatINR(data.discounts)}</div>
                             <div className="metric-subtext text-muted">
                                 Granted via coupons
                             </div>
@@ -197,7 +198,7 @@ const AdminAnalytics = () => {
                                                         <tr key={product._id}>
                                                             <td><strong>{product.name}</strong></td>
                                                             <td className="text-right">{product.quantitySold}</td>
-                                                            <td className="text-right">${product.revenue.toLocaleString()}</td>
+                                                            <td className="text-right">{formatINR(product.revenue)}</td>
                                                         </tr>
                                                     ))}
                                                 </tbody>
@@ -233,7 +234,7 @@ const AdminAnalytics = () => {
                                                         <tr key={item._id}>
                                                             <td><strong>{item._id}</strong></td>
                                                             <td className="text-right">{item.orders}</td>
-                                                            <td className="text-right text-primary font-medium">${item.revenue.toLocaleString()}</td>
+                                                            <td className="text-right text-primary font-medium">{formatINR(item.revenue)}</td>
                                                         </tr>
                                                     ))}
                                                 </tbody>

@@ -16,15 +16,15 @@
 }
 
 .empty-addresses {
-    background-color: var(--color-gray-50);
+    background-color: var(--color-slate-50);
     padding: 3rem 1rem;
     border-radius: var(--radius-md);
     text-align: center;
-    color: var(--color-gray-600);
+    color: var(--color-slate-600);
 }
 
 .empty-addresses .empty-icon {
-    color: var(--color-gray-400);
+    color: var(--color-slate-400);
     margin-bottom: 1rem;
 }
 
@@ -45,7 +45,7 @@
 }
 
 .address-card {
-    border: 1px solid var(--color-gray-200);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     padding: 1.5rem;
     background-color: var(--color-white);
@@ -55,7 +55,7 @@
 }
 
 .address-card.default {
-    border-color: var(--color-gray-400);
+    border-color: var(--color-slate-400);
 }
 
 .address-card.selected {
@@ -64,11 +64,11 @@
     cursor: pointer;
 }
 
-.address-card:hover {
-    border-color: var(--color-gray-400);
+.address-card:hover , .address-card:focus-visible {
+    border-color: var(--color-slate-400);
 }
 
-.address-card.selected:hover {
+.address-card.selected:hover , .address-card.selected:focus-visible {
     border-color: var(--color-primary);
 }
 
@@ -86,8 +86,8 @@
 }
 
 .badge-default {
-    background-color: var(--color-gray-100);
-    color: var(--color-gray-700);
+    background-color: var(--color-slate-100);
+    color: var(--color-slate-700);
     font-size: 0.75rem;
     padding: 0.25rem 0.5rem;
     border-radius: var(--radius-sm);
@@ -95,20 +95,20 @@
 }
 
 .address-card-body p {
-    color: var(--color-gray-700);
+    color: var(--color-slate-700);
     margin-bottom: 0.25rem;
     font-size: 0.95rem;
 }
 
 .address-phone {
     margin-top: 0.5rem;
-    color: var(--color-gray-500) !important;
+    color: var(--color-slate-500) !important;
 }
 
 .address-card-actions {
     margin-top: 1.5rem;
     padding-top: 1rem;
-    border-top: 1px solid var(--color-gray-100);
+    border-top: 1px solid var(--color-slate-100);
     display: flex;
     gap: 1rem;
     align-items: center;
@@ -118,7 +118,7 @@
 .action-btn {
     background: none;
     border: none;
-    color: var(--color-gray-500);
+    color: var(--color-slate-500);
     font-size: 0.875rem;
     display: flex;
     align-items: center;
@@ -128,11 +128,11 @@
     transition: color 0.2s ease;
 }
 
-.action-btn:hover {
+.action-btn:hover , .action-btn:focus-visible {
     color: var(--color-black);
 }
 
-.action-btn.text-danger:hover {
+.action-btn.text-danger:hover , .action-btn.text-danger:focus-visible {
     color: #ef4444;
 }
 
@@ -152,7 +152,7 @@
 
 /* Address Form */
 .address-form {
-    background-color: var(--color-gray-50);
+    background-color: var(--color-slate-50);
     padding: 2rem;
     border-radius: var(--radius-md);
 }

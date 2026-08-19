@@ -10,7 +10,7 @@
 }
 
 .section-subtitle {
-    color: var(--color-gray-800);
+    color: var(--color-slate-800);
     font-size: 1.1rem;
 }
 
@@ -37,7 +37,7 @@
     transition: transform 0.6s ease;
 }
 
-.collection-card:hover .collection-image {
+.collection-card:hover .collection-image , .collection-card:focus-visible .collection-image {
     transform: scale(1.05);
 }
 

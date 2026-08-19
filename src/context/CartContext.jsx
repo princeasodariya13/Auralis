@@ -58,22 +58,21 @@ export const CartProvider = ({ children }) => {
                 setCart(updatedCart.items);
             } catch (err) {
                 console.error("Add to cart failed:", err);
-                alert(err.message || "Failed to add to cart due to stock limits.");
+                alert(err.message || "We couldn't add this item to your cart right now. Please try again.");
             }
         } else {
             setCart((prevCart) => {
                 const existingItem = prevCart.find((item) => item.id === product.id);
                 // For guest cart, we can't reliably validate exact stock dynamically without an API call
-                // But we can check if we already fetched availability
                 if (product.availability === 'out_of_stock' || product.availability === 'inactive') {
-                    alert("This product is currently unavailable.");
+                    alert("Sorry, this product is currently unavailable.");
                     return prevCart;
                 }
 
                 if (existingItem) {
                     const maxQty = Math.min(existingItem.quantity + 1, 20);
                     if (product.stockQuantity && maxQty > product.stockQuantity) {
-                        alert(`Only ${product.stockQuantity} available.`);
+                        alert(`Sorry, we only have ${product.stockQuantity} of this item available.`);
                         return prevCart;
                     }
                     return prevCart.map((item) =>
@@ -83,7 +82,7 @@ export const CartProvider = ({ children }) => {
                     );
                 }
                 if (product.stockQuantity && 1 > product.stockQuantity) {
-                    alert("Out of stock.");
+                    alert("Sorry, this item is currently out of stock.");
                     return prevCart;
                 }
                 return [...prevCart, { ...product, quantity: 1 }];
@@ -114,13 +113,13 @@ export const CartProvider = ({ children }) => {
                 setCart(updatedCart.items);
             } catch (err) {
                 console.error("Update quantity failed:", err);
-                alert(err.message || "Failed to update quantity due to stock limits.");
+                alert(err.message || "We couldn't update the quantity right now.");
             }
         } else {
             setCart((prevCart) => {
                 const item = prevCart.find(i => i.id === productId);
                 if (item && item.stockQuantity && validQuantity > item.stockQuantity) {
-                    alert(`Only ${item.stockQuantity} available.`);
+                    alert(`Sorry, we only have ${item.stockQuantity} of this item available.`);
                     return prevCart;
                 }
                 return prevCart.map((item) =>

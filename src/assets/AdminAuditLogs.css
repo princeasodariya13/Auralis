@@ -130,7 +130,7 @@
     transition: color 0.2s;
 }
 
-.close-btn:hover {
+.close-btn:hover , .close-btn:focus-visible {
     color: var(--color-slate-100);
 }
 

@@ -12,6 +12,7 @@ const SupportTicketDetail = () => {
     const [error, setError] = useState(null);
     const [replyText, setReplyText] = useState('');
     const [replying, setReplying] = useState(false);
+    const [replyError, setReplyError] = useState(null);
     
     const messagesEndRef = useRef(null);
 
@@ -41,6 +42,8 @@ const SupportTicketDetail = () => {
     const handleReply = async (e) => {
         e.preventDefault();
         if (!replyText.trim()) return;
+        
+        setReplyError(null);
 
         try {
             setReplying(true);
@@ -52,7 +55,7 @@ const SupportTicketDetail = () => {
                 setTicket({ ...ticket, status: 'IN_PROGRESS', lastActivityAt: new Date() });
             }
         } catch (err) {
-            alert(err.message || 'Failed to send reply');
+            setReplyError(err.message || 'We couldnt send your reply. Please try again.');
         } finally {
             setReplying(false);
         }
@@ -60,19 +63,19 @@ const SupportTicketDetail = () => {
 
     if (loading) {
         return (
-            <div className="flex justify-center items-center h-[60vh]">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-slate-900"></div>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh' }}>
+                <p>Loading ticket details...</p>
             </div>
         );
     }
 
     if (error || !ticket) {
         return (
-            <div className="max-w-4xl mx-auto px-4 py-12">
-                <div className="p-6 bg-red-50 text-red-700 border border-red-200">
-                    <h2 className="text-xl font-medium mb-2">Error</h2>
+            <div className="section container">
+                <div style={{ padding: '1.5rem', backgroundColor: 'var(--color-danger-bg)', color: 'var(--color-danger)', border: '1px solid var(--color-danger)', borderRadius: 'var(--radius-md)' }}>
+                    <h2 style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}>Error</h2>
                     <p>{error || 'Ticket not found.'}</p>
-                    <button onClick={() => navigate('/account/support')} className="mt-4 px-4 py-2 bg-white border border-red-300 text-red-700 hover:bg-red-50 transition-colors">
+                    <button onClick={() => navigate('/account/support')} className="btn btn-outline" style={{ marginTop: '1rem' }}>
                         Back to Support
                     </button>
                 </div>
@@ -81,98 +84,111 @@ const SupportTicketDetail = () => {
     }
 
     return (
-        <div className="max-w-4xl mx-auto px-4 py-8">
-            <button 
-                onClick={() => navigate('/account/support')}
-                className="flex items-center gap-2 text-slate-500 hover:text-slate-900 mb-6 transition-colors font-medium"
-            >
-                <ArrowLeft size={20} /> Back to Tickets
-            </button>
+        <div className="section container" style={{ minHeight: '70vh' }}>
+            <div style={{ maxWidth: '900px', margin: '0 auto', padding: 'var(--spacing-lg) 0' }}>
+                <button 
+                    onClick={() => navigate('/account/support')}
+                    className="btn btn-outline btn-sm"
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginBottom: '2rem', border: 'none', padding: 0 }}
+                >
+                    <ArrowLeft size={16} /> Back to Tickets
+                </button>
 
-            <div className="bg-white border border-slate-200 shadow-sm flex flex-col h-[calc(100vh-200px)] min-h-[600px]">
-                {/* Header */}
-                <div className="p-6 border-b border-slate-200 bg-slate-50">
-                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                        <div>
-                            <div className="flex items-center gap-3 mb-2">
-                                <h1 className="text-2xl font-montserrat font-light text-slate-900">{ticket.subject}</h1>
-                                <span className="text-sm font-medium text-slate-500 bg-slate-200 px-2 py-0.5 rounded">{ticket.ticketNumber}</span>
-                            </div>
-                            <div className="flex items-center gap-4 text-sm text-slate-600">
-                                <span><strong>Category:</strong> {ticket.category}</span>
-                                {ticket.orderNumber && (
-                                    <span><strong>Order:</strong> <button onClick={() => navigate(`/orders/${ticket.orderNumber}`)} className="text-indigo-600 hover:underline">{ticket.orderNumber}</button></span>
-                                )}
-                            </div>
-                        </div>
-                        <div className="text-right">
-                            <span className="block px-3 py-1 bg-slate-900 text-white text-xs font-semibold uppercase tracking-wider mb-2 text-center">
-                                {ticket.status.replace('_', ' ')}
-                            </span>
-                            <span className="flex items-center gap-1 text-xs text-slate-500">
-                                <Clock size={14} /> Updated {new Date(ticket.lastActivityAt).toLocaleDateString()}
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Conversation area */}
-                <div className="flex-1 overflow-y-auto p-6 bg-white space-y-6">
-                    {messages.map((msg, index) => {
-                        const isCustomer = msg.senderType === 'CUSTOMER';
-                        return (
-                            <div key={msg._id || index} className={`flex ${isCustomer ? 'justify-end' : 'justify-start'}`}>
-                                <div className={`max-w-[80%] flex flex-col ${isCustomer ? 'items-end' : 'items-start'}`}>
-                                    <div className="flex items-center gap-2 mb-1">
-                                        <span className="text-xs font-medium text-slate-500">
-                                            {isCustomer ? 'You' : 'Auralis Support'}
-                                        </span>
-                                        {msg.senderType === 'ADMIN' && <Shield size={12} className="text-indigo-600" />}
+                <div className="card" style={{ padding: 0, display: 'flex', flexDirection: 'column', height: 'calc(100vh - 200px)', minHeight: '600px' }}>
+                    {/* Header */}
+                    <div style={{ padding: '1.5rem', borderBottom: '1px solid var(--color-border)', backgroundColor: 'var(--color-slate-50)', borderTopLeftRadius: 'var(--radius-lg)', borderTopRightRadius: 'var(--radius-lg)' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', flexWrap: 'wrap' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem' }}>
+                                <div>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
+                                        <h1 style={{ fontSize: '1.5rem', margin: 0 }}>{ticket.subject}</h1>
+                                        <span className="badge badge-neutral">{ticket.ticketNumber}</span>
                                     </div>
-                                    <div className={`p-4 text-sm leading-relaxed ${isCustomer ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-900'}`} style={{ borderRadius: isCustomer ? '12px 12px 0 12px' : '12px 12px 12px 0' }}>
-                                        {msg.message.split('\n').map((line, i) => (
-                                            <React.Fragment key={i}>
-                                                {line}
-                                                {i !== msg.message.split('\n').length - 1 && <br />}
-                                            </React.Fragment>
-                                        ))}
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', fontSize: '0.875rem', color: 'var(--color-slate-600)' }}>
+                                        <span><strong>Category:</strong> {ticket.category}</span>
+                                        {ticket.orderNumber && (
+                                            <span><strong>Order:</strong> <button onClick={() => navigate(`/orders/${ticket.orderNumber}`)} style={{ color: 'var(--color-primary)', textDecoration: 'underline' }}>{ticket.orderNumber}</button></span>
+                                        )}
                                     </div>
-                                    <span className="text-[10px] text-slate-400 mt-1">
-                                        {new Date(msg.createdAt).toLocaleString()}
+                                </div>
+                                <div style={{ textAlign: 'right' }}>
+                                    <span className="badge badge-primary" style={{ marginBottom: '0.5rem', display: 'inline-block' }}>
+                                        {ticket.status.replace('_', ' ')}
+                                    </span>
+                                    <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', fontSize: '0.75rem', color: 'var(--color-slate-500)' }}>
+                                        <Clock size={14} /> Updated {new Date(ticket.lastActivityAt).toLocaleDateString()}
                                     </span>
                                 </div>
                             </div>
-                        );
-                    })}
-                    <div ref={messagesEndRef} />
-                </div>
-
-                {/* Reply box */}
-                <div className="p-4 border-t border-slate-200 bg-slate-50">
-                    {ticket.status === 'CLOSED' ? (
-                        <div className="text-center p-4 text-slate-500">
-                            This ticket has been closed and cannot be replied to.
                         </div>
-                    ) : (
-                        <form onSubmit={handleReply} className="flex gap-4">
-                            <textarea
-                                value={replyText}
-                                onChange={(e) => setReplyText(e.target.value)}
-                                placeholder="Type your reply here..."
-                                className="flex-1 p-3 border border-slate-300 focus:outline-none focus:border-slate-900 bg-white resize-none"
-                                rows="3"
-                                required
-                            />
-                            <button
-                                type="submit"
-                                disabled={replying || !replyText.trim()}
-                                className="px-6 bg-slate-900 text-white font-medium hover:bg-slate-800 disabled:opacity-50 transition-colors flex flex-col justify-center items-center gap-1"
-                            >
-                                <Send size={20} />
-                                <span className="text-xs">Send</span>
-                            </button>
-                        </form>
-                    )}
+                    </div>
+
+                    {/* Conversation area */}
+                    <div style={{ flex: 1, overflowY: 'auto', padding: '1.5rem', backgroundColor: 'var(--color-surface)', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                        {messages.map((msg, index) => {
+                            const isCustomer = msg.senderType === 'CUSTOMER';
+                            return (
+                                <div key={msg._id || index} style={{ display: 'flex', justifyContent: isCustomer ? 'flex-end' : 'flex-start' }}>
+                                    <div style={{ maxWidth: '80%', display: 'flex', flexDirection: 'column', alignItems: isCustomer ? 'flex-end' : 'flex-start' }}>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
+                                            <span style={{ fontSize: '0.75rem', fontWeight: '500', color: 'var(--color-slate-500)' }}>
+                                                {isCustomer ? 'You' : 'Auralis Support'}
+                                            </span>
+                                            {msg.senderType === 'ADMIN' && <Shield size={12} color="var(--color-primary)" />}
+                                        </div>
+                                        <div style={{ 
+                                            padding: '1rem', 
+                                            fontSize: '0.95rem', 
+                                            lineHeight: 1.6, 
+                                            backgroundColor: isCustomer ? 'var(--color-slate-900)' : 'var(--color-slate-100)', 
+                                            color: isCustomer ? 'var(--color-white)' : 'var(--color-slate-900)',
+                                            borderRadius: isCustomer ? '12px 12px 0 12px' : '12px 12px 12px 0' 
+                                        }}>
+                                            {msg.message.split('\n').map((line, i) => (
+                                                <React.Fragment key={i}>
+                                                    {line}
+                                                    {i !== msg.message.split('\n').length - 1 && <br />}
+                                                </React.Fragment>
+                                            ))}
+                                        </div>
+                                        <span style={{ fontSize: '10px', color: 'var(--color-slate-400)', marginTop: '0.25rem' }}>
+                                            {new Date(msg.createdAt).toLocaleString()}
+                                        </span>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                        <div ref={messagesEndRef} />
+                    </div>
+
+                    {/* Reply box */}
+                    <div style={{ padding: '1.5rem', borderTop: '1px solid var(--color-border)', backgroundColor: 'var(--color-slate-50)', borderBottomLeftRadius: 'var(--radius-lg)', borderBottomRightRadius: 'var(--radius-lg)' }}>
+                        {ticket.status === 'CLOSED' ? (
+                            <div style={{ textAlign: 'center', padding: '1rem', color: 'var(--color-slate-500)' }}>
+                                This ticket has been closed and cannot be replied to.
+                            </div>
+                        ) : (
+                            <form onSubmit={handleReply} style={{ display: 'flex', gap: '1rem' }}>
+                                <textarea
+                                    value={replyText}
+                                    onChange={(e) => setReplyText(e.target.value)}
+                                    placeholder="Type your reply here..."
+                                    style={{ flex: 1, padding: '1rem', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--color-surface)', resize: 'none', fontFamily: 'inherit' }}
+                                    rows="3"
+                                    required
+                                />
+                                <button
+                                    type="submit"
+                                    disabled={replying || !replyText.trim()}
+                                    className="btn btn-primary"
+                                    style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '0.25rem', padding: '0 1.5rem' }}
+                                >
+                                    <Send size={20} />
+                                    <span style={{ fontSize: '0.75rem' }}>Send</span>
+                                </button>
+                            </form>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

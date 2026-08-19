@@ -81,9 +81,9 @@ const AdminDashboard = () => {
                         <h3 className="metric-title">Order Value</h3>
                         <DollarSign className="metric-icon" size={20} />
                     </div>
-                    <div className="metric-value">${orders.totalOrderValue.toLocaleString()}</div>
+                    <div className="metric-value">₹{orders.totalOrderValue.toLocaleString()}</div>
                     <div className="metric-subtext text-muted">
-                        Avg: ${(orders.averageOrderValue || 0).toLocaleString(undefined, {maximumFractionDigits: 2})}
+                        Avg: ₹{(orders.averageOrderValue || 0).toLocaleString(undefined, {maximumFractionDigits: 2})}
                     </div>
                 </div>
 
@@ -135,7 +135,7 @@ const AdminDashboard = () => {
                                                     <td><strong>{order.orderNumber}</strong></td>
                                                     <td>{order.customerName}</td>
                                                     <td>{new Date(order.createdAt).toLocaleDateString()}</td>
-                                                    <td>${order.total.toLocaleString()}</td>
+                                                    <td>₹{order.total.toLocaleString()}</td>
                                                     <td>
                                                         <span className={`status-badge status-${order.status}`}>
                                                             {order.status.replace('_', ' ').toUpperCase()}

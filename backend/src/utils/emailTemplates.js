@@ -1,7 +1,7 @@
 // Auralis Premium Email Templates
 
-const formatCurrency = (amount, currency = 'USD') => {
-    return new Intl.NumberFormat('en-US', {
+const formatCurrency = (amount, currency = 'INR') => {
+    return new Intl.NumberFormat('en-IN', {
         style: 'currency',
         currency: currency
     }).format(amount);

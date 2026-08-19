@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useNotifications } from '../hooks/useNotifications';
-import { Check, Package, CreditCard, XCircle, Info, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Check, Package, CreditCard, XCircle, Info, ChevronLeft, ChevronRight, Bell } from 'lucide-react';
+import { EmptyState, ErrorState } from '../components/States';
 
 const getIconForType = (type) => {
     switch (type) {
@@ -51,8 +52,10 @@ const Notifications = () => {
                         {[1, 2, 3].map(i => (
                             <div key={i} style={{ 
                                 height: '80px', 
-                                backgroundColor: 'rgba(255,255,255,0.02)', 
-                                borderRadius: 'var(--radius-md)' 
+                                backgroundColor: 'var(--color-surface)', 
+                                border: '1px solid var(--color-border)',
+                                borderRadius: 'var(--radius-md)',
+                                boxShadow: 'var(--shadow-sm)'
                             }}></div>
                         ))}
                     </div>
@@ -64,9 +67,9 @@ const Notifications = () => {
     if (error && notifications.length === 0) {
         return (
             <div className="section container" style={{ minHeight: '60vh' }}>
-                <div style={{ maxWidth: '800px', margin: '0 auto', padding: 'var(--spacing-lg) 0', textAlign: 'center' }}>
+                <div style={{ maxWidth: '800px', margin: '0 auto', padding: 'var(--spacing-lg) 0' }}>
                     <h1 style={{ fontSize: 'var(--font-size-3xl)', marginBottom: 'var(--spacing-md)' }}>Notifications</h1>
-                    <p style={{ color: '#ef4444' }}>{error}</p>
+                    <ErrorState message={error} onRetry={() => window.location.reload()} />
                 </div>
             </div>
         );
@@ -81,7 +84,7 @@ const Notifications = () => {
                     alignItems: 'center',
                     marginBottom: 'var(--spacing-xl)',
                     paddingBottom: 'var(--spacing-md)',
-                    borderBottom: '1px solid rgba(255,255,255,0.05)'
+                    borderBottom: '1px solid var(--color-border)'
                 }}>
                     <h1 style={{ fontSize: 'var(--font-size-3xl)' }}>Notifications</h1>
                     
@@ -96,17 +99,11 @@ const Notifications = () => {
                 </div>
 
                 {notifications.length === 0 ? (
-                    <div style={{ 
-                        textAlign: 'center', 
-                        padding: '4rem 1rem',
-                        backgroundColor: 'rgba(255,255,255,0.01)',
-                        borderRadius: 'var(--radius-lg)',
-                        border: '1px solid rgba(255,255,255,0.03)'
-                    }}>
-                        <Info size={48} color="var(--color-slate-500)" style={{ margin: '0 auto 1rem auto' }} />
-                        <h2 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', color: 'var(--color-slate-300)' }}>You're all caught up</h2>
-                        <p style={{ color: 'var(--color-slate-400)' }}>You have no new notifications right now.</p>
-                    </div>
+                    <EmptyState 
+                        icon={Bell}
+                        title="You're all caught up"
+                        message="You don't have any notifications at the moment."
+                    />
                 ) : (
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                         {notifications.map((notification) => (
@@ -118,9 +115,10 @@ const Notifications = () => {
                                     alignItems: 'flex-start',
                                     gap: '1rem',
                                     padding: '1rem',
-                                    backgroundColor: notification.isRead ? 'rgba(255,255,255,0.01)' : 'rgba(79, 70, 229, 0.05)',
+                                    backgroundColor: notification.isRead ? 'var(--color-surface)' : 'var(--color-primary-light)',
                                     borderRadius: 'var(--radius-md)',
-                                    border: `1px solid ${notification.isRead ? 'rgba(255,255,255,0.03)' : 'rgba(79, 70, 229, 0.2)'}`,
+                                    border: `1px solid ${notification.isRead ? 'var(--color-border)' : 'var(--color-primary)'}`,
+                                    boxShadow: 'var(--shadow-sm)',
                                     cursor: 'pointer',
                                     transition: 'all 0.2s ease',
                                     position: 'relative',
@@ -142,7 +140,7 @@ const Notifications = () => {
                                     width: '40px',
                                     height: '40px',
                                     borderRadius: '50%',
-                                    backgroundColor: 'rgba(255,255,255,0.05)',
+                                    backgroundColor: 'var(--color-slate-50)',
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
@@ -155,8 +153,8 @@ const Notifications = () => {
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.25rem' }}>
                                         <h3 style={{ 
                                             fontSize: '1rem', 
-                                            fontWeight: notification.isRead ? 'normal' : '600',
-                                            color: 'var(--color-white)',
+                                            fontWeight: notification.isRead ? '500' : '700',
+                                            color: 'var(--color-slate-900)',
                                             margin: 0
                                         }}>
                                             {notification.title}
@@ -167,7 +165,7 @@ const Notifications = () => {
                                     </div>
                                     <p style={{ 
                                         margin: 0, 
-                                        color: notification.isRead ? 'var(--color-slate-400)' : 'var(--color-slate-300)',
+                                        color: notification.isRead ? 'var(--color-slate-500)' : 'var(--color-slate-700)',
                                         fontSize: '0.875rem',
                                         lineHeight: 1.5
                                     }}>
