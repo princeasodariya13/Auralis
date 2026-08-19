@@ -104,4 +104,39 @@ router.post('/seed-products', async (req, res) => {
     }
 });
 
+router.get('/fix-images', async (req, res) => {
+    try {
+        const imagePool = [
+            "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80",
+            "https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=800&q=80",
+            "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=800&q=80",
+            "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=800&q=80",
+            "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&q=80",
+            "https://images.unsplash.com/photo-1572536147248-ac59a8abfa4b?w=800&q=80"
+        ];
+        
+        const products = await Product.find({});
+        let updated = 0;
+        
+        for (let i = 0; i < products.length; i++) {
+            const product = products[i];
+            const imgUrl = imagePool[i % imagePool.length];
+            
+            product.image = imgUrl;
+            product.images = [{
+                publicId: 'seed_' + i,
+                url: imgUrl,
+                alt: product.name
+            }];
+            
+            await product.save();
+            updated++;
+        }
+        
+        res.status(200).json({ success: true, message: `Fixed images for ${updated} products` });
+    } catch (err) {
+        res.status(500).json({ success: false, error: err.message });
+    }
+});
+
 export default router;
