@@ -24,7 +24,7 @@ const AdminLayout = () => {
             {/* Mobile Header */}
             <div className="admin-mobile-header">
                 <Link to="/admin" className="admin-logo">
-                    <img src="/auralis-logo.png" alt="Auralis Logo" style={{ width: '32px', height: '32px', borderRadius: '80%', objectFit: 'cover' }} />
+                    <img src="/auralis-logo.png" alt="Auralis Logo" style={{ width: '32px', height: '32px', borderRadius: '8px', objectFit: 'cover' }} />
                     <span className="admin-badge">ADMIN</span>
                 </Link>
                 <button className="mobile-toggle" onClick={toggleSidebar} aria-label="Toggle Sidebar">
@@ -36,7 +36,7 @@ const AdminLayout = () => {
             <aside className={`admin-sidebar ${sidebarOpen ? 'open' : ''}`}>
                 <div className="sidebar-brand">
                     <Link to="/admin" className="admin-logo">
-                        <img src="/auralis-logo.png" alt="Auralis Logo" style={{ width: '32px', height: '32px', borderRadius: '80%', objectFit: 'cover' }} />
+                        <img src="/auralis-logo.png" alt="Auralis Logo" style={{ width: '32px', height: '32px', borderRadius: '8px', objectFit: 'cover' }} />
                         <span className="admin-badge">ADMIN</span>
                     </Link>
                 </div>
