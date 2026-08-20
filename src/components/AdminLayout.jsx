@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { LayoutDashboard, Package, ArchiveRestore, ShoppingCart, Users, Tag, TrendingUp, LogOut, Menu, X, RotateCcw, ShieldAlert, FileText, Headphones, Star, AlertTriangle } from 'lucide-react';
 import { useState } from 'react';
 import './AdminLayout.css';
+import '../pages/admin/AdminDashboard.css'; // Import shared admin layout classes (.admin-panel, etc)
 
 const AdminLayout = () => {
     const { user, logout } = useAuth();
