@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useProducts } from '../hooks/useData';
+import { productService } from '../services/apiService';
 import ProductCard from '../components/ProductCard';
 import { Filter, X, Search, ChevronLeft, ChevronRight } from 'lucide-react';
 import { ProductCardSkeleton } from '../components/Skeletons';
@@ -30,6 +31,25 @@ const Shop = () => {
     const [currentPage, setCurrentPage] = useState(urlPage);
     
     const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
+    const [dynamicCategories, setDynamicCategories] = useState([]);
+    const [categoriesLoading, setCategoriesLoading] = useState(true);
+
+    // Load categories from API (MongoDB-backed)
+    useEffect(() => {
+        const loadCategories = async () => {
+            try {
+                const cats = await productService.getCategories();
+                setDynamicCategories(cats.map(c => c.name));
+            } catch (err) {
+                console.error('Failed to load categories', err);
+                // Fallback to common audio categories if API fails
+                setDynamicCategories(['Headphones', 'Earphones', 'True Wireless', 'Speakers', 'Microphones', 'DAC & Amplifiers', 'Accessories']);
+            } finally {
+                setCategoriesLoading(false);
+            }
+        };
+        loadCategories();
+    }, []);
 
     // Debounce Search Input
     useEffect(() => {
@@ -90,7 +110,7 @@ const Shop = () => {
         limit: 12
     });
 
-    const categories = ['All', 'Headphones', 'Speakers', 'Accessories'];
+    const categories = ['All', ...dynamicCategories];
 
     const handleClearFilters = () => {
         setSelectedCategory('All');
@@ -169,7 +189,7 @@ const Shop = () => {
                         )}
                         {(minPrice > 0 || maxPrice < 10000) && (
                             <span className="filter-chip">
-                                ${minPrice} - ${maxPrice} <X size={14} onClick={() => removeFilter('price')} />
+                                ₹{minPrice} - ₹{maxPrice} <X size={14} onClick={() => removeFilter('price')} />
                             </span>
                         )}
                         {availability !== 'all' && (

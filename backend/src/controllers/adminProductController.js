@@ -125,7 +125,6 @@ export const createProduct = async (req, res) => {
             }
         }
 
-        if (!finalImage) return res.status(400).json({ success: false, error: { message: 'Image (URL or File) is required' }});
 
         // Check SKU uniqueness
         const skuExists = await Product.findOne({ sku: sku.trim() });

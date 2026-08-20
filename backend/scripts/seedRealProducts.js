@@ -1,3 +1,4 @@
+import dns from 'dns';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import path from 'path';
@@ -5,14 +6,17 @@ import { fileURLToPath } from 'url';
 import Product from '../src/models/Product.js';
 import { realProducts } from './realProductData.js';
 
+try { dns.setServers(['8.8.8.8', '8.8.4.4']); } catch(e) {}
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.join(__dirname, '..', '.env') });
 
 const seedRealProducts = async () => {
     try {
-        await mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/auralis');
-        console.log('Connected to DB for seeding real products.');
+        await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/auralis', {
+            dbName: process.env.MONGODB_DB_NAME || 'auralis_audio'
+        });
 
         const db = mongoose.connection.db;
 
