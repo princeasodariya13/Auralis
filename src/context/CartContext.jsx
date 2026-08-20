@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect, useCallback } from 'rea
 import PropTypes from 'prop-types';
 import { useAuth } from './AuthContext';
 import { cartService } from '../services/cartService';
+import { useToast } from './ToastContext';
 
 const CartContext = createContext();
 
@@ -11,6 +12,7 @@ export const CartProvider = ({ children }) => {
     const [cart, setCart] = useState([]);
     const { isAuthenticated, user, loading: authLoading } = useAuth();
     const [isCartLoading, setIsCartLoading] = useState(false);
+    const toast = useToast();
 
     // Initialize Cart based on Auth state
     useEffect(() => {
@@ -58,21 +60,21 @@ export const CartProvider = ({ children }) => {
                 setCart(updatedCart.items);
             } catch (err) {
                 console.error("Add to cart failed:", err);
-                alert(err.message || "We couldn't add this item to your cart right now. Please try again.");
+                toast.error(err.message || "We couldn't add this item to your cart right now. Please try again.");
             }
         } else {
             setCart((prevCart) => {
                 const existingItem = prevCart.find((item) => item.id === product.id);
                 // For guest cart, we can't reliably validate exact stock dynamically without an API call
                 if (product.availability === 'out_of_stock' || product.availability === 'inactive') {
-                    alert("Sorry, this product is currently unavailable.");
+                    toast.error("Sorry, this product is currently unavailable.");
                     return prevCart;
                 }
 
                 if (existingItem) {
                     const maxQty = Math.min(existingItem.quantity + 1, 20);
                     if (product.stockQuantity && maxQty > product.stockQuantity) {
-                        alert(`Sorry, we only have ${product.stockQuantity} of this item available.`);
+                        toast.error(`Sorry, we only have ${product.stockQuantity} of this item available.`);
                         return prevCart;
                     }
                     return prevCart.map((item) =>
@@ -82,7 +84,7 @@ export const CartProvider = ({ children }) => {
                     );
                 }
                 if (product.stockQuantity && 1 > product.stockQuantity) {
-                    alert("Sorry, this item is currently out of stock.");
+                    toast.error("Sorry, this item is currently out of stock.");
                     return prevCart;
                 }
                 return [...prevCart, { ...product, quantity: 1 }];
@@ -113,13 +115,13 @@ export const CartProvider = ({ children }) => {
                 setCart(updatedCart.items);
             } catch (err) {
                 console.error("Update quantity failed:", err);
-                alert(err.message || "We couldn't update the quantity right now.");
+                toast.error(err.message || "We couldn't update the quantity right now.");
             }
         } else {
             setCart((prevCart) => {
                 const item = prevCart.find(i => i.id === productId);
                 if (item && item.stockQuantity && validQuantity > item.stockQuantity) {
-                    alert(`Sorry, we only have ${item.stockQuantity} of this item available.`);
+                    toast.error(`Sorry, we only have ${item.stockQuantity} of this item available.`);
                     return prevCart;
                 }
                 return prevCart.map((item) =>

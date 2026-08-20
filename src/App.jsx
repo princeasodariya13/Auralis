@@ -53,14 +53,18 @@ const AdminCustomerDetails = lazy(() => import('./pages/admin/AdminCustomerDetai
 
 import './App.css';
 
+import { ToastProvider } from './context/ToastContext';
+import ToastContainer from './components/ToastContainer';
+
 function App() {
   return (
-    <AuthProvider>
-      <WishlistProvider>
-        <CartProvider>
-          <BrowserRouter>
-            <ScrollToTop />
-            <Routes>
+    <ToastProvider>
+      <AuthProvider>
+        <WishlistProvider>
+          <CartProvider>
+            <BrowserRouter>
+              <ScrollToTop />
+              <Routes>
               {/* Storefront Routes */}
               <Route path="/" element={<Layout />}>
                 <Route index element={<Home />} />
@@ -189,12 +193,13 @@ function App() {
                 <Route path="audit-logs" element={<AdminAuditLogs />} />
                 <Route path="fulfillment" element={<AdminFulfillmentOperations />} />
               </Route>
-              
             </Routes>
+            <ToastContainer />
           </BrowserRouter>
         </CartProvider>
       </WishlistProvider>
     </AuthProvider>
+    </ToastProvider>
   );
 }
 

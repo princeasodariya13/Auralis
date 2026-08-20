@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAddresses } from '../hooks/useData';
 import { addressService } from '../services/apiService';
 import { Plus, Edit2, Trash2, MapPin, CheckCircle2, AlertCircle } from 'lucide-react';
+import { useToast } from '../context/ToastContext';
 import './AddressManager.css';
 
 const AddressForm = ({ initialData, onSuccess, onCancel }) => {
@@ -118,6 +119,7 @@ const AddressManager = ({ onSelectAddress, selectedAddressId, selectionMode = fa
     const { data: addresses, loading, error, refetch } = useAddresses();
     const [isAdding, setIsAdding] = useState(false);
     const [editingId, setEditingId] = useState(null);
+    const toast = useToast();
 
     // Auto-select address if in selection mode and none is selected
     useEffect(() => {
@@ -133,7 +135,7 @@ const AddressManager = ({ onSelectAddress, selectedAddressId, selectionMode = fa
             await addressService.deleteAddress(id);
             refetch();
         } catch (err) {
-            alert(err.message || 'Failed to delete address');
+            toast.error(err.message || 'Failed to delete address');
         }
     };
 
@@ -142,7 +144,7 @@ const AddressManager = ({ onSelectAddress, selectedAddressId, selectionMode = fa
             await addressService.setDefaultAddress(id);
             refetch();
         } catch (err) {
-            alert(err.message || 'Failed to set default address');
+            toast.error(err.message || 'Failed to set default address');
         }
     };
 

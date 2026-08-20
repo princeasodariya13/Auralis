@@ -64,7 +64,7 @@ export const safeFetch = async (url, options = {}) => {
 
 const getNetworkErrorMessage = (status) => {
     switch (status) {
-        case 401: return 'Your session has expired. Please sign in again.';
+        case 401: return 'Unauthorized. Please sign in to continue.';
         case 403: return 'You don\'t have permission to access this page.';
         case 404: return 'We couldn\'t find what you\'re looking for.';
         case 429: return 'You\'re doing that a little too quickly. Please wait a moment.';
@@ -143,11 +143,17 @@ const getFetchOptions = (method, body) => {
         method,
         credentials: 'include',
     };
+    
+    const token = localStorage.getItem('token');
+    if (token) {
+        options.headers = { 'Authorization': `Bearer ${token}` };
+    }
+
     if (body instanceof FormData) {
         options.body = body;
         // Don't set Content-Type header; browser will automatically set it with boundary
     } else if (body) {
-        options.headers = { 'Content-Type': 'application/json' };
+        options.headers = { ...options.headers, 'Content-Type': 'application/json' };
         options.body = JSON.stringify(body);
     }
     return options;

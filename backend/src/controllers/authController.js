@@ -31,7 +31,7 @@ const sendTokenResponse = (user, statusCode, res) => {
         .cookie('jwt', token, options)
         .json({
             success: true,
-            data: { user: userPayload }
+            data: { user: userPayload, token }
         });
 };
 

@@ -47,22 +47,25 @@ export const AuthProvider = ({ children }) => {
     };
 
     const login = async (email, password) => {
-        const loggedInUser = await authService.login(email, password);
+        const response = await authService.login(email, password);
+        if (response.token) localStorage.setItem('token', response.token);
         await handleCartMerge();
-        setUser(loggedInUser);
-        return loggedInUser;
+        setUser(response.user);
+        return response.user;
     };
 
     const register = async (name, email, password) => {
-        const registeredUser = await authService.register(name, email, password);
+        const response = await authService.register(name, email, password);
+        if (response.token) localStorage.setItem('token', response.token);
         await handleCartMerge();
-        setUser(registeredUser);
-        return registeredUser;
+        setUser(response.user);
+        return response.user;
     };
 
     const logout = async () => {
         await authService.logout();
         setUser(null);
+        localStorage.removeItem('token');
 
         // Clear device-local history on logout to protect privacy on shared devices
         try {

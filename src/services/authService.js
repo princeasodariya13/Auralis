@@ -10,6 +10,10 @@ const getFetchOptions = (method, body) => {
         },
         credentials: 'include', // Extremely important for cookie-based auth
     };
+    const token = localStorage.getItem('token');
+    if (token) {
+        options.headers['Authorization'] = `Bearer ${token}`;
+    }
     if (body) {
         options.body = JSON.stringify(body);
     }
@@ -23,7 +27,7 @@ export const authService = {
         if (!response.ok || !json.success) {
             throw new Error(json?.error?.message || 'Registration failed');
         }
-        return json.data.user;
+        return json.data;
     },
 
     async login(email, password) {
@@ -32,7 +36,7 @@ export const authService = {
         if (!response.ok || !json.success) {
             throw new Error(json?.error?.message || 'Login failed');
         }
-        return json.data.user;
+        return json.data;
     },
 
     async logout() {
