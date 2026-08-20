@@ -32,8 +32,13 @@ export const previewCheckout = async (req, res) => {
 
         for (const cartItem of cart.items) {
             const product = products.find(p => p.id === cartItem.productId);
-            if (!product || !product.isActive) {
-                return res.status(400).json({ success: false, error: { message: `Product ${cartItem.productId} is no longer available` }});
+            
+            // If product was completely deleted from DB, it's a stale cart item that the frontend 
+            // has already hidden from the user. We must safely skip it to prevent soft-locking.
+            if (!product) continue; 
+            
+            if (!product.isActive) {
+                return res.status(400).json({ success: false, error: { message: `Product "${product.name}" is no longer available for purchase` }});
             }
 
             if (cartItem.quantity > product.stockQuantity) {
@@ -51,6 +56,10 @@ export const previewCheckout = async (req, res) => {
                 unitPrice: product.price,
                 lineTotal
             });
+        }
+
+        if (items.length === 0) {
+            return res.status(400).json({ success: false, error: { message: 'Your cart contains no valid items' }});
         }
 
         const { couponCode, pointsToRedeem } = req.body || {};
@@ -117,8 +126,12 @@ export const createOrder = async (req, res) => {
 
         for (const cartItem of cart.items) {
             const product = products.find(p => p.id === cartItem.productId);
-            if (!product || !product.isActive) {
-                return res.status(400).json({ success: false, error: { message: `Product ${cartItem.productId} is no longer available` }});
+            
+            // Skip products that were deleted from DB (handled on frontend by cartController hiding them)
+            if (!product) continue;
+
+            if (!product.isActive) {
+                return res.status(400).json({ success: false, error: { message: `Product "${product.name}" is no longer available for purchase` }});
             }
 
             if (cartItem.quantity > product.stockQuantity) {
@@ -136,6 +149,10 @@ export const createOrder = async (req, res) => {
                 unitPrice: product.price,
                 lineTotal
             });
+        }
+
+        if (items.length === 0) {
+            return res.status(400).json({ success: false, error: { message: 'Your cart contains no valid items' }});
         }
 
         const totals = await calculateCheckoutTotals(subtotal, couponCode, req.user._id, parseInt(pointsToRedeem) || 0, session);
