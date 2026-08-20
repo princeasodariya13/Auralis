@@ -17,7 +17,7 @@ const Footer = () => {
             <div className="container footer-container">
                 <div className="footer-section brand">
                     <Link to="/" className="footer-logo">
-                        <img src="/auralis-logo.png" alt="Auralis Logo" style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }} />
+                        <img src="/auralis-logo.png" alt="Auralis Logo" style={{ width: '40px', height: '40px', borderRadius: '80%', objectFit: 'cover' }} />
                     </Link>
                     <p className="footer-text">
                         Delivering pure sound and premium gear for the modern audiophile. Engineered for those who refuse to compromise.
