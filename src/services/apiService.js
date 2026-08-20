@@ -39,8 +39,11 @@ export const safeFetch = async (url, options = {}) => {
             }
 
             // Never expose generic server messages directly if it's a 500, or raw 401/403/404 generic error if we can polish it
-            if (response.status === 401 || response.status === 403 || response.status === 404 || response.status === 429 || response.status >= 500) {
+            if (response.status === 401 || response.status === 403 || response.status === 404 || response.status === 429) {
                 throw new Error(getNetworkErrorMessage(response.status));
+            }
+            if (response.status >= 500) {
+                throw new Error(backendMessage || getNetworkErrorMessage(response.status));
             }
             throw new Error(backendMessage || getNetworkErrorMessage(response.status));
         }
@@ -556,13 +559,13 @@ export const adminService = {
         return json.data;
     },
     async getCoupons() {
-        const response = await safeFetch(`${API_URL}/admin/coupons`, getFetchOptions('GET'));
+        const response = await safeFetch(`${API_URL}/coupons/admin`, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch coupons');
         return json.data;
     },
     async createCoupon(couponData) {
-        const response = await safeFetch(`${API_URL}/admin/coupons`, getFetchOptions('POST', couponData));
+        const response = await safeFetch(`${API_URL}/coupons/admin`, getFetchOptions('POST', couponData));
         const json = await response.json();
         if (!response.ok || !json.success) {
             const error = new Error(json?.error?.message || 'Failed to create coupon');
@@ -572,7 +575,7 @@ export const adminService = {
         return json.data;
     },
     async updateCoupon(id, couponData) {
-        const response = await safeFetch(`${API_URL}/admin/coupons/${id}`, getFetchOptions('PATCH', couponData));
+        const response = await safeFetch(`${API_URL}/coupons/admin/${id}`, getFetchOptions('PATCH', couponData));
         const json = await response.json();
         if (!response.ok || !json.success) {
             const error = new Error(json?.error?.message || 'Failed to update coupon');
@@ -582,7 +585,7 @@ export const adminService = {
         return json.data;
     },
     async deleteCoupon(id) {
-        const response = await safeFetch(`${API_URL}/admin/coupons/${id}`, getFetchOptions('DELETE'));
+        const response = await safeFetch(`${API_URL}/coupons/admin/${id}`, getFetchOptions('DELETE'));
         const json = await response.json();
         if (!response.ok || !json.success) {
             const error = new Error(json?.error?.message || 'Failed to delete coupon');

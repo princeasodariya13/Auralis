@@ -148,11 +148,11 @@ export const createProduct = async (req, res) => {
             brand: brand && brand !== 'undefined' ? brand.trim() : undefined,
             specifications: specifications && specifications !== 'undefined' ? (Array.isArray(specifications) ? specifications : JSON.parse(specifications)) : [],
             features: features && features !== 'undefined' ? (Array.isArray(features) ? features : JSON.parse(features)) : [],
-            isBestSeller: Boolean(isBestSeller),
+            isBestSeller: isBestSeller === 'true' || isBestSeller === true,
             stockQuantity: Number(stockQuantity),
             lowStockThreshold: Number(lowStockThreshold),
             sku: sku.trim(),
-            isActive: isActive !== undefined ? Boolean(isActive) : true
+            isActive: isActive !== undefined ? (isActive === 'true' || isActive === true) : true
         });
 
         // Audit Log
