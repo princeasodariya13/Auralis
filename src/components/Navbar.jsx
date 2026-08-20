@@ -20,7 +20,7 @@ const Navbar = () => {
         <nav className="navbar">
             <div className="container nav-container">
                 <Link to="/" className="logo">
-                    AURALIS
+                    <img src="/auralis-logo.png" alt="Auralis Logo" style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }} />
                 </Link>
 
                 {/* Desktop Menu */}
