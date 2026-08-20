@@ -108,19 +108,30 @@ export const createProduct = async (req, res) => {
         let finalImage = image ? image.trim() : '';
         let imagesArray = [];
 
-        // If a file was uploaded, send to Cloudinary
-        if (req.file) {
+        // If files were uploaded, send to Cloudinary
+        if (req.files && req.files.length > 0) {
             try {
-                const uploadResult = await uploadImage(req.file.path, 'auralis/products');
-                finalImage = uploadResult.url;
-                imagesArray.push({
-                    publicId: uploadResult.publicId,
-                    url: uploadResult.url,
-                    alt: name.trim()
-                });
-                fs.unlinkSync(req.file.path);
+                for (let i = 0; i < req.files.length; i++) {
+                    const file = req.files[i];
+                    const uploadResult = await uploadImage(file.path, 'auralis/products');
+                    
+                    if (i === 0 && !finalImage) {
+                        finalImage = uploadResult.url;
+                    }
+                    
+                    imagesArray.push({
+                        publicId: uploadResult.publicId,
+                        url: uploadResult.url,
+                        alt: req.files.length > 1 ? `${name.trim()} - Image ${i + 1}` : name.trim()
+                    });
+                    
+                    if (fs.existsSync(file.path)) fs.unlinkSync(file.path);
+                }
             } catch (err) {
-                if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
+                // Cleanup any remaining files
+                req.files.forEach(file => {
+                    if (fs.existsSync(file.path)) fs.unlinkSync(file.path);
+                });
                 return res.status(500).json({ success: false, error: { message: 'Failed to upload image to Cloudinary: ' + err.message }});
             }
         }
@@ -220,25 +231,46 @@ export const updateProduct = async (req, res) => {
             }
         }
 
-        // If a new file is provided, upload it and delete the old one
-        if (req.file) {
+        // If new files are provided, upload them
+        if (req.files && req.files.length > 0) {
             try {
-                const uploadResult = await uploadImage(req.file.path, 'auralis/products');
-                updates.image = uploadResult.url;
-                updates.images = [{
-                    publicId: uploadResult.publicId,
-                    url: uploadResult.url,
-                    alt: updates.name || product.name
-                }];
-                fs.unlinkSync(req.file.path);
+                const newImages = [];
+                for (let i = 0; i < req.files.length; i++) {
+                    const file = req.files[i];
+                    const uploadResult = await uploadImage(file.path, 'auralis/products');
+                    
+                    if (i === 0) {
+                        updates.image = uploadResult.url;
+                    }
+                    
+                    newImages.push({
+                        publicId: uploadResult.publicId,
+                        url: uploadResult.url,
+                        alt: req.files.length > 1 ? `${updates.name || product.name} - Image ${i + 1}` : (updates.name || product.name)
+                    });
+                    
+                    if (fs.existsSync(file.path)) fs.unlinkSync(file.path);
+                }
                 
-                // Optional: Delete old image from Cloudinary if it exists and has public_id
-                if (product.images && product.images.length > 0 && product.images[0].publicId) {
-                    await deleteImage(product.images[0].publicId).catch(err => console.error('Failed to delete old image', err));
+                // If the product already has images, we append the new ones or replace them?
+                // The prompt says "upload multiple images of that particular product".
+                // We will replace them to keep it simple, or push to existing?
+                // Let's replace for now, as standard forms do, unless they send existing image arrays.
+                updates.images = newImages;
+
+                // Optional: Delete old images from Cloudinary if they exist
+                if (product.images && product.images.length > 0) {
+                    for (const oldImage of product.images) {
+                        if (oldImage.publicId) {
+                            await deleteImage(oldImage.publicId).catch(err => console.error('Failed to delete old image', err));
+                        }
+                    }
                 }
             } catch (err) {
-                if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
-                return res.status(500).json({ success: false, error: { message: 'Failed to upload new image to Cloudinary: ' + err.message }});
+                req.files.forEach(file => {
+                    if (fs.existsSync(file.path)) fs.unlinkSync(file.path);
+                });
+                return res.status(500).json({ success: false, error: { message: 'Failed to upload new images to Cloudinary: ' + err.message }});
             }
         }
 

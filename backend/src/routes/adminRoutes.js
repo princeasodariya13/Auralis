@@ -19,8 +19,8 @@ router.get('/analytics', getAnalytics);
 
 router.get('/products', getAdminProducts);
 router.get('/products/:id', getAdminProductById);
-router.post('/products', upload.single('imageFile'), createProduct);
-router.patch('/products/:id', upload.single('imageFile'), updateProduct);
+router.post('/products', upload.array('imageFiles', 5), createProduct);
+router.patch('/products/:id', upload.array('imageFiles', 5), updateProduct);
 router.delete('/products/:id', deleteProduct);
 
 router.get('/inventory', getInventory);

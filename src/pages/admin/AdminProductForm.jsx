@@ -27,8 +27,8 @@ const AdminProductForm = () => {
     const [loading, setLoading] = useState(isEditMode);
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState(null);
-    const [imageFile, setImageFile] = useState(null);
-    const [imagePreview, setImagePreview] = useState('');
+    const [imageFiles, setImageFiles] = useState([]);
+    const [imagePreviews, setImagePreviews] = useState([]);
 
     useEffect(() => {
         if (isEditMode) {
@@ -49,7 +49,11 @@ const AdminProductForm = () => {
                         isBestSeller: data.isBestSeller || false,
                         description: data.description || ''
                     });
-                    if (data.image) setImagePreview(data.image);
+                    if (data.images && data.images.length > 0) {
+                        setImagePreviews(data.images.map(img => img.url));
+                    } else if (data.image) {
+                        setImagePreviews([data.image]);
+                    }
                 } catch (err) {
                     setError(err.message || 'Failed to load product for editing');
                 } finally {
@@ -69,10 +73,14 @@ const AdminProductForm = () => {
     };
 
     const handleImageChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            setImageFile(file);
-            setImagePreview(URL.createObjectURL(file));
+        const files = Array.from(e.target.files);
+        if (files.length > 5) {
+            setError('You can only upload up to 5 images.');
+            return;
+        }
+        if (files.length > 0) {
+            setImageFiles(files);
+            setImagePreviews(files.map(file => URL.createObjectURL(file)));
         }
     };
 
@@ -118,8 +126,10 @@ const AdminProductForm = () => {
                 }
             });
 
-            if (imageFile) {
-                formDataToSend.append('imageFile', imageFile);
+            if (imageFiles.length > 0) {
+                imageFiles.forEach(file => {
+                    formDataToSend.append('imageFiles', file);
+                });
             }
 
             if (isEditMode) {
@@ -224,20 +234,23 @@ const AdminProductForm = () => {
                         </div>
                         <div className="panel-body">
                             <div className="form-group">
-                                <label htmlFor="imageFile">Product Image</label>
+                                <label htmlFor="imageFiles">Product Images (Up to 5)</label>
                                 <input 
                                     type="file" 
-                                    id="imageFile" 
-                                    name="imageFile" 
+                                    id="imageFiles" 
+                                    name="imageFiles" 
                                     className="form-control"
                                     accept="image/*"
+                                    multiple
                                     onChange={handleImageChange}
                                 />
-                                <small className="text-muted mt-1 d-block">Upload a clear product image for the storefront.</small>
+                                <small className="text-muted mt-1 d-block">Upload clear product images for the storefront.</small>
                             </div>
-                            {imagePreview && (
-                                <div className="img-preview mt-3">
-                                    <img src={imagePreview} alt="Preview" style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px' }} onError={(e) => e.target.style.display = 'none'} />
+                            {imagePreviews.length > 0 && (
+                                <div className="img-preview mt-3 d-flex gap-2 flex-wrap">
+                                    {imagePreviews.map((preview, idx) => (
+                                        <img key={idx} src={preview} alt={`Preview ${idx + 1}`} style={{ maxWidth: '150px', height: '150px', objectFit: 'cover', borderRadius: '8px', border: '1px solid #333' }} onError={(e) => e.target.style.display = 'none'} />
+                                    ))}
                                 </div>
                             )}
                         </div>
