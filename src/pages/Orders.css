@@ -210,11 +210,12 @@
 }
 
 .skeleton-order {
-    height: 160px;
-    background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+    height: 140px;
+    background: linear-gradient(90deg, #F1F5F9 25%, #E2E8F0 50%, #F1F5F9 75%);
     background-size: 200% 100%;
-    animation: loading 1.5s infinite;
-    border-radius: var(--radius-md);
+    animation: shimmer 1.8s infinite linear;
+    border-radius: 16px;
+    border: 1px solid #E2E8F0;
 }
 
 /* Order Details Page */

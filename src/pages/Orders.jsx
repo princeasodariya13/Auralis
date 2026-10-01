@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useOrders } from '../hooks/useData';
 import { ArrowRight, PackageOpen, Calendar, DollarSign, ChevronLeft, ChevronRight } from 'lucide-react';
 import { EmptyState, ErrorState } from '../components/States';
+import { OrdersSkeleton } from '../components/Skeletons';
 import './Orders.css';
 
 const getStatusBadge = (status) => {
@@ -25,16 +26,7 @@ const Orders = () => {
     const { data, loading, error } = useOrders(page, limit);
 
     if (loading) {
-        return (
-            <div className="section container">
-                <h1>Order History</h1>
-                <div className="orders-loading">
-                    {[1, 2, 3].map(i => (
-                        <div key={i} className="skeleton-order"></div>
-                    ))}
-                </div>
-            </div>
-        );
+        return <OrdersSkeleton />;
     }
 
     if (error) {

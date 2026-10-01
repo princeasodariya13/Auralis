@@ -6,6 +6,7 @@ import { ArrowLeft, MapPin, Package, AlertCircle, CreditCard, XCircle, Headphone
 import { useAuth } from '../context/AuthContext';
 import OrderShipmentTracking from '../components/OrderShipmentTracking';
 import ConfirmDialog from '../components/ConfirmDialog';
+import { PageSkeleton } from '../components/Skeletons';
 import './Orders.css';
 
 const getStatusBadge = (status) => {
@@ -106,11 +107,7 @@ const OrderDetails = () => {
     };
 
     if (loading) {
-        return (
-            <div className="section container">
-                <div className="skeleton-order" style={{ height: '400px' }}></div>
-            </div>
-        );
+        return <PageSkeleton />;
     }
 
     if (error || !order) {
