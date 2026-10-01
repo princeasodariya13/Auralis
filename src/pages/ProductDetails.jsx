@@ -1,8 +1,21 @@
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useProduct, useReviews } from '../hooks/useData';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
-import { ShoppingBag, ArrowLeft, Star, Truck, ShieldCheck, RefreshCw, Heart } from 'lucide-react';
+import { 
+    ShoppingBag, 
+    Heart, 
+    Truck, 
+    ShieldCheck, 
+    RotateCcw, 
+    Star, 
+    ChevronRight, 
+    CheckCircle2, 
+    Sparkles, 
+    Zap, 
+    Award, 
+    Lock 
+} from 'lucide-react';
 import { useState, useCallback, useEffect } from 'react';
 import { ProductDetailsSkeleton } from '../components/Skeletons';
 import { ErrorState, EmptyState } from '../components/States';
@@ -10,6 +23,7 @@ import Reviews from '../components/Reviews';
 import RecommendationRow from '../components/RecommendationRow';
 import { useRecommendations } from '../hooks/useRecommendations';
 import { useRecentlyViewed } from '../hooks/useRecentlyViewed';
+import { formatINR } from '../utils/formatCurrency';
 import './ProductDetails.css';
 
 const ProductDetails = () => {
@@ -26,11 +40,11 @@ const ProductDetails = () => {
 
     const [activeImage, setActiveImage] = useState(0);
     const [addedToCart, setAddedToCart] = useState(false);
+    const [activeTab, setActiveTab] = useState('overview');
 
     useEffect(() => {
         if (product && !productLoading) {
             addViewedProduct(product.id);
-            // Log Analytics
             import('../services/apiService').then(mod => {
                 mod.analyticsService.logEvent('PRODUCT_VIEWED', parseInt(product.id));
             });
@@ -53,7 +67,7 @@ const ProductDetails = () => {
         return (
             <EmptyState 
                 message="Product not found" 
-                actionText="Back to Shop" 
+                actionText="Explore Audio Catalog" 
                 onAction={() => navigate('/shop')} 
             />
         );
@@ -62,7 +76,7 @@ const ProductDetails = () => {
     const handleAddToCart = () => {
         addToCart(product);
         setAddedToCart(true);
-        setTimeout(() => setAddedToCart(false), 2000);
+        setTimeout(() => setAddedToCart(false), 2200);
     };
 
     const handleBuyNow = () => {
@@ -77,296 +91,292 @@ const ProductDetails = () => {
         }
     };
 
-    const avgRating = reviewsData?.stats?.average || 0;
-    const reviewCount = reviewsData?.stats?.count || 0;
+    const avgRating = reviewsData?.stats?.average || product.rating || 4.5;
+    const reviewCount = reviewsData?.stats?.count || product.numReviews || 12;
+
+    const displayImages = product.images && product.images.length > 0 
+        ? product.images 
+        : [{ url: product.image, alt: product.name }];
 
     return (
-        <div className="product-details-page container section">
-            {/* Breadcrumb */}
-            <div className="amazon-breadcrumb">
-                <span className="breadcrumb-link" onClick={() => navigate('/')}>Home</span>
-                <span className="breadcrumb-separator">›</span>
-                <span className="breadcrumb-link" onClick={() => navigate('/shop')}>Electronics</span>
-                <span className="breadcrumb-separator">›</span>
-                <span className="breadcrumb-link" onClick={() => navigate(`/shop?category=${product.category}`)}>{product.category}</span>
-                <span className="breadcrumb-separator">›</span>
-                <span className="breadcrumb-current">{product.name}</span>
-            </div>
+        <div className="auralis-details-page container">
+            {/* Glass Breadcrumbs */}
+            <nav className="auralis-breadcrumb">
+                <Link to="/" className="breadcrumb-item">Home</Link>
+                <ChevronRight size={14} className="breadcrumb-icon" />
+                <Link to="/shop" className="breadcrumb-item">Shop</Link>
+                <ChevronRight size={14} className="breadcrumb-icon" />
+                <Link to={`/shop?category=${product.category}`} className="breadcrumb-item">{product.category}</Link>
+                <ChevronRight size={14} className="breadcrumb-icon" />
+                <span className="breadcrumb-active">{product.name}</span>
+            </nav>
 
-            <div className="product-details-grid">
-                {/* Product Images */}
-                <div className="product-gallery">
-                    <div className="main-image-wrapper">
+            {/* Main Showcase Grid */}
+            <div className="auralis-details-grid">
+                
+                {/* Left: Gallery & Visual Showcase */}
+                <div className="auralis-gallery-card">
+                    <div className="main-stage">
                         <img 
-                            src={product.images && product.images.length > 0 ? product.images[activeImage]?.url : (product.image || 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 600 600"><rect width="600" height="600" fill="%23f1f5f9"/><text x="300" y="300" font-family="sans-serif" font-size="24" fill="%2394a3b8" text-anchor="middle" dominant-baseline="middle">Image Unavailable</text></svg>')} 
+                            src={displayImages[activeImage]?.url || product.image} 
                             alt={product.name} 
-                            className="main-image" 
-                            fetchPriority="high" 
+                            className="main-stage-img"
+                            fetchPriority="high"
                             onError={(e) => {
                                 e.target.onerror = null;
-                                e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 600 600"><rect width="600" height="600" fill="%23f1f5f9"/><text x="300" y="300" font-family="sans-serif" font-size="24" fill="%2394a3b8" text-anchor="middle" dominant-baseline="middle">Image Unavailable</text></svg>';
+                                e.target.src = 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=1200&q=85';
                             }}
                         />
+
+                        {/* Wishlist Button Overlay */}
+                        <button 
+                            className={`stage-wishlist-btn ${isInWishlist(product.id) ? 'is-active' : ''}`}
+                            onClick={handleWishlistClick}
+                            aria-label="Add to Wishlist"
+                            title={isInWishlist(product.id) ? 'Saved in Wishlist' : 'Add to Wishlist'}
+                        >
+                            <Heart size={20} fill={isInWishlist(product.id) ? '#EF4444' : 'none'} color={isInWishlist(product.id) ? '#EF4444' : '#64748B'} />
+                        </button>
+
+                        {/* Best Seller / Audio Grade Tag */}
+                        {product.isBestSeller && (
+                            <span className="stage-badge">
+                                <Sparkles size={13} /> BESTSELLER
+                            </span>
+                        )}
                     </div>
-                    {/* Secondary images */}
-                    {(product.images && product.images.length > 1) ? (
-                        <div className="thumbnail-list">
-                            {product.images.map((imgObj, index) => (
+
+                    {/* Thumbnails Showcase */}
+                    {displayImages.length > 1 && (
+                        <div className="thumb-strip">
+                            {displayImages.map((imgObj, idx) => (
                                 <button
-                                    key={index}
-                                    className={`thumbnail-btn ${activeImage === index ? 'active' : ''}`}
-                                    onClick={() => setActiveImage(index)}
+                                    key={idx}
+                                    className={`thumb-box ${activeImage === idx ? 'active-thumb' : ''}`}
+                                    onClick={() => setActiveImage(idx)}
                                 >
                                     <img 
                                         src={imgObj.url} 
-                                        alt={imgObj.alt || `${product.name} view ${index + 1}`} 
+                                        alt={`${product.name} view ${idx + 1}`}
                                         onError={(e) => {
                                             e.target.onerror = null;
-                                            e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23f1f5f9"/></svg>';
+                                            e.target.src = 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=300&q=80';
                                         }}
                                     />
                                 </button>
                             ))}
                         </div>
-                    ) : (
-                        <div className="thumbnail-list" style={{ display: 'none' }}></div>
                     )}
                 </div>
 
-                {/* Product Info */}
-                <div className="product-info-column">
-                    <div className="product-meta-top">
-                        {product.brand && <span className="product-brand">Visit the {product.brand} Store</span>}
-                        <span className="product-category-tag">{product.category}</span>
-                    </div>
+                {/* Right: Product Details & Purchase Console */}
+                <div className="auralis-console">
                     
-                    <h1 className="details-title">{product.name}</h1>
-                    
-                    {product.shortDescription && (
-                        <p className="product-short-desc">{product.shortDescription}</p>
-                    )}
+                    {/* Header Details */}
+                    <div className="console-header">
+                        <div className="brand-category-bar">
+                            <span className="brand-chip">{product.brand || 'Auralis Audio'}</span>
+                            <span className="category-chip">{product.category}</span>
+                        </div>
 
-                    <div className="rating-container">
-                        <div className="stars">
-                            {[1, 2, 3, 4, 5].map(star => (
-                                <Star 
-                                    key={star} 
-                                    size={16} 
-                                    fill={star <= Math.round(avgRating) ? "#C9A24D" : "none"} 
-                                    color={star <= Math.round(avgRating) ? "#C9A24D" : "var(--color-gray-400)"} 
-                                />
-                            ))}
-                        </div>
-                        <span className="rating-text">
-                            {reviewCount > 0 ? `(${reviewCount} Review${reviewCount > 1 ? 's' : ''})` : 'No reviews yet'}
-                        </span>
-                    </div>
+                        <h1 className="product-main-title">{product.name}</h1>
 
-                    <div className="price-container">
-                        <span className="price-symbol">₹</span>
-                        <span className="current-price">{product.price.toLocaleString()}</span>
-                        <div className="price-tax-info">Inclusive of all taxes</div>
-                    </div>
-
-                    <div className="product-offers">
-                        <div className="offer-box">
-                            <span className="offer-title">Bank Offer</span>
-                            <span className="offer-desc">Upto ₹1,500.00 discount on select Credit Cards</span>
-                        </div>
-                        <div className="offer-box">
-                            <span className="offer-title">No Cost EMI</span>
-                            <span className="offer-desc">Avail No Cost EMI on select cards for orders above ₹3000</span>
-                        </div>
-                        <div className="offer-box">
-                            <span className="offer-title">Partner Offers</span>
-                            <span className="offer-desc">Get GST invoice and save up to 28% on business purchases.</span>
-                        </div>
-                    </div>
-
-                    <div className="trust-badges-row">
-                        <div className="trust-badge">
-                            <div className="badge-icon">🔄</div>
-                            <span>10 days Returnable</span>
-                        </div>
-                        <div className="trust-badge">
-                            <div className="badge-icon">🚚</div>
-                            <span>Free Delivery</span>
-                        </div>
-                        <div className="trust-badge">
-                            <div className="badge-icon">🛡️</div>
-                            <span>1 Year Warranty</span>
-                        </div>
-                        <div className="trust-badge">
-                            <div className="badge-icon">🏆</div>
-                            <span>Top Brand</span>
-                        </div>
-                    </div>
-
-                    {/* Specifications Table */}
-                    {product.specifications && product.specifications.length > 0 && (
-                        <div className="product-specifications">
-                            <table className="specs-table">
-                                <tbody>
-                                    {product.specifications.map((spec, idx) => (
-                                        <tr key={idx}>
-                                            <th className="spec-name">{spec.name}</th>
-                                            <td className="spec-value">{spec.value}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    )}
-                    
-                    {/* About this item (Features) */}
-                    {product.features && product.features.length > 0 && (
-                        <div className="about-this-item">
-                            <h3>About this item</h3>
-                            <ul className="feature-bullets">
-                                {product.features.map((feature, idx) => (
-                                    <li key={idx}>{feature}</li>
+                        {/* Rating Row */}
+                        <div className="rating-pills">
+                            <div className="stars-wrapper">
+                                {[1, 2, 3, 4, 5].map(star => (
+                                    <Star 
+                                        key={star} 
+                                        size={16} 
+                                        fill={star <= Math.round(avgRating) ? "#F59E0B" : "none"} 
+                                        color={star <= Math.round(avgRating) ? "#F59E0B" : "#CBD5E1"} 
+                                    />
                                 ))}
-                            </ul>
+                                <span className="score-val">{avgRating.toFixed(1)}</span>
+                            </div>
+                            <span className="divider-dot">•</span>
+                            <span className="reviews-count-text">{reviewCount} Verified Reviews</span>
+                            <span className="divider-dot">•</span>
+                            <span className="in-stock-tag">
+                                <span className="pulse-dot"></span> In Stock
+                            </span>
                         </div>
+                    </div>
+
+                    {/* Pricing Display */}
+                    <div className="price-card">
+                        <div className="price-primary">
+                            <span className="price-amount">{formatINR(product.price)}</span>
+                            <span className="tax-inclusive">Inclusive of all taxes & free shipping</span>
+                        </div>
+                    </div>
+
+                    {/* Short Description Summary */}
+                    {product.shortDescription && (
+                        <p className="console-summary">{product.shortDescription}</p>
                     )}
-                    
-                    <div className="product-description-section">
-                        <h3>Product Description</h3>
-                        <p className="product-description">{product.description}</p>
-                    </div>
-                </div>
 
-                {/* Right Column (Buy Box) */}
-                <div className="product-buy-box">
-                    <div className="buy-box-price">
-                        <span className="price-symbol">₹</span>
-                        <span className="current-price">{product.price.toLocaleString()}</span>
-                    </div>
-                    
-                    <div className="delivery-info">
-                        <div className="delivery-line">
-                            <Truck size={16} color="#007185" />
-                            <span><span className="highlight-link">FREE delivery</span> <b>Tomorrow, 11 AM</b></span>
-                        </div>
-                        <div className="delivery-location">
-                            <span className="location-pin">📍</span>
-                            <span className="highlight-link">Deliver to Mumbai 400001</span>
-                        </div>
-                    </div>
-
-                    <div className="stock-status-container" style={{ marginBottom: '1.25rem' }}>
-                        {product.availability === 'out_of_stock' && (
-                            <span style={{ color: '#B12704', fontSize: '1.125rem', fontWeight: 500 }}>Currently unavailable.</span>
-                        )}
-                        {product.availability === 'low_stock' && (
-                            <span style={{ color: '#B12704', fontSize: '1.125rem', fontWeight: 500 }}>Only a few left in stock - order soon.</span>
-                        )}
-                        {product.availability === 'in_stock' && (
-                            <span style={{ color: '#007600', fontSize: '1.125rem', fontWeight: 500 }}>In stock</span>
-                        )}
-                    </div>
-
-                    <div className="ships-from-sold-by">
-                        <div className="sfsb-row">
-                            <span className="sfsb-label">Ships from</span>
-                            <span className="sfsb-value">Auralis Fulfillment</span>
-                        </div>
-                        <div className="sfsb-row">
-                            <span className="sfsb-label">Sold by</span>
-                            <span className="sfsb-value highlight-link">Auralis Audio India</span>
-                        </div>
-                    </div>
-
-                    <div className="action-buttons-vertical">
-                    
+                    {/* Action CTAs */}
+                    <div className="cta-action-group">
                         <button 
-                            className={`amazon-btn add-to-cart-amazon`}
+                            className={`auralis-cta cta-primary ${addedToCart ? 'added-success' : ''}`}
                             onClick={handleAddToCart}
                             disabled={['out_of_stock', 'inactive'].includes(product.availability) || addedToCart}
                         >
-                            {addedToCart ? 'Added to Cart ✓' : 'Add to Cart'}
+                            <ShoppingBag size={18} />
+                            <span>{addedToCart ? 'Added to Bag ✓' : 'Add to Cart'}</span>
                         </button>
+
                         <button 
-                            className="amazon-btn buy-now-amazon" 
+                            className="auralis-cta cta-secondary"
                             onClick={handleBuyNow}
                             disabled={['out_of_stock', 'inactive'].includes(product.availability)}
                         >
-                            Buy Now
+                            <Zap size={18} />
+                            <span>Buy Now</span>
                         </button>
                     </div>
 
-                    <div className="secure-transaction">
-                        <ShieldCheck size={16} color="#999" />
-                        <span className="highlight-link">Secure transaction</span>
-                    </div>
+                    {/* Trust Feature Cards */}
+                    <div className="trust-features-grid">
+                        <div className="trust-card">
+                            <div className="trust-icon-box">
+                                <Truck size={20} />
+                            </div>
+                            <div className="trust-card-info">
+                                <span className="trust-card-title">Free Express Shipping</span>
+                                <span className="trust-card-sub">Delivered in 2-3 Business Days</span>
+                            </div>
+                        </div>
 
-                    <div className="wishlist-row">
-                        <button 
-                            className={`add-to-list-btn ${isInWishlist(product.id) ? 'active' : ''}`} 
-                            onClick={handleWishlistClick}
-                        >
-                            {isInWishlist(product.id) ? 'Remove from Wish List' : 'Add to Wish List'}
-                        </button>
+                        <div className="trust-card">
+                            <div className="trust-icon-box">
+                                <ShieldCheck size={20} />
+                            </div>
+                            <div className="trust-card-info">
+                                <span className="trust-card-title">1 Year Official Warranty</span>
+                                <span className="trust-card-sub">Full Coverage Protection</span>
+                            </div>
+                        </div>
+
+                        <div className="trust-card">
+                            <div className="trust-icon-box">
+                                <RotateCcw size={20} />
+                            </div>
+                            <div className="trust-card-info">
+                                <span className="trust-card-title">10 Days Easy Returns</span>
+                                <span className="trust-card-sub">Hassle-free Replacements</span>
+                            </div>
+                        </div>
+
+                        <div className="trust-card">
+                            <div className="trust-icon-box">
+                                <Lock size={20} />
+                            </div>
+                            <div className="trust-card-info">
+                                <span className="trust-card-title">Secured Checkout</span>
+                                <span className="trust-card-sub">256-bit Encrypted Payments</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <hr className="amazon-divider" />
+            {/* Interactive Tabs Section */}
+            <div className="auralis-tabs-wrapper">
+                <div className="tabs-header">
+                    <button 
+                        className={`tab-btn ${activeTab === 'overview' ? 'active-tab' : ''}`}
+                        onClick={() => setActiveTab('overview')}
+                    >
+                        Overview & Features
+                    </button>
+                    <button 
+                        className={`tab-btn ${activeTab === 'specs' ? 'active-tab' : ''}`}
+                        onClick={() => setActiveTab('specs')}
+                    >
+                        Technical Specifications
+                    </button>
+                </div>
 
-            {/* From the manufacturer (A+ Content) */}
-            <div className="aplus-content-section">
-                <h2 className="amazon-section-title">From the manufacturer</h2>
-                
-                <div className="aplus-hero-banner">
+                <div className="tab-content-container">
+                    {/* Tab 1: Overview */}
+                    {activeTab === 'overview' && (
+                        <div className="tab-pane fade-in">
+                            <div className="overview-section">
+                                <h3 className="section-heading">Audio Engineering Highlights</h3>
+                                <p className="overview-description">{product.description}</p>
+
+                                {product.features && product.features.length > 0 && (
+                                    <div className="features-grid">
+                                        {product.features.map((feature, idx) => (
+                                            <div className="feature-card-item" key={idx}>
+                                                <CheckCircle2 size={18} className="feature-check-icon" />
+                                                <span>{feature}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Tab 2: Specs */}
+                    {activeTab === 'specs' && (
+                        <div className="tab-pane fade-in">
+                            <h3 className="section-heading">Hardware & Performance Specifications</h3>
+                            {product.specifications && product.specifications.length > 0 ? (
+                                <div className="specs-grid-layout">
+                                    {product.specifications.map((spec, idx) => (
+                                        <div className="spec-tile" key={idx}>
+                                            <span className="spec-tile-label">{spec.name}</span>
+                                            <span className="spec-tile-value">{spec.value}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <p className="no-specs-text">Standard Auralis High-Fidelity Audio specifications apply.</p>
+                            )}
+                        </div>
+                    )}
+                </div>
+            </div>
+
+            {/* Auralis Manufacturer Experience Banner */}
+            <div className="auralis-experience-card">
+                <div className="experience-media">
                     <img 
-                        src={product.images && product.images.length > 1 ? product.images[1].url : product.image} 
-                        alt="Lifestyle banner" 
-                        className="aplus-hero-img"
+                        src={displayImages.length > 1 ? displayImages[1].url : product.image} 
+                        alt="Auralis Acoustic Engineering"
+                        onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = 'https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=1200&q=85';
+                        }}
                     />
-                    <div className="aplus-hero-overlay">
-                        <h3>Immersive Audio Excellence</h3>
-                        <p>{product.shortDescription || 'Experience sound exactly as the artist intended with zero compromise.'}</p>
-                    </div>
                 </div>
-                
-                <div className="aplus-grid">
-                    <div className="aplus-card">
-                        <div className="aplus-card-img-wrapper">
-                            <img src={product.images && product.images.length > 2 ? product.images[2].url : product.image} alt="Feature 1" />
-                        </div>
-                        <h4>Premium Craftsmanship</h4>
-                        <p>Designed with meticulous attention to detail using industry-leading materials for lasting comfort and unmatched durability.</p>
-                    </div>
-                    <div className="aplus-card">
-                        <div className="aplus-card-img-wrapper">
-                            <img src={product.images && product.images.length > 3 ? product.images[3].url : product.image} alt="Feature 2" />
-                        </div>
-                        <h4>Acoustic Precision</h4>
-                        <p>Engineered to deliver exceptional clarity, deep controlled bass, and an incredibly wide soundstage for true audiophiles.</p>
-                    </div>
-                    <div className="aplus-card">
-                        <div className="aplus-card-img-wrapper">
-                            <img src={product.images && product.images.length > 4 ? product.images[4].url : product.image} alt="Feature 3" />
-                        </div>
-                        <h4>Seamless Integration</h4>
-                        <p>Optimized for flawless performance across all your high-resolution audio sources and smart devices.</p>
-                    </div>
+                <div className="experience-content">
+                    <span className="experience-tag"><Award size={16} /> AURALIS ACOUSTIC LABS</span>
+                    <h2>Engineered for Pure Sound Perfection</h2>
+                    <p>
+                        Every detail of the {product.name} is meticulously tuned by acoustic engineers. 
+                        Delivering deep controlled bass, crystal-clear vocal mids, and open spatial highs for an incredible listening journey.
+                    </p>
                 </div>
             </div>
 
-            <hr className="amazon-divider" />
+            {/* Customer Reviews */}
+            <div className="auralis-reviews-block">
+                {!reviewsLoading && (
+                    <Reviews 
+                        productId={product.id} 
+                        reviewsData={reviewsData} 
+                        onReviewChanged={handleReviewChanged}
+                    />
+                )}
+            </div>
 
-            {/* Reviews Section */}
-            {!reviewsLoading && (
-                <Reviews 
-                    productId={product.id} 
-                    reviewsData={reviewsData} 
-                    onReviewChanged={handleReviewChanged}
-                />
-            )}
-
-            {/* Recommendations Section */}
-            <div style={{ marginTop: '2rem' }}>
+            {/* Recommendations */}
+            <div className="auralis-recommendations-block">
                 <RecommendationRow 
                     title="Frequently Bought Together"
                     products={frequentlyBought}
@@ -374,8 +384,8 @@ const ProductDetails = () => {
                 />
                 
                 <RecommendationRow 
-                    title="Related Products"
-                    subtitle="Customers also viewed"
+                    title="Related Audio Gear"
+                    subtitle="Selected for your sound setup"
                     products={related}
                     loading={recsLoading}
                 />
