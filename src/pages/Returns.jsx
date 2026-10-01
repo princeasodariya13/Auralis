@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { returnService } from '../services/apiService';
 import { Package, ArrowLeft, RotateCcw } from 'lucide-react';
 import { EmptyState, ErrorState } from '../components/States';
+import { OrdersSkeleton } from '../components/Skeletons';
 
 const Returns = () => {
     const [returns, setReturns] = useState([]);
@@ -32,17 +33,12 @@ const Returns = () => {
             case 'refund_pending': return 'badge-info';
             case 'refunded': return 'badge-success';
             case 'rejected': return 'badge-danger';
-            case 'cancelled': return 'badge-secondary';
             default: return 'badge-secondary';
         }
     };
 
     if (loading) {
-        return (
-            <div className="section container" style={{ minHeight: '60vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <div className="spinner"></div>
-            </div>
-        );
+        return <OrdersSkeleton />;
     }
     
     if (error) {

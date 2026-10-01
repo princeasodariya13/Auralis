@@ -27,7 +27,7 @@ const ReturnRequestForm = lazy(() => import('./pages/ReturnRequestForm'));
 const SupportTickets = lazy(() => import('./pages/SupportTickets'));
 const SupportTicketDetail = lazy(() => import('./pages/SupportTicketDetail'));
 const Loyalty = lazy(() => import('./pages/Loyalty'));
-import ProtectedRoute from './components/ProtectedRoute';
+import { PageSkeleton } from './components/Skeletons';
 
 // Admin Components (Lazy Loaded)
 const AdminLayout = lazy(() => import('./components/AdminLayout'));
@@ -168,7 +168,7 @@ function App() {
               {/* Admin Routes */}
               <Route path="/admin" element={
                 <AdminRoute>
-                  <Suspense fallback={<div className="flex justify-center items-center h-screen bg-slate-50"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div></div>}>
+                  <Suspense fallback={<PageSkeleton />}>
                     <AdminLayout />
                   </Suspense>
                 </AdminRoute>
