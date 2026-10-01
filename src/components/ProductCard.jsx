@@ -28,13 +28,22 @@ const ProductCard = ({ product }) => {
         <div className="product-card" onClick={() => navigate(`/product/${product.id}`)} role="button" tabIndex="0" onKeyDown={(e) => { if(e.key==='Enter') navigate(`/product/${product.id}`) }}>
             <div className="product-image-container">
                 <img 
-                    src={product.image || 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400"><rect width="400" height="400" fill="%23f1f5f9"/><text x="200" y="200" font-family="sans-serif" font-size="20" fill="%2394a3b8" text-anchor="middle" dominant-baseline="middle">Image Unavailable</text></svg>'} 
+                    src={product.image || 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=1200&q=85'} 
                     alt={product.name} 
                     className="product-image" 
                     loading="lazy" 
                     onError={(e) => {
                         e.target.onerror = null;
-                        e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400"><rect width="400" height="400" fill="%23f1f5f9"/><text x="200" y="200" font-family="sans-serif" font-size="20" fill="%2394a3b8" text-anchor="middle" dominant-baseline="middle">Image Unavailable</text></svg>';
+                        const cat = product.category || '';
+                        if (cat.includes('Headphone')) {
+                            e.target.src = 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=85';
+                        } else if (cat.includes('Speaker')) {
+                            e.target.src = 'https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=1200&q=85';
+                        } else if (cat.includes('Earphone')) {
+                            e.target.src = 'https://images.unsplash.com/photo-1545127398-14699f92334b?auto=format&fit=crop&w=1200&q=85';
+                        } else {
+                            e.target.src = 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=1200&q=85';
+                        }
                     }}
                 />
                 <button 
