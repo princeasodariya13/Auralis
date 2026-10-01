@@ -4,6 +4,7 @@ import { ShoppingBag, Heart } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 import { formatINR } from '../utils/formatCurrency';
+import { getHDProductImage, handleProductImageError } from '../utils/imageHelper';
 import './ProductCard.css';
 
 const ProductCard = ({ product }) => {
@@ -28,23 +29,11 @@ const ProductCard = ({ product }) => {
         <div className="product-card" onClick={() => navigate(`/product/${product.id}`)} role="button" tabIndex="0" onKeyDown={(e) => { if(e.key==='Enter') navigate(`/product/${product.id}`) }}>
             <div className="product-image-container">
                 <img 
-                    src={product.image || 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=1200&q=85'} 
+                    src={getHDProductImage(product)} 
                     alt={product.name} 
                     className="product-image" 
                     loading="lazy" 
-                    onError={(e) => {
-                        e.target.onerror = null;
-                        const cat = product.category || '';
-                        if (cat.includes('Headphone')) {
-                            e.target.src = 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=85';
-                        } else if (cat.includes('Speaker')) {
-                            e.target.src = 'https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=1200&q=85';
-                        } else if (cat.includes('Earphone')) {
-                            e.target.src = 'https://images.unsplash.com/photo-1545127398-14699f92334b?auto=format&fit=crop&w=1200&q=85';
-                        } else {
-                            e.target.src = 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=1200&q=85';
-                        }
-                    }}
+                    onError={(e) => handleProductImageError(e, product)}
                 />
                 <button 
                     className={`wishlist-btn ${isInWishlist(product.id) ? 'active' : ''}`}

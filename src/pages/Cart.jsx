@@ -3,6 +3,7 @@ import { useCart } from '../context/CartContext';
 import { Trash2, Plus, Minus, ArrowRight, ShoppingCart } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { EmptyState } from '../components/States';
+import { getHDProductImage, handleProductImageError } from '../utils/imageHelper';
 import './Cart.css';
 
 const Cart = () => {
@@ -50,7 +51,11 @@ const Cart = () => {
                         <div key={item.id} className="cart-item">
                             <div className="item-product">
                                 <Link to={`/product/${item.id}`} className="item-image">
-                                    <img src={item.image} alt={item.name} />
+                                    <img 
+                                        src={getHDProductImage(item)} 
+                                        alt={item.name} 
+                                        onError={(e) => handleProductImageError(e, item)}
+                                    />
                                 </Link>
                                 <div className="item-details">
                                     <Link to={`/product/${item.id}`} className="item-name">{item.name}</Link>

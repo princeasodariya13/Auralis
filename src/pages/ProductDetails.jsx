@@ -24,6 +24,7 @@ import RecommendationRow from '../components/RecommendationRow';
 import { useRecommendations } from '../hooks/useRecommendations';
 import { useRecentlyViewed } from '../hooks/useRecentlyViewed';
 import { formatINR } from '../utils/formatCurrency';
+import { getHDProductImage, handleProductImageError, isInvalidOrPlaceholderImage } from '../utils/imageHelper';
 import './ProductDetails.css';
 
 const ProductDetails = () => {
@@ -94,9 +95,10 @@ const ProductDetails = () => {
     const avgRating = reviewsData?.stats?.average || product.rating || 4.5;
     const reviewCount = reviewsData?.stats?.count || product.numReviews || 12;
 
-    const displayImages = product.images && product.images.length > 0 
-        ? product.images 
-        : [{ url: product.image, alt: product.name }];
+    const validMainImage = getHDProductImage(product);
+    const displayImages = (product.images && product.images.length > 0) 
+        ? product.images.map(img => isInvalidOrPlaceholderImage(img?.url) ? { ...img, url: validMainImage } : img) 
+        : [{ url: validMainImage, alt: product.name }];
 
     return (
         <div className="auralis-details-page container">
@@ -118,14 +120,11 @@ const ProductDetails = () => {
                 <div className="auralis-gallery-card">
                     <div className="main-stage">
                         <img 
-                            src={displayImages[activeImage]?.url || product.image} 
+                            src={displayImages[activeImage]?.url || validMainImage} 
                             alt={product.name} 
                             className="main-stage-img"
                             fetchPriority="high"
-                            onError={(e) => {
-                                e.target.onerror = null;
-                                e.target.src = 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=1200&q=85';
-                            }}
+                            onError={(e) => handleProductImageError(e, product)}
                         />
 
                         {/* Wishlist Button Overlay */}
