@@ -3,7 +3,20 @@ import { useSearchParams } from 'react-router-dom';
 import { useProducts } from '../hooks/useData';
 import { productService } from '../services/apiService';
 import ProductCard from '../components/ProductCard';
-import { Filter, X, Search, ChevronLeft, ChevronRight } from 'lucide-react';
+import { 
+    Filter, 
+    X, 
+    Search, 
+    ChevronLeft, 
+    ChevronRight, 
+    ChevronsLeft, 
+    ChevronsRight,
+    SlidersHorizontal,
+    Sparkles,
+    CheckCircle2,
+    Grid,
+    List
+} from 'lucide-react';
 import { ProductCardSkeleton } from '../components/Skeletons';
 import { ErrorState, EmptyState } from '../components/States';
 import './Shop.css';
@@ -19,6 +32,7 @@ const Shop = () => {
     const urlAvailability = searchParams.get('availability') || 'all';
     const urlSort = searchParams.get('sort') || 'default';
     const urlPage = searchParams.get('page') ? Number(searchParams.get('page')) : 1;
+    const urlLimit = searchParams.get('limit') ? Number(searchParams.get('limit')) : 12;
 
     // Filter States
     const [selectedCategory, setSelectedCategory] = useState(urlCategory);
@@ -29,6 +43,8 @@ const Shop = () => {
     const [debouncedSearch, setDebouncedSearch] = useState(urlSearch);
     const [sortOption, setSortOption] = useState(urlSort);
     const [currentPage, setCurrentPage] = useState(urlPage);
+    const [itemsPerPage, setItemsPerPage] = useState(urlLimit);
+    const [jumpPageInput, setJumpPageInput] = useState('');
     
     const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
     const [dynamicCategories, setDynamicCategories] = useState([]);
@@ -42,7 +58,6 @@ const Shop = () => {
                 setDynamicCategories(cats.map(c => c.name));
             } catch (err) {
                 console.error('Failed to load categories', err);
-                // Fallback to common audio categories if API fails
                 setDynamicCategories(['Headphones', 'Earphones', 'True Wireless', 'Speakers', 'Microphones', 'DAC & Amplifiers', 'Accessories']);
             } finally {
                 setCategoriesLoading(false);
@@ -58,7 +73,7 @@ const Shop = () => {
                 setDebouncedSearch(searchInput);
                 setCurrentPage(1); // Reset to page 1 on new search
             }
-        }, 500);
+        }, 400);
         return () => clearTimeout(timer);
     }, [searchInput, debouncedSearch]);
 
@@ -71,12 +86,13 @@ const Shop = () => {
         if (maxPrice < 10000) params.set('maxPrice', maxPrice);
         if (availability !== 'all') params.set('availability', availability);
         if (sortOption !== 'default') params.set('sort', sortOption);
+        if (itemsPerPage !== 12) params.set('limit', itemsPerPage);
         if (currentPage > 1) params.set('page', currentPage);
         
         setSearchParams(params, { replace: true });
-    }, [selectedCategory, debouncedSearch, minPrice, maxPrice, availability, sortOption, currentPage, setSearchParams]);
+    }, [selectedCategory, debouncedSearch, minPrice, maxPrice, availability, sortOption, itemsPerPage, currentPage, setSearchParams]);
 
-    // Reset page to 1 if category, price, or sort changes
+    // Page Handlers
     const handleCategoryChange = (cat) => {
         setSelectedCategory(cat);
         setCurrentPage(1);
@@ -88,14 +104,75 @@ const Shop = () => {
         setCurrentPage(1);
     };
 
-    const handleAvailabilityChange = (e) => {
-        setAvailability(e.target.value);
+    const handleAvailabilityChange = (val) => {
+        setAvailability(val);
         setCurrentPage(1);
     };
 
     const handleSortChange = (e) => {
         setSortOption(e.target.value);
         setCurrentPage(1);
+    };
+
+    const handleLimitChange = (e) => {
+        setItemsPerPage(Number(e.target.value));
+        setCurrentPage(1);
+    };
+
+    const handlePageChange = (newPage) => {
+        if (!pagination) return;
+        const targetPage = Math.max(1, Math.min(pagination.totalPages, newPage));
+        if (targetPage !== currentPage) {
+            setCurrentPage(targetPage);
+            window.scrollTo({ top: 120, behavior: 'smooth' });
+        }
+    };
+
+    const handleJumpSubmit = (e) => {
+        e.preventDefault();
+        const pageNum = parseInt(jumpPageInput, 10);
+        if (!isNaN(pageNum) && pagination) {
+            handlePageChange(pageNum);
+            setJumpPageInput('');
+        }
+    };
+
+    const applyPricePreset = (min, max) => {
+        setMinPrice(min);
+        setMaxPrice(max);
+        setCurrentPage(1);
+    };
+
+    const getPaginationRange = (current, total) => {
+        if (total <= 7) {
+            return Array.from({ length: total }, (_, i) => i + 1);
+        }
+        const pages = [];
+        pages.push(1);
+
+        if (current > 3) {
+            pages.push('LEFT_DOTS');
+        }
+
+        let start = Math.max(2, current - 1);
+        let end = Math.min(total - 1, current + 1);
+
+        if (current <= 3) {
+            end = 4;
+        } else if (current >= total - 2) {
+            start = total - 3;
+        }
+
+        for (let i = start; i <= end; i++) {
+            pages.push(i);
+        }
+
+        if (current < total - 2) {
+            pages.push('RIGHT_DOTS');
+        }
+
+        pages.push(total);
+        return pages;
     };
 
     // Fetch Products
@@ -107,7 +184,7 @@ const Shop = () => {
         availability,
         sort: sortOption,
         page: currentPage,
-        limit: 12
+        limit: itemsPerPage
     });
 
     const categories = ['All', ...dynamicCategories];
@@ -120,6 +197,7 @@ const Shop = () => {
         setSearchInput('');
         setDebouncedSearch('');
         setSortOption('default');
+        setItemsPerPage(12);
         setCurrentPage(1);
     };
 
@@ -134,46 +212,96 @@ const Shop = () => {
 
     return (
         <div className="shop-page container section">
-            <div className="shop-header">
-                <div className="shop-header-top">
-                    <h1>Shop Gear</h1>
-                    <button
-                        className="mobile-filter-btn btn btn-outline"
-                        onClick={() => setIsMobileFilterOpen(true)}
-                    >
-                        <Filter size={18} /> Filters
-                    </button>
+            {/* Million-Dollar Hero Header */}
+            <div className="shop-hero-banner">
+                <div className="shop-hero-badge">
+                    <Sparkles size={14} className="text-gold" /> AURALIS MASTER CATALOG
                 </div>
+                <h1>Explore High-Fidelity Audio</h1>
+                <p className="shop-hero-subtitle">
+                    Over 2,400+ precision-tuned headphones, wireless earbuds, studio monitors, and audiophile gear.
+                </p>
+                
+                {/* Horizontal Quick Category Bar */}
+                <div className="quick-category-pills">
+                    {categories.slice(0, 8).map(cat => (
+                        <button
+                            key={cat}
+                            className={`quick-pill ${selectedCategory.toLowerCase() === cat.toLowerCase() ? 'active' : ''}`}
+                            onClick={() => handleCategoryChange(cat)}
+                        >
+                            {cat}
+                        </button>
+                    ))}
+                </div>
+            </div>
 
-                <div className="shop-controls">
+            {/* Shop Filter Controls Bar */}
+            <div className="shop-header">
+                <div className="shop-controls-bar">
                     <div className="search-wrapper">
                         <Search size={18} className="search-icon" />
                         <input
                             type="text"
-                            placeholder="Search products..."
+                            placeholder="Search by brand, product name, or spec..."
                             aria-label="Search products"
                             value={searchInput}
                             onChange={(e) => setSearchInput(e.target.value)}
                         />
+                        {searchInput && (
+                            <X 
+                                size={16} 
+                                className="search-clear-icon" 
+                                onClick={() => { setSearchInput(''); setDebouncedSearch(''); setCurrentPage(1); }} 
+                            />
+                        )}
                     </div>
                     
-                    <div className="sort-wrapper">
-                        <label htmlFor="sort">Sort by:</label>
-                        <select 
-                            id="sort" 
-                            value={sortOption} 
-                            onChange={handleSortChange}
+                    <div className="shop-controls-right">
+                        {/* Per Page Selector */}
+                        <div className="control-select-group">
+                            <label htmlFor="limit-select">Show:</label>
+                            <select 
+                                id="limit-select" 
+                                value={itemsPerPage} 
+                                onChange={handleLimitChange}
+                                className="custom-select"
+                            >
+                                <option value={12}>12 per page</option>
+                                <option value={24}>24 per page</option>
+                                <option value={48}>48 per page</option>
+                            </select>
+                        </div>
+
+                        {/* Sort Selector */}
+                        <div className="control-select-group">
+                            <label htmlFor="sort">Sort:</label>
+                            <select 
+                                id="sort" 
+                                value={sortOption} 
+                                onChange={handleSortChange}
+                                className="custom-select"
+                            >
+                                <option value="default">Featured</option>
+                                <option value="newest">Newest Arrivals</option>
+                                <option value="price_asc">Price: Low to High</option>
+                                <option value="price_desc">Price: High to Low</option>
+                                <option value="name_asc">Name: A-Z</option>
+                                <option value="name_desc">Name: Z-A</option>
+                            </select>
+                        </div>
+
+                        {/* Mobile Filter Toggle */}
+                        <button
+                            className="mobile-filter-trigger btn btn-outline"
+                            onClick={() => setIsMobileFilterOpen(true)}
                         >
-                            <option value="default">Featured</option>
-                            <option value="newest">Newest Arrivals</option>
-                            <option value="price_asc">Price: Low to High</option>
-                            <option value="price_desc">Price: High to Low</option>
-                            <option value="name_asc">Name: A-Z</option>
-                            <option value="name_desc">Name: Z-A</option>
-                        </select>
+                            <SlidersHorizontal size={16} /> Filters
+                        </button>
                     </div>
                 </div>
 
+                {/* Active Filter Chips */}
                 {hasActiveFilters && (
                     <div className="active-filters">
                         <span className="active-filters-label">Active Filters:</span>
@@ -208,12 +336,13 @@ const Shop = () => {
                 {/* Sidebar Filters */}
                 <aside className={`shop-sidebar ${isMobileFilterOpen ? 'open' : ''}`}>
                     <div className="sidebar-header mobile-only">
-                        <h3>Filters</h3>
+                        <h3>Filter Catalog</h3>
                         <button onClick={() => setIsMobileFilterOpen(false)} aria-label="Close filters">
                             <X size={24} />
                         </button>
                     </div>
 
+                    {/* Category Filter */}
                     <div className="filter-group">
                         <h3>Category</h3>
                         <div className="category-list">
@@ -223,41 +352,68 @@ const Shop = () => {
                                     className={`category-btn ${selectedCategory.toLowerCase() === cat.toLowerCase() ? 'active' : ''}`}
                                     onClick={() => handleCategoryChange(cat)}
                                 >
-                                    {cat}
+                                    <span>{cat}</span>
+                                    {selectedCategory.toLowerCase() === cat.toLowerCase() && (
+                                        <CheckCircle2 size={14} className="text-gold" />
+                                    )}
                                 </button>
                             ))}
                         </div>
                     </div>
 
+                    {/* Availability Filter */}
                     <div className="filter-group">
                         <h3>Availability</h3>
                         <div className="category-list">
                             <button
                                 className={`category-btn ${availability === 'all' ? 'active' : ''}`}
-                                onClick={() => handleAvailabilityChange({ target: { value: 'all' }})}
+                                onClick={() => handleAvailabilityChange('all')}
                             >
-                                Any Availability
+                                All Items
                             </button>
                             <button
                                 className={`category-btn ${availability === 'in_stock' ? 'active' : ''}`}
-                                onClick={() => handleAvailabilityChange({ target: { value: 'in_stock' }})}
+                                onClick={() => handleAvailabilityChange('in_stock')}
                             >
-                                In Stock
+                                In Stock Only
                             </button>
                             <button
                                 className={`category-btn ${availability === 'out_of_stock' ? 'active' : ''}`}
-                                onClick={() => handleAvailabilityChange({ target: { value: 'out_of_stock' }})}
+                                onClick={() => handleAvailabilityChange('out_of_stock')}
                             >
                                 Out of Stock
                             </button>
                         </div>
                     </div>
 
+                    {/* Price Filter with Quick Presets */}
                     <div className="filter-group">
                         <h3>Price Range</h3>
-                        <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                            <div style={{ flex: 1 }}>
-                                <label className="text-sm text-muted" htmlFor="min-price">Min (₹)</label>
+                        
+                        <div className="price-presets">
+                            <button 
+                                className={`preset-chip ${minPrice === 0 && maxPrice === 2000 ? 'active' : ''}`}
+                                onClick={() => applyPricePreset(0, 2000)}
+                            >
+                                Under ₹2K
+                            </button>
+                            <button 
+                                className={`preset-chip ${minPrice === 2000 && maxPrice === 5000 ? 'active' : ''}`}
+                                onClick={() => applyPricePreset(2000, 5000)}
+                            >
+                                ₹2K - ₹5K
+                            </button>
+                            <button 
+                                className={`preset-chip ${minPrice === 5000 && maxPrice === 10000 ? 'active' : ''}`}
+                                onClick={() => applyPricePreset(5000, 10000)}
+                            >
+                                ₹5K - ₹10K
+                            </button>
+                        </div>
+
+                        <div className="price-custom-inputs">
+                            <div>
+                                <label className="price-input-label" htmlFor="min-price">Min (₹)</label>
                                 <input
                                     id="min-price"
                                     type="number"
@@ -267,50 +423,53 @@ const Shop = () => {
                                         setMinPrice(Number(e.target.value));
                                         setCurrentPage(1);
                                     }}
-                                    className="price-input"
-                                    style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid var(--color-slate-700)', backgroundColor: 'var(--color-slate-800)', color: 'var(--color-slate-100)' }}
+                                    className="price-num-input"
                                 />
                             </div>
-                            <span style={{ marginTop: '1.5rem' }}>-</span>
-                            <div style={{ flex: 1 }}>
-                                <label className="text-sm text-muted" htmlFor="max-price">Max (₹)</label>
+                            <span className="price-dash">-</span>
+                            <div>
+                                <label className="price-input-label" htmlFor="max-price">Max (₹)</label>
                                 <input
                                     id="max-price"
                                     type="number"
                                     min="0"
                                     value={maxPrice}
                                     onChange={handleMaxPriceChange}
-                                    className="price-input"
-                                    style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid var(--color-slate-700)', backgroundColor: 'var(--color-slate-800)', color: 'var(--color-slate-100)' }}
+                                    className="price-num-input"
                                 />
                             </div>
                         </div>
                     </div>
                     
                     <button 
-                        className="btn btn-outline full-width" 
+                        className="btn btn-outline full-width clear-sidebar-btn" 
                         onClick={handleClearFilters}
                         disabled={!hasActiveFilters}
                     >
-                        Clear Filters
+                        Reset All Filters
                     </button>
                 </aside>
 
-                {/* Product Grid */}
+                {/* Product Grid Main */}
                 <main className="shop-grid">
                     {error ? (
                         <ErrorState message={error} onRetry={() => window.location.reload()} />
                     ) : loading ? (
                         <div className="product-grid">
-                            {[...Array(6)].map((_, i) => (
+                            {[...Array(itemsPerPage)].map((_, i) => (
                                 <ProductCardSkeleton key={i} />
                             ))}
                         </div>
                     ) : products && products.length > 0 ? (
                         <>
-                            <p className="text-sm text-muted" style={{ marginBottom: '1.5rem' }}>
-                                Showing {products.length} product{products.length !== 1 ? 's' : ''} {pagination?.total > 0 && `of ${pagination.total}`}
-                            </p>
+                            <div className="catalog-status-bar">
+                                <p className="status-count-text">
+                                    Showing <strong>{products.length}</strong> of <strong>{pagination?.total || products.length}</strong> items
+                                </p>
+                                <span className="status-page-badge">
+                                    PAGE {currentPage} OF {pagination?.totalPages || 1}
+                                </span>
+                            </div>
                             
                             <div className="product-grid">
                                 {products.map(product => (
@@ -318,26 +477,96 @@ const Shop = () => {
                                 ))}
                             </div>
 
-                            {/* Pagination Controls */}
+                            {/* Luxury Pagination Controls */}
                             {pagination && pagination.totalPages > 1 && (
-                                <div className="pagination-controls">
-                                    <button 
-                                        className="btn btn-outline" 
-                                        disabled={currentPage === 1}
-                                        onClick={() => setCurrentPage(prev => prev - 1)}
-                                    >
-                                        <ChevronLeft size={18} /> Prev
-                                    </button>
-                                    <span className="pagination-info">
-                                        Page {currentPage} of {pagination.totalPages}
-                                    </span>
-                                    <button 
-                                        className="btn btn-outline" 
-                                        disabled={currentPage === pagination.totalPages}
-                                        onClick={() => setCurrentPage(prev => prev + 1)}
-                                    >
-                                        Next <ChevronRight size={18} />
-                                    </button>
+                                <div className="luxury-pagination-container">
+                                    <div className="pagination-nav-group">
+                                        {/* First Page Button */}
+                                        <button 
+                                            className="pagination-btn pagination-nav-btn" 
+                                            disabled={currentPage === 1}
+                                            onClick={() => handlePageChange(1)}
+                                            title="First Page"
+                                            aria-label="First Page"
+                                        >
+                                            <ChevronsLeft size={18} />
+                                            <span className="btn-label-desktop">First</span>
+                                        </button>
+
+                                        {/* Prev Page Button */}
+                                        <button 
+                                            className="pagination-btn pagination-nav-btn" 
+                                            disabled={currentPage === 1}
+                                            onClick={() => handlePageChange(currentPage - 1)}
+                                            title="Previous Page"
+                                            aria-label="Previous Page"
+                                        >
+                                            <ChevronLeft size={18} />
+                                            <span className="btn-label-desktop">Prev</span>
+                                        </button>
+                                    </div>
+
+                                    {/* Page Number Pills */}
+                                    <div className="pagination-numbers-group">
+                                        {getPaginationRange(currentPage, pagination.totalPages).map((page, idx) => {
+                                            if (page === 'LEFT_DOTS' || page === 'RIGHT_DOTS') {
+                                                return <span key={`dots-${idx}`} className="pagination-ellipsis">&hellip;</span>;
+                                            }
+                                            return (
+                                                <button
+                                                    key={page}
+                                                    className={`pagination-btn page-number-btn ${currentPage === page ? 'active' : ''}`}
+                                                    onClick={() => handlePageChange(page)}
+                                                    aria-label={`Page ${page}`}
+                                                >
+                                                    {page}
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+
+                                    <div className="pagination-nav-group">
+                                        {/* Next Page Button */}
+                                        <button 
+                                            className="pagination-btn pagination-nav-btn" 
+                                            disabled={currentPage === pagination.totalPages}
+                                            onClick={() => handlePageChange(currentPage + 1)}
+                                            title="Next Page"
+                                            aria-label="Next Page"
+                                        >
+                                            <span className="btn-label-desktop">Next</span>
+                                            <ChevronRight size={18} />
+                                        </button>
+
+                                        {/* Last Page Button */}
+                                        <button 
+                                            className="pagination-btn pagination-nav-btn" 
+                                            disabled={currentPage === pagination.totalPages}
+                                            onClick={() => handlePageChange(pagination.totalPages)}
+                                            title={`Last Page (${pagination.totalPages})`}
+                                            aria-label={`Last Page (${pagination.totalPages})`}
+                                        >
+                                            <span className="btn-label-desktop">Last</span>
+                                            <ChevronsRight size={18} />
+                                        </button>
+                                    </div>
+
+                                    {/* Direct Jump to Page Form */}
+                                    <form className="pagination-jump-form" onSubmit={handleJumpSubmit}>
+                                        <span className="jump-label">Page</span>
+                                        <input 
+                                            type="number" 
+                                            min="1" 
+                                            max={pagination.totalPages}
+                                            value={jumpPageInput}
+                                            onChange={(e) => setJumpPageInput(e.target.value)}
+                                            placeholder={currentPage}
+                                            aria-label="Jump to page"
+                                            className="jump-input"
+                                        />
+                                        <span className="jump-total">of {pagination.totalPages}</span>
+                                        <button type="submit" className="jump-btn">Go</button>
+                                    </form>
                                 </div>
                             )}
                         </>
