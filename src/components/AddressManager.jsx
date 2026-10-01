@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAddresses } from '../hooks/useData';
 import { addressService } from '../services/apiService';
 import { Plus, Edit2, Trash2, MapPin, CheckCircle2, AlertCircle } from 'lucide-react';
+import ConfirmDialog from './ConfirmDialog';
 import { useToast } from '../context/ToastContext';
 import './AddressManager.css';
 
@@ -119,6 +120,8 @@ const AddressManager = ({ onSelectAddress, selectedAddressId, selectionMode = fa
     const { data: addresses, loading, error, refetch } = useAddresses();
     const [isAdding, setIsAdding] = useState(false);
     const [editingId, setEditingId] = useState(null);
+    const [deleteConfirmId, setDeleteConfirmId] = useState(null);
+    const [isDeleting, setIsDeleting] = useState(false);
     const toast = useToast();
 
     // Auto-select address if in selection mode and none is selected
@@ -129,13 +132,18 @@ const AddressManager = ({ onSelectAddress, selectedAddressId, selectionMode = fa
         }
     }, [addresses, selectionMode, selectedAddressId, onSelectAddress]);
 
-    const handleDelete = async (id) => {
-        if (!window.confirm('Are you sure you want to delete this address?')) return;
+    const executeDelete = async () => {
+        if (!deleteConfirmId) return;
+        setIsDeleting(true);
         try {
-            await addressService.deleteAddress(id);
+            await addressService.deleteAddress(deleteConfirmId);
+            toast.success('Address deleted successfully');
             refetch();
         } catch (err) {
             toast.error(err.message || 'Failed to delete address');
+        } finally {
+            setIsDeleting(false);
+            setDeleteConfirmId(null);
         }
     };
 
@@ -206,7 +214,7 @@ const AddressManager = ({ onSelectAddress, selectedAddressId, selectionMode = fa
                                 {!selectionMode && (
                                     <>
                                         <button onClick={() => setEditingId(address._id)} className="action-btn"><Edit2 size={16} /> Edit</button>
-                                        <button onClick={() => handleDelete(address._id)} className="action-btn text-danger"><Trash2 size={16} /> Delete</button>
+                                        <button onClick={() => setDeleteConfirmId(address._id)} className="action-btn text-danger"><Trash2 size={16} /> Delete</button>
                                         {!address.isDefault && (
                                             <button onClick={() => handleSetDefault(address._id)} className="action-btn ml-auto">Set as Default</button>
                                         )}
@@ -225,6 +233,18 @@ const AddressManager = ({ onSelectAddress, selectedAddressId, selectionMode = fa
                     )}
                 </div>
             )}
+
+            <ConfirmDialog
+                isOpen={Boolean(deleteConfirmId)}
+                title="Delete Address?"
+                message="Are you sure you want to remove this shipping address from your account?"
+                confirmText="Yes, Delete"
+                cancelText="Cancel"
+                type="danger"
+                loading={isDeleting}
+                onConfirm={executeDelete}
+                onCancel={() => setDeleteConfirmId(null)}
+            />
         </div>
     );
 };

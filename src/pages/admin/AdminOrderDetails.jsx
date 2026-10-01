@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { adminService } from '../../services/apiService';
 import { ArrowLeft, User, MapPin, Package, CreditCard, Clock, FileText, Send } from 'lucide-react';
 import AdminShipmentPanel from '../../components/AdminShipmentPanel';
+import ConfirmDialog from '../../components/ConfirmDialog';
 import './AdminOrders.css';
 
 const VALID_TRANSITIONS = {
@@ -49,18 +50,20 @@ const AdminOrderDetails = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [orderNumber]);
 
-    const handleStatusUpdate = async (newStatus) => {
-        if (!window.confirm(`Are you sure you want to change order status to ${newStatus}?`)) return;
-        
+    const [pendingStatus, setPendingStatus] = useState(null);
+
+    const executeStatusUpdate = async () => {
+        if (!pendingStatus) return;
         setStatusUpdating(true);
         setStatusError(null);
         try {
-            await adminService.updateOrderStatus(orderNumber, newStatus);
-            await fetchData(); // Refresh all data
+            await adminService.updateOrderStatus(orderNumber, pendingStatus);
+            await fetchData();
         } catch (err) {
             setStatusError(err.message || 'Failed to update status');
         } finally {
             setStatusUpdating(false);
+            setPendingStatus(null);
         }
     };
 
@@ -128,7 +131,7 @@ const AdminOrderDetails = () => {
                                 <button 
                                     key={status}
                                     className={`btn btn-${status === 'cancelled' ? 'outline text-danger' : 'primary'}`}
-                                    onClick={() => handleStatusUpdate(status)}
+                                    onClick={() => setPendingStatus(status)}
                                     disabled={statusUpdating}
                                 >
                                     Mark as {status.replace('_', ' ')}
@@ -346,6 +349,18 @@ const AdminOrderDetails = () => {
                     </div>
                 </div>
             </div>
+
+            <ConfirmDialog 
+                isOpen={Boolean(pendingStatus)}
+                title="Update Order Status?"
+                message={`Are you sure you want to change status of Order #${orderNumber} to "${pendingStatus ? pendingStatus.replace('_', ' ').toUpperCase() : ''}"?`}
+                confirmText="Yes, Update Status"
+                cancelText="Cancel"
+                type={pendingStatus === 'cancelled' ? 'danger' : 'info'}
+                loading={statusUpdating}
+                onConfirm={executeStatusUpdate}
+                onCancel={() => setPendingStatus(null)}
+            />
         </div>
     );
 };

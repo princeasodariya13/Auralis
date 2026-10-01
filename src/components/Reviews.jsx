@@ -3,6 +3,8 @@ import { useAuth } from '../context/AuthContext';
 import { reviewService } from '../services/apiService';
 import { Star, Edit2, Trash2, ShieldCheck, ThumbsUp, Flag, MessageSquare } from 'lucide-react';
 import { EmptyState } from './States';
+import ConfirmDialog from './ConfirmDialog';
+import { useToast } from '../context/ToastContext';
 import './Reviews.css';
 
 const ReviewForm = ({ productId, initialData, onSuccess, onCancel }) => {
@@ -95,43 +97,49 @@ const ReviewForm = ({ productId, initialData, onSuccess, onCancel }) => {
 const Reviews = ({ productId, reviewsData, onReviewChanged }) => {
     const { user, isAuthenticated } = useAuth();
     const [editingReviewId, setEditingReviewId] = useState(null);
+    const [deleteReviewId, setDeleteReviewId] = useState(null);
+    const [isDeleting, setIsDeleting] = useState(false);
+    const toast = useToast();
 
-    const handleDelete = async (reviewId) => {
-        if (!window.confirm("Are you sure you want to delete your review?")) return;
+    const executeDeleteReview = async () => {
+        if (!deleteReviewId) return;
+        setIsDeleting(true);
         try {
-            await reviewService.deleteReview(productId, reviewId);
+            await reviewService.deleteReview(productId, deleteReviewId);
+            toast.success("Review deleted");
             onReviewChanged();
         } catch (error) {
-            alert(error.message || "Failed to delete review");
+            toast.error(error.message || "Failed to delete review");
+        } finally {
+            setIsDeleting(false);
+            setDeleteReviewId(null);
         }
     };
 
     const handleVote = async (reviewId, value) => {
         if (!isAuthenticated) {
-            alert('Please sign in to vote.');
+            toast.warning('Please sign in to vote on reviews.');
             return;
         }
         try {
             await reviewService.voteReview(reviewId, value);
+            toast.success('Vote recorded');
             onReviewChanged();
         } catch (error) {
-            alert(error.message || "Failed to vote.");
+            toast.error(error.message || "Failed to vote.");
         }
     };
 
     const handleReport = async (reviewId) => {
         if (!isAuthenticated) {
-            alert('Please sign in to report.');
+            toast.warning('Please sign in to report reviews.');
             return;
         }
-        const reason = window.prompt("Why are you reporting this review? (inappropriate, spam, misleading, offensive, suspicious, other)");
-        if (!reason) return;
-        
         try {
-            await reviewService.reportReview(reviewId, reason.toLowerCase());
-            alert('Review reported successfully.');
+            await reviewService.reportReview(reviewId, 'inappropriate');
+            toast.success('Review reported for moderation.');
         } catch (error) {
-            alert(error.message || "Failed to report review.");
+            toast.error(error.message || "Failed to report review.");
         }
     };
 
@@ -241,7 +249,7 @@ const Reviews = ({ productId, reviewsData, onReviewChanged }) => {
                                 {user && user._id === review.userId._id && editingReviewId !== review._id && (
                                     <div className="review-actions">
                                         <button onClick={() => setEditingReviewId(review._id)} title="Edit"><Edit2 size={14}/></button>
-                                        <button onClick={() => handleDelete(review._id)} title="Delete"><Trash2 size={14}/></button>
+                                        <button onClick={() => setDeleteReviewId(review._id)} title="Delete"><Trash2 size={14}/></button>
                                     </div>
                                 )}
                             </div>
@@ -268,6 +276,18 @@ const Reviews = ({ productId, reviewsData, onReviewChanged }) => {
                     ))}
                 </div>
             </div>
+
+            <ConfirmDialog 
+                isOpen={Boolean(deleteReviewId)}
+                title="Delete Review?"
+                message="Are you sure you want to delete your review? This action cannot be undone."
+                confirmText="Yes, Delete"
+                cancelText="Cancel"
+                type="danger"
+                loading={isDeleting}
+                onConfirm={executeDeleteReview}
+                onCancel={() => setDeleteReviewId(null)}
+            />
         </div>
     );
 };

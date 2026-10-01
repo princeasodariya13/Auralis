@@ -5,6 +5,7 @@ import { orderService, paymentService, returnService } from '../services/apiServ
 import { ArrowLeft, MapPin, Package, AlertCircle, CreditCard, XCircle, Headphones } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import OrderShipmentTracking from '../components/OrderShipmentTracking';
+import ConfirmDialog from '../components/ConfirmDialog';
 import './Orders.css';
 
 const getStatusBadge = (status) => {
@@ -24,16 +25,16 @@ const OrderDetails = () => {
     const navigate = useNavigate();
     const { data: order, loading, error, refetch } = useOrder(orderNumber);
     const [isCancelling, setIsCancelling] = useState(false);
+    const [showCancelModal, setShowCancelModal] = useState(false);
     const location = useLocation();
     const [actionError, setActionError] = useState(location.state?.paymentError || null);
     const [isPaying, setIsPaying] = useState(false);
     const { user } = useAuth();
 
-    const handleCancelOrder = async () => {
-        if (!window.confirm('Are you sure you want to cancel this order?')) return;
-        
+    const executeCancelOrder = async () => {
         setIsCancelling(true);
         setActionError(null);
+        setShowCancelModal(false);
         try {
             await orderService.cancelOrder(orderNumber);
             refetch();
@@ -236,7 +237,7 @@ const OrderDetails = () => {
                             <button 
                                 className="btn btn-outline text-danger"
                                 style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem' }}
-                                onClick={handleCancelOrder}
+                                onClick={() => setShowCancelModal(true)}
                                 disabled={isCancelling || isPaying}
                             >
                                 <XCircle size={18} />
@@ -270,6 +271,18 @@ const OrderDetails = () => {
                     </div>
                 </div>
             </div>
+
+            <ConfirmDialog 
+                isOpen={showCancelModal}
+                title="Cancel Order?"
+                message={`Are you sure you want to cancel Order #${order.orderNumber}? This will release the item reservation and process any applicable refund.`}
+                confirmText="Yes, Cancel Order"
+                cancelText="Keep Order"
+                type="danger"
+                loading={isCancelling}
+                onConfirm={executeCancelOrder}
+                onCancel={() => setShowCancelModal(false)}
+            />
         </div>
     );
 };
