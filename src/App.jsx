@@ -27,6 +27,7 @@ const ReturnRequestForm = lazy(() => import('./pages/ReturnRequestForm'));
 const SupportTickets = lazy(() => import('./pages/SupportTickets'));
 const SupportTicketDetail = lazy(() => import('./pages/SupportTicketDetail'));
 const Loyalty = lazy(() => import('./pages/Loyalty'));
+import ProtectedRoute from './components/ProtectedRoute';
 import { PageSkeleton } from './components/Skeletons';
 
 // Admin Components (Lazy Loaded)
