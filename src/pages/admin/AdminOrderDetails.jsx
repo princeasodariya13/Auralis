@@ -72,7 +72,7 @@ const AdminOrderDetails = () => {
         if (!newNote.trim()) return;
 
         try {
-            await adminService.addOrderNote(orderNumber, newNote);
+            await adminService.addNote(orderNumber, newNote);
             setNewNote('');
             // Refresh notes
             const notesData = await adminService.getOrderNotes(orderNumber);

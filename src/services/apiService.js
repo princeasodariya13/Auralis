@@ -647,8 +647,10 @@ export const adminService = {
         const response = await safeFetch(endpoint, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch anomalies');
+        return json.data;
     },
     async getAuditLogs(params = {}) {
+
         const urlParams = new URLSearchParams();
         if (params.action && params.action !== 'ALL') urlParams.append('action', params.action);
         if (params.resourceType && params.resourceType !== 'ALL') urlParams.append('resourceType', params.resourceType);
@@ -669,6 +671,12 @@ export const adminService = {
         const response = await safeFetch(`${API_URL}/admin/audit-logs/filters`, getFetchOptions('GET'));
         const json = await response.json();
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch audit filters');
+        return json.data;
+    },
+    async getAnalytics(timeRange = '30d') {
+        const response = await safeFetch(`${API_URL}/admin/analytics?range=${timeRange}`, getFetchOptions('GET'));
+        const json = await response.json();
+        if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch analytics');
         return json.data;
     }
 };

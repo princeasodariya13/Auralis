@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { adminService, productService } from '../../services/apiService';
 import { Link } from 'react-router-dom';
-import { Search, Plus, Edit, ArchiveRestore, AlertTriangle, ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { Search, Plus, Edit, ArchiveRestore, AlertTriangle, ChevronLeft, ChevronRight, X, Package } from 'lucide-react';
 import './AdminProducts.css';
 
 const AdminProducts = () => {

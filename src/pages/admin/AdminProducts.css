@@ -1,6 +1,7 @@
 /* AdminProducts.css */
 
-.admin-products-page {
+.admin-products-page,
+.admin-customers-page {
     display: flex;
     flex-direction: column;
 }

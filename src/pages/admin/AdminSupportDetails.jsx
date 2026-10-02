@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { adminSupportService } from '../../services/apiService';
 import { ArrowLeft, Send, Shield, User as UserIcon, Lock, Search, FileText } from 'lucide-react';
+import './AdminDashboard.css';
+import './AdminOrders.css';
 
 const AdminSupportDetails = () => {
     const { ticketNumber } = useParams();

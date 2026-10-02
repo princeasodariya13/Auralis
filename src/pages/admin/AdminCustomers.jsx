@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { adminService } from '../../services/apiService';
 import { Link } from 'react-router-dom';
 import { Users, Search, Filter, Eye, ShoppingCart, RotateCcw, Headphones, AlertTriangle } from 'lucide-react';
+import './AdminDashboard.css';
 
 const AdminCustomers = () => {
     const [customers, setCustomers] = useState([]);
@@ -67,71 +68,62 @@ const AdminCustomers = () => {
     };
 
     return (
-        <div className="admin-page p-6 max-w-7xl mx-auto">
-            <div className="d-flex justify-content-between align-items-center mb-6">
+        <div className="admin-customers-page">
+            <div className="page-header">
                 <div>
-                    <h1 className="text-2xl font-bold text-slate-800 flex items-center gap-2 mb-1">
-                        <Users size={28} className="text-primary" /> Customer Intelligence
+                    <h1 className="d-flex align-items-center gap-2">
+                        <Users size={24} className="text-primary" /> Customer Intelligence
                     </h1>
-                    <p className="text-muted text-sm">Analyze customer lifecycle and behavior.</p>
+                    <p className="text-muted" style={{fontSize:'0.9rem'}}>Analyze customer lifecycle and behavior.</p>
                 </div>
-                <div className="text-muted text-sm font-medium">
-                    Total Customers: <span className="text-slate-800">{totalCustomers}</span>
-                </div>
-            </div>
-
-            <div className="card mb-6 flex flex-wrap gap-4 items-center">
-                <div className="relative flex-grow max-w-md">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" size={18} />
-                    <input 
-                        type="text" 
-                        placeholder="Search by name or email..." 
-                        className="form-control pl-10"
-                        value={search}
-                        onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-                    />
-                </div>
-                
-                <div className="flex items-center gap-2">
-                    <Filter size={18} className="text-muted" />
-                    <select 
-                        className="form-select w-auto" 
-                        value={segment} 
-                        onChange={(e) => { setSegment(e.target.value); setPage(1); }}
-                    >
-                        <option value="ALL">All Segments</option>
-                        <option value="VIP">VIP</option>
-                        <option value="REPEAT">Repeat</option>
-                        <option value="ONE_TIME">One Time</option>
-                        <option value="NEW">New</option>
-                        <option value="AT_RISK">At Risk</option>
-                        <option value="INACTIVE">Inactive</option>
-                    </select>
+                <div className="text-muted" style={{fontSize:'0.85rem', fontWeight:500}}>
+                    Total: <strong>{totalCustomers}</strong> customers
                 </div>
             </div>
 
-            <div className="card p-0 overflow-hidden">
-                {error && <div className="p-4 bg-red-50 text-red-600 border-b border-red-100">{error}</div>}
-                
-                <div className="overflow-x-auto">
-                    <table className="full-width text-sm text-left">
-                        <thead className="bg-surface-alt text-slate-600 font-semibold border-b border-slate-200">
+            <div className="admin-panel mb-6">
+                <div className="filters-bar">
+                    <div className="search-box">
+                        <Search className="search-icon" size={18} />
+                        <input
+                            type="text"
+                            placeholder="Search by name or email..."
+                            value={search}
+                            onChange={(e) => { setSearch(e.target.value); setPage(1); }}
+                        />
+                    </div>
+                    <div className="filter-group">
+                        <Filter size={18} style={{color:'var(--color-slate-400)'}} />
+                        <select
+                            value={segment}
+                            onChange={(e) => { setSegment(e.target.value); setPage(1); }}
+                        >
+                            <option value="ALL">All Segments</option>
+                            <option value="VIP">VIP</option>
+                            <option value="REPEAT">Repeat</option>
+                            <option value="ONE_TIME">One Time</option>
+                            <option value="NEW">New</option>
+                            <option value="AT_RISK">At Risk</option>
+                            <option value="INACTIVE">Inactive</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            {/* end filters panel */}
+
+            <div className="admin-panel">
+                {error && <div className="p-4" style={{color:'var(--color-danger)',background:'#fee2e2'}}>{error}</div>}
+                <div className="table-responsive">
+                    <table className="admin-table customers-table">
+                        <thead>
                             <tr>
-                                <th className="px-6 py-4 cursor-pointer hover:bg-slate-100" onClick={() => handleSort('name')}>
-                                    Customer {sortField === 'name' && (sortOrder === 1 ? '↑' : '↓')}
-                                </th>
-                                <th className="px-6 py-4">Segment</th>
-                                <th className="px-6 py-4 cursor-pointer hover:bg-slate-100" onClick={() => handleSort('paidOrderCount')}>
-                                    Orders {sortField === 'paidOrderCount' && (sortOrder === 1 ? '↑' : '↓')}
-                                </th>
-                                <th className="px-6 py-4 cursor-pointer hover:bg-slate-100" onClick={() => handleSort('lifetimeRevenue')}>
-                                    LTV / AOV {sortField === 'lifetimeRevenue' && (sortOrder === 1 ? '↑' : '↓')}
-                                </th>
-                                <th className="px-6 py-4 cursor-pointer hover:bg-slate-100" onClick={() => handleSort('lastPurchaseDate')}>
-                                    Last Purchase {sortField === 'lastPurchaseDate' && (sortOrder === 1 ? '↑' : '↓')}
-                                </th>
-                                <th className="px-6 py-4">Indicators</th>
-                                <th className="px-6 py-4 text-right">Actions</th>
+                                <th onClick={() => handleSort('name')} style={{cursor:'pointer'}}>Customer {sortField === 'name' && (sortOrder === 1 ? '↑' : '↓')}</th>
+                                <th>Segment</th>
+                                <th onClick={() => handleSort('paidOrderCount')} style={{cursor:'pointer'}}>Orders {sortField === 'paidOrderCount' && (sortOrder === 1 ? '↑' : '↓')}</th>
+                                <th onClick={() => handleSort('lifetimeRevenue')} style={{cursor:'pointer'}}>LTV / AOV {sortField === 'lifetimeRevenue' && (sortOrder === 1 ? '↑' : '↓')}</th>
+                                <th onClick={() => handleSort('lastPurchaseDate')} style={{cursor:'pointer'}}>Last Purchase {sortField === 'lastPurchaseDate' && (sortOrder === 1 ? '↑' : '↓')}</th>
+                                <th>Indicators</th>
+                                <th className="text-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-100">
@@ -192,28 +184,14 @@ const AdminCustomers = () => {
                         </tbody>
                     </table>
                 </div>
-                
-                {/* Pagination */}
+
                 {totalPages > 1 && (
-                    <div className="px-6 py-4 border-t border-slate-200 flex justify-between items-center bg-surface-alt">
-                        <span className="text-sm text-slate-600">
-                            Page {page} of {totalPages}
-                        </span>
-                        <div className="flex gap-2">
-                            <button 
-                                className="btn btn-sm btn-outline-secondary" 
-                                disabled={page === 1} 
-                                onClick={() => setPage(page - 1)}
-                            >
-                                Previous
-                            </button>
-                            <button 
-                                className="btn btn-sm btn-outline-secondary" 
-                                disabled={page === totalPages} 
-                                onClick={() => setPage(page + 1)}
-                            >
-                                Next
-                            </button>
+                    <div className="panel-footer">
+                        <span className="pagination-info">Page {page} of {totalPages}</span>
+                        <div className="pagination-buttons">
+                            <button className="btn-pagination" disabled={page === 1} onClick={() => setPage(page - 1)}>&laquo;</button>
+                            <span className="pagination-current">{page} / {totalPages}</span>
+                            <button className="btn-pagination" disabled={page === totalPages} onClick={() => setPage(page + 1)}>&raquo;</button>
                         </div>
                     </div>
                 )}

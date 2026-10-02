@@ -3,6 +3,8 @@ import { adminService } from '../../services/apiService';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, User, Mail, Calendar, DollarSign, ShoppingBag, RotateCcw, Headphones, ShoppingCart, Activity, AlertTriangle, Award } from 'lucide-react';
 import { formatINR } from '../../utils/formatCurrency';
+import './AdminDashboard.css';
+import './AdminOrders.css';
 
 const AdminCustomerDetails = () => {
     const { id } = useParams();

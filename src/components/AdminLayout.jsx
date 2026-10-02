@@ -4,6 +4,7 @@ import { LayoutDashboard, Package, ArchiveRestore, ShoppingCart, Users, Tag, Tre
 import { useState } from 'react';
 import './AdminLayout.css';
 import '../pages/admin/AdminDashboard.css'; // Import shared admin layout classes (.admin-panel, etc)
+import './AdminShared.css'; // Shared utility classes for all admin pages
 
 const AdminLayout = () => {
     const { user, logout } = useAuth();
@@ -77,10 +78,6 @@ const AdminLayout = () => {
                     <NavLink to="/admin/customers" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
                         <Users size={20} />
                         <span>Customers</span>
-                    </NavLink>
-                    <NavLink to="/admin/orders" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
-                        <ShoppingCart size={20} />
-                        <span>Orders</span>
                     </NavLink>
                     <NavLink to="/admin/returns" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
                         <RotateCcw size={20} />

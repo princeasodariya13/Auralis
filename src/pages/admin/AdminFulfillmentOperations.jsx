@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { adminService } from '../../services/apiService';
 import { Truck, AlertTriangle, CheckCircle, Clock, PackageX, ChevronDown, Filter, RefreshCw, Eye, Search } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import './AdminDashboard.css';
+import './AdminProducts.css';
 
 const AdminFulfillmentOperations = () => {
     const [exceptions, setExceptions] = useState([]);
