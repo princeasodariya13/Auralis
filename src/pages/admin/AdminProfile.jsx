@@ -226,17 +226,31 @@ const AdminProfile = () => {
                     <form onSubmit={handleChangePassword} className="space-y-4">
                         <div>
                             <label className="block text-xs font-semibold text-slate-600 uppercase mb-1">Current Password</label>
-                            <div className="relative">
+                            <div style={{ position: 'relative' }}>
                                 <input
                                     type={showCurrentPass ? 'text' : 'password'}
                                     className="form-control"
+                                    style={{ paddingRight: '2.5rem' }}
                                     placeholder="Enter current password"
                                     value={currentPassword}
                                     onChange={(e) => setCurrentPassword(e.target.value)}
                                 />
                                 <button
                                     type="button"
-                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                                    style={{
+                                        position: 'absolute',
+                                        right: '0.75rem',
+                                        top: '50%',
+                                        transform: 'translateY(-50%)',
+                                        background: 'none',
+                                        border: 'none',
+                                        color: '#94a3b8',
+                                        cursor: 'pointer',
+                                        padding: '0.25rem',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center'
+                                    }}
                                     onClick={() => setShowCurrentPass(!showCurrentPass)}
                                 >
                                     {showCurrentPass ? <EyeOff size={16} /> : <Eye size={16} />}
@@ -246,17 +260,31 @@ const AdminProfile = () => {
 
                         <div>
                             <label className="block text-xs font-semibold text-slate-600 uppercase mb-1">New Password</label>
-                            <div className="relative">
+                            <div style={{ position: 'relative' }}>
                                 <input
                                     type={showNewPass ? 'text' : 'password'}
                                     className="form-control"
+                                    style={{ paddingRight: '2.5rem' }}
                                     placeholder="At least 6 characters"
                                     value={newPassword}
                                     onChange={(e) => setNewPassword(e.target.value)}
                                 />
                                 <button
                                     type="button"
-                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                                    style={{
+                                        position: 'absolute',
+                                        right: '0.75rem',
+                                        top: '50%',
+                                        transform: 'translateY(-50%)',
+                                        background: 'none',
+                                        border: 'none',
+                                        color: '#94a3b8',
+                                        cursor: 'pointer',
+                                        padding: '0.25rem',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center'
+                                    }}
                                     onClick={() => setShowNewPass(!showNewPass)}
                                 >
                                     {showNewPass ? <EyeOff size={16} /> : <Eye size={16} />}
@@ -343,17 +371,31 @@ const AdminProfile = () => {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                             <div>
                                 <label className="block text-xs font-semibold text-slate-600 uppercase mb-1">Password</label>
-                                <div className="relative">
+                                <div style={{ position: 'relative' }}>
                                     <input
                                         type={showAdminPass ? 'text' : 'password'}
                                         className="form-control"
+                                        style={{ paddingRight: '2.5rem' }}
                                         placeholder="Min 6 chars"
                                         value={adminPassword}
                                         onChange={(e) => setAdminPassword(e.target.value)}
                                     />
                                     <button
                                         type="button"
-                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                                        style={{
+                                            position: 'absolute',
+                                            right: '0.75rem',
+                                            top: '50%',
+                                            transform: 'translateY(-50%)',
+                                            background: 'none',
+                                            border: 'none',
+                                            color: '#94a3b8',
+                                            cursor: 'pointer',
+                                            padding: '0.25rem',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center'
+                                        }}
                                         onClick={() => setShowAdminPass(!showAdminPass)}
                                     >
                                         {showAdminPass ? <EyeOff size={16} /> : <Eye size={16} />}
