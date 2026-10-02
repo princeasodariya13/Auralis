@@ -1,7 +1,8 @@
 import { Outlet, NavLink, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { LayoutDashboard, Package, ArchiveRestore, ShoppingCart, Users, Tag, TrendingUp, LogOut, Menu, X, RotateCcw, ShieldAlert, FileText, Headphones, Star, AlertTriangle } from 'lucide-react';
+import { LayoutDashboard, Package, ArchiveRestore, ShoppingCart, Users, Tag, TrendingUp, LogOut, Menu, X, RotateCcw, ShieldAlert, FileText, Headphones, Star, AlertTriangle, ShieldCheck, User } from 'lucide-react';
 import { useState } from 'react';
+import ConfirmDialog from './ConfirmDialog';
 import './AdminLayout.css';
 import '../pages/admin/AdminDashboard.css'; // Import shared admin layout classes (.admin-panel, etc)
 import './AdminShared.css'; // Shared utility classes for all admin pages
@@ -10,10 +11,20 @@ const AdminLayout = () => {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+    const [logoutLoading, setLogoutLoading] = useState(false);
 
-    const handleLogout = async () => {
-        await logout();
-        navigate('/login');
+    const handleConfirmLogout = async () => {
+        setLogoutLoading(true);
+        try {
+            await logout();
+            navigate('/login');
+        } catch (err) {
+            console.error('Logout error:', err);
+        } finally {
+            setLogoutLoading(false);
+            setShowLogoutConfirm(false);
+        }
     };
 
     const toggleSidebar = () => {
@@ -42,13 +53,13 @@ const AdminLayout = () => {
                     </Link>
                 </div>
 
-                <div className="sidebar-user">
+                <Link to="/admin/profile" className="sidebar-user hover:bg-slate-800 transition-colors" title="Manage Admin Profile">
                     <div className="user-avatar">{user?.name?.charAt(0).toUpperCase()}</div>
                     <div className="user-info">
                         <span className="user-name">{user?.name}</span>
                         <span className="user-role">Administrator</span>
                     </div>
-                </div>
+                </Link>
 
                 <nav className="sidebar-nav">
                     <NavLink to="/admin" end className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
@@ -107,10 +118,14 @@ const AdminLayout = () => {
                         <FileText size={20} />
                         <span>Audit Logs</span>
                     </NavLink>
+                    <NavLink to="/admin/profile" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
+                        <ShieldCheck size={20} />
+                        <span>Admin Profile</span>
+                    </NavLink>
                 </nav>
 
                 <div className="sidebar-footer">
-                    <button className="logout-btn" onClick={handleLogout}>
+                    <button className="logout-btn" onClick={() => setShowLogoutConfirm(true)}>
                         <LogOut size={20} />
                         <span>Logout</span>
                     </button>
@@ -131,6 +146,19 @@ const AdminLayout = () => {
             {sidebarOpen && (
                 <div className="admin-sidebar-overlay" onClick={toggleSidebar}></div>
             )}
+
+            {/* Logout Confirmation Card Modal */}
+            <ConfirmDialog
+                isOpen={showLogoutConfirm}
+                title="Confirm Logout"
+                message="Are you sure you want to log out of the admin panel?"
+                confirmText="Yes, Log Out"
+                cancelText="Cancel"
+                type="danger"
+                loading={logoutLoading}
+                onConfirm={handleConfirmLogout}
+                onCancel={() => setShowLogoutConfirm(false)}
+            />
         </div>
     );
 };

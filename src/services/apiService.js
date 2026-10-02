@@ -564,6 +564,18 @@ export const adminService = {
         if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to adjust loyalty');
         return json.data;
     },
+    async getAdmins() {
+        const response = await safeFetch(`${API_URL}/admin/admins`, getFetchOptions('GET'));
+        const json = await response.json();
+        if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to fetch admin users');
+        return json.data;
+    },
+    async createAdmin(adminData) {
+        const response = await safeFetch(`${API_URL}/admin/admins`, getFetchOptions('POST', adminData));
+        const json = await response.json();
+        if (!response.ok || !json.success) throw new Error(json?.error?.message || 'Failed to create admin user');
+        return json.data;
+    },
     async getCoupons() {
         const response = await safeFetch(`${API_URL}/coupons/admin`, getFetchOptions('GET'));
         const json = await response.json();

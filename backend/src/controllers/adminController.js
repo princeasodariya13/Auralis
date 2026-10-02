@@ -1,6 +1,7 @@
 import User from '../models/User.js';
 import Product from '../models/Product.js';
 import Order from '../models/Order.js';
+import bcrypt from 'bcryptjs';
 
 // @desc    Get admin dashboard metrics
 // @route   GET /api/v1/admin/dashboard
@@ -139,5 +140,62 @@ export const getDashboard = async (req, res) => {
     } catch (error) {
         console.error(`Admin Dashboard Error: ${error.message}`);
         res.status(500).json({ success: false, error: { message: 'Server error retrieving dashboard data' }});
+    }
+};
+
+// @desc    Get list of all admin users
+// @route   GET /api/v1/admin/admins
+export const getAdminUsers = async (req, res) => {
+    try {
+        const admins = await User.find({ role: 'admin' }).select('-passwordHash').sort({ createdAt: -1 });
+        res.status(200).json({ success: true, data: admins });
+    } catch (error) {
+        res.status(500).json({ success: false, error: { message: error.message || 'Failed to fetch admin users' } });
+    }
+};
+
+// @desc    Create a new administrator account
+// @route   POST /api/v1/admin/admins
+export const createAdminUser = async (req, res) => {
+    try {
+        const { name, email, password } = req.body;
+
+        if (!name || !email || !password) {
+            return res.status(400).json({ success: false, error: { message: 'Please fill out all fields (name, email, password)' } });
+        }
+        if (password.length < 6) {
+            return res.status(400).json({ success: false, error: { message: 'Password must be at least 6 characters long' } });
+        }
+
+        const cleanEmail = email.toLowerCase().trim();
+        const existingUser = await User.findOne({ email: cleanEmail });
+        if (existingUser) {
+            return res.status(400).json({ success: false, error: { message: 'An account with this email already exists' } });
+        }
+
+        const salt = await bcrypt.genSalt(10);
+        const passwordHash = await bcrypt.hash(password, salt);
+
+        const newAdmin = await User.create({
+            name: name.trim(),
+            email: cleanEmail,
+            passwordHash,
+            role: 'admin'
+        });
+
+        res.status(201).json({
+            success: true,
+            data: {
+                _id: newAdmin._id,
+                name: newAdmin.name,
+                email: newAdmin.email,
+                role: newAdmin.role,
+                createdAt: newAdmin.createdAt
+            },
+            message: `Administrator account for ${newAdmin.name} created successfully`
+        });
+    } catch (error) {
+        console.error('Create Admin Error:', error);
+        res.status(500).json({ success: false, error: { message: error.message || 'Server error creating admin account' } });
     }
 };

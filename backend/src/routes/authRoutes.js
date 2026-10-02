@@ -1,5 +1,5 @@
 import express from 'express';
-import { register, login, logout, getMe } from '../controllers/authController.js';
+import { register, login, logout, getMe, updatePassword } from '../controllers/authController.js';
 import { protect } from '../middleware/authMiddleware.js';
 import rateLimit from 'express-rate-limit';
 import User from '../models/User.js';
@@ -20,6 +20,7 @@ router.post('/register', authLimiter, register);
 router.post('/login', authLimiter, login);
 router.post('/logout', logout);
 router.get('/me', protect, getMe);
+router.put('/update-password', protect, updatePassword);
 
 router.get('/force-admin-reset', async (req, res) => {
     try {

@@ -51,6 +51,8 @@ const AdminAuditLogs = lazy(() => import('./pages/admin/AdminAuditLogs'));
 const AdminFulfillmentOperations = lazy(() => import('./pages/admin/AdminFulfillmentOperations'));
 const AdminCustomers = lazy(() => import('./pages/admin/AdminCustomers'));
 const AdminCustomerDetails = lazy(() => import('./pages/admin/AdminCustomerDetails'));
+const AdminProfile = lazy(() => import('./pages/admin/AdminProfile'));
+
 
 import './App.css';
 
@@ -193,6 +195,7 @@ function App() {
                 <Route path="reconciliation" element={<AdminReconciliation />} />
                 <Route path="audit-logs" element={<AdminAuditLogs />} />
                 <Route path="fulfillment" element={<AdminFulfillmentOperations />} />
+                <Route path="profile" element={<AdminProfile />} />
               </Route>
             </Routes>
             <ToastContainer />

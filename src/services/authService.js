@@ -71,5 +71,14 @@ export const authService = {
             throw new Error(json?.error?.message || 'Failed to update profile');
         }
         return json.data.user;
+    },
+
+    async updatePassword(currentPassword, newPassword) {
+        const response = await safeFetch(`${API_URL}/auth/update-password`, getFetchOptions('PUT', { currentPassword, newPassword }));
+        const json = await response.json();
+        if (!response.ok || !json.success) {
+            throw new Error(json?.error?.message || 'Password update failed');
+        }
+        return json;
     }
 };

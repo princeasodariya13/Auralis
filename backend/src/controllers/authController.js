@@ -130,3 +130,33 @@ export const getMe = async (req, res) => {
 
     res.status(200).json({ success: true, data: { user: userPayload } });
 };
+
+// @desc    Update user password
+// @route   PUT /api/v1/auth/update-password
+export const updatePassword = async (req, res) => {
+    try {
+        const { currentPassword, newPassword } = req.body;
+
+        if (!currentPassword || !newPassword) {
+            return res.status(400).json({ success: false, error: { message: 'Please provide current and new password' } });
+        }
+        if (newPassword.length < 6) {
+            return res.status(400).json({ success: false, error: { message: 'New password must be at least 6 characters long' } });
+        }
+
+        const user = await User.findById(req.user._id);
+        const isMatch = await bcrypt.compare(currentPassword, user.passwordHash);
+        if (!isMatch) {
+            return res.status(400).json({ success: false, error: { message: 'Incorrect current password' } });
+        }
+
+        const salt = await bcrypt.genSalt(10);
+        user.passwordHash = await bcrypt.hash(newPassword, salt);
+        await user.save();
+
+        res.status(200).json({ success: true, message: 'Password updated successfully' });
+    } catch (error) {
+        console.error('Update Password Error:', error);
+        res.status(500).json({ success: false, error: { message: error.message || 'Failed to update password' } });
+    }
+};

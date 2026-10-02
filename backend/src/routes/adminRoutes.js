@@ -1,5 +1,5 @@
 import express from 'express';
-import { getDashboard } from '../controllers/adminController.js';
+import { getDashboard, getAdminUsers, createAdminUser } from '../controllers/adminController.js';
 import { getAdminProducts, getAdminProductById, createProduct, updateProduct, deleteProduct } from '../controllers/adminProductController.js';
 import { getInventory, getInventorySummary, adjustInventory, getInventoryHistory } from '../controllers/adminInventoryController.js';
 import { getAdminOrders, getAdminOrderDetails, updateOrderStatus, getOrderHistory, getOrderNotes, addOrderNote } from '../controllers/adminOrderController.js';
@@ -16,6 +16,9 @@ router.use(protect, admin);
 router.get('/dashboard', getDashboard);
 router.get('/health', getSystemHealth);
 router.get('/analytics', getAnalytics);
+
+router.get('/admins', getAdminUsers);
+router.post('/admins', createAdminUser);
 
 router.get('/products', getAdminProducts);
 router.get('/products/:id', getAdminProductById);

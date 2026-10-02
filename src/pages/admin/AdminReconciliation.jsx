@@ -98,7 +98,7 @@ const AdminReconciliation = () => {
                     <h1>Financial Reconciliation</h1>
                     <p>Diagnostic tools to verify order, payment, and refund integrity.</p>
                 </div>
-                <button onClick={fetchReconciliationData} className="btn-secondary" disabled={loading}>
+                <button onClick={fetchReconciliationData} className="btn btn-outline-primary d-inline-flex align-items-center gap-2" disabled={loading}>
                     <RefreshCw size={16} className={loading ? 'spinner' : ''} />
                     Run Audit
                 </button>
@@ -137,27 +137,29 @@ const AdminReconciliation = () => {
                 </div>
             )}
 
-            <div className="admin-filters">
-                <div className="filter-group">
-                    <label>Severity</label>
-                    <select name="severity" value={filters.severity} onChange={handleFilterChange}>
-                        <option value="ALL">All Severities</option>
-                        <option value="CRITICAL">Critical</option>
-                        <option value="HIGH">High</option>
-                        <option value="WARNING">Warning</option>
-                        <option value="INFO">Info</option>
-                    </select>
-                </div>
-                <div className="filter-group">
-                    <label>Anomaly Type</label>
-                    <select name="type" value={filters.type} onChange={handleFilterChange}>
-                        <option value="ALL">All Types</option>
-                        <option value="PAID_ORDER_MISSING_PAYMENT_REFERENCE">Missing Payment Ref</option>
-                        <option value="REFUND_WITHOUT_GATEWAY_REFERENCE">Missing Refund Ref</option>
-                        <option value="OVER_REFUND">Over Refunded</option>
-                        <option value="INVALID_RETURN_STATE">Invalid Return State</option>
-                        <option value="INVENTORY_NEGATIVE">Negative Inventory</option>
-                    </select>
+            <div className="admin-panel mb-6">
+                <div className="filters-bar">
+                    <div className="filter-group">
+                        <span className="font-medium text-slate-700 text-sm">Severity:</span>
+                        <select name="severity" value={filters.severity} onChange={handleFilterChange} className="form-select">
+                            <option value="ALL">All Severities</option>
+                            <option value="CRITICAL">Critical</option>
+                            <option value="HIGH">High</option>
+                            <option value="WARNING">Warning</option>
+                            <option value="INFO">Info</option>
+                        </select>
+                    </div>
+                    <div className="filter-group">
+                        <span className="font-medium text-slate-700 text-sm">Anomaly Type:</span>
+                        <select name="type" value={filters.type} onChange={handleFilterChange} className="form-select">
+                            <option value="ALL">All Types</option>
+                            <option value="PAID_ORDER_MISSING_PAYMENT_REFERENCE">Missing Payment Ref</option>
+                            <option value="REFUND_WITHOUT_GATEWAY_REFERENCE">Missing Refund Ref</option>
+                            <option value="OVER_REFUND">Over Refunded</option>
+                            <option value="INVALID_RETURN_STATE">Invalid Return State</option>
+                            <option value="INVENTORY_NEGATIVE">Negative Inventory</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 
