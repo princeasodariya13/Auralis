@@ -119,7 +119,7 @@ const AdminLayout = () => {
                         <span>Audit Logs</span>
                     </NavLink>
                     <NavLink to="/admin/profile" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
-                        <ShieldCheck size={20} />
+                        <User size={20} />
                         <span>Admin Profile</span>
                     </NavLink>
                 </nav>

@@ -30,6 +30,9 @@ const AdminProfile = () => {
     const [addAdminError, setAddAdminError] = useState(null);
     const [addAdminSuccess, setAddAdminSuccess] = useState(null);
 
+    // Active View Tab State
+    const [activeTab, setActiveTab] = useState('all');
+
     // List of Administrators State
     const [adminsList, setAdminsList] = useState([]);
     const [listLoading, setListLoading] = useState(true);
@@ -157,10 +160,49 @@ const AdminProfile = () => {
                 </div>
             </div>
 
+            {/* Quick Filter Navigation Tabs */}
+            <div className="flex flex-wrap gap-2 border-b border-slate-200 pb-3">
+                <button
+                    type="button"
+                    onClick={() => setActiveTab('all')}
+                    className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all flex items-center gap-2 ${
+                        activeTab === 'all'
+                            ? 'bg-slate-900 text-white shadow-sm'
+                            : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
+                    }`}
+                >
+                    <ShieldCheck size={16} /> Overview
+                </button>
+                <button
+                    type="button"
+                    onClick={() => setActiveTab('password')}
+                    className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all flex items-center gap-2 ${
+                        activeTab === 'password'
+                            ? 'bg-slate-900 text-white shadow-sm'
+                            : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
+                    }`}
+                >
+                    <Key size={16} /> Change Password
+                </button>
+                <button
+                    type="button"
+                    onClick={() => setActiveTab('add-admin')}
+                    className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all flex items-center gap-2 ${
+                        activeTab === 'add-admin'
+                            ? 'bg-slate-900 text-white shadow-sm'
+                            : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
+                    }`}
+                >
+                    <UserPlus size={16} /> Add New Admin
+                </button>
+            </div>
+
             {/* Grid for Change Password & Add Admin */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className={`grid grid-cols-1 ${activeTab === 'all' ? 'lg:grid-cols-2' : 'grid-cols-1'} gap-6`}>
                 {/* Card 1: Change Password */}
+                {(activeTab === 'all' || activeTab === 'password') && (
                 <div className="card p-6">
+
                     <div className="border-b border-slate-100 pb-4 mb-6 flex items-center gap-2">
                         <Key size={20} className="text-primary" />
                         <div>
@@ -250,8 +292,10 @@ const AdminProfile = () => {
                         </button>
                     </form>
                 </div>
+                )}
 
                 {/* Card 2: Create New Admin */}
+                {(activeTab === 'all' || activeTab === 'add-admin') && (
                 <div className="card p-6">
                     <div className="border-b border-slate-100 pb-4 mb-6 flex items-center gap-2">
                         <UserPlus size={20} className="text-primary" />
@@ -345,6 +389,7 @@ const AdminProfile = () => {
                         </button>
                     </form>
                 </div>
+                )}
             </div>
 
             {/* Active Administrators List */}

@@ -3,6 +3,9 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
 import { WishlistProvider } from './context/WishlistContext';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
+
 
 import Layout from './components/Layout';
 import ScrollToTop from './components/ScrollToTop';
@@ -199,6 +202,8 @@ function App() {
               </Route>
             </Routes>
             <ToastContainer />
+            <Analytics />
+            <SpeedInsights />
           </BrowserRouter>
         </CartProvider>
       </WishlistProvider>
