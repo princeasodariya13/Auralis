@@ -3,6 +3,8 @@ import { adminService } from '../../services/apiService';
 import { Link } from 'react-router-dom';
 import { Users, Search, Filter, Eye, ShoppingCart, RotateCcw, Headphones, AlertTriangle } from 'lucide-react';
 import './AdminDashboard.css';
+import './AdminProducts.css';
+import '../../components/AdminShared.css';
 
 const AdminCustomers = () => {
     const [customers, setCustomers] = useState([]);

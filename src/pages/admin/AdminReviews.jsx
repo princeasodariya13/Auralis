@@ -2,7 +2,9 @@ import { useState, useEffect, useCallback } from 'react';
 import { adminReviewService } from '../../services/apiService';
 import { Star, Filter, Search, CheckCircle, XCircle, Flag, ShieldCheck } from 'lucide-react';
 import { ErrorState, EmptyState } from '../../components/States';
-import './AdminDashboard.css'; // Reuse existing admin styles where possible
+import './AdminDashboard.css';
+import './AdminProducts.css';
+import '../../components/AdminShared.css';
 
 const AdminReviews = () => {
     const [reviews, setReviews] = useState([]);
@@ -78,33 +80,35 @@ const AdminReviews = () => {
                 </div>
             </div>
 
-            <div className="admin-filters-bar mb-6" style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-                <div className="filter-group">
-                    <Filter size={18} />
-                    <select name="status" value={filters.status} onChange={handleFilterChange} className="admin-select">
-                        <option value="ALL">All Statuses</option>
-                        <option value="approved">Approved</option>
-                        <option value="pending">Pending</option>
-                        <option value="flagged">Flagged</option>
-                        <option value="rejected">Rejected</option>
-                    </select>
-                </div>
-                <div className="filter-group">
-                    <Star size={18} />
-                    <select name="rating" value={filters.rating} onChange={handleFilterChange} className="admin-select">
-                        <option value="ALL">All Ratings</option>
-                        <option value="5">5 Stars</option>
-                        <option value="4">4 Stars</option>
-                        <option value="3">3 Stars</option>
-                        <option value="2">2 Stars</option>
-                        <option value="1">1 Star</option>
-                    </select>
-                </div>
-                <div className="filter-group">
-                    <select name="sort" value={filters.sort} onChange={handleFilterChange} className="admin-select">
-                        <option value="newest">Newest First</option>
-                        <option value="oldest">Oldest First</option>
-                    </select>
+            <div className="admin-panel mb-6">
+                <div className="filters-bar">
+                    <div className="filter-group">
+                        <Filter size={18} style={{ color: 'var(--color-slate-400)' }} />
+                        <select name="status" value={filters.status} onChange={handleFilterChange} className="form-select">
+                            <option value="ALL">All Statuses</option>
+                            <option value="approved">Approved</option>
+                            <option value="pending">Pending</option>
+                            <option value="flagged">Flagged</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                    </div>
+                    <div className="filter-group">
+                        <Star size={18} style={{ color: 'var(--color-slate-400)' }} />
+                        <select name="rating" value={filters.rating} onChange={handleFilterChange} className="form-select">
+                            <option value="ALL">All Ratings</option>
+                            <option value="5">5 Stars</option>
+                            <option value="4">4 Stars</option>
+                            <option value="3">3 Stars</option>
+                            <option value="2">2 Stars</option>
+                            <option value="1">1 Star</option>
+                        </select>
+                    </div>
+                    <div className="filter-group">
+                        <select name="sort" value={filters.sort} onChange={handleFilterChange} className="form-select">
+                            <option value="newest">Newest First</option>
+                            <option value="oldest">Oldest First</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 

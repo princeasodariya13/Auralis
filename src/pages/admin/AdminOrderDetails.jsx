@@ -5,6 +5,8 @@ import { ArrowLeft, User, MapPin, Package, CreditCard, Clock, FileText, Send } f
 import AdminShipmentPanel from '../../components/AdminShipmentPanel';
 import ConfirmDialog from '../../components/ConfirmDialog';
 import './AdminOrders.css';
+import './AdminDashboard.css';
+import '../../components/AdminShared.css';
 
 const VALID_TRANSITIONS = {
     'pending_payment': ['processing', 'cancelled'],
@@ -126,11 +128,11 @@ const AdminOrderDetails = () => {
                 {allowedTransitions.length > 0 && (
                     <div className="order-actions">
                         {statusError && <div className="text-danger text-sm mb-2 text-right">{statusError}</div>}
-                        <div className="d-flex gap-2">
+                        <div className="d-flex align-items-center gap-2">
                             {allowedTransitions.map(status => (
                                 <button 
                                     key={status}
-                                    className={`btn btn-${status === 'cancelled' ? 'outline text-danger' : 'primary'}`}
+                                    className={`btn ${status === 'cancelled' ? 'btn-outline-danger' : 'btn-primary'} d-inline-flex align-items-center gap-2`}
                                     onClick={() => setPendingStatus(status)}
                                     disabled={statusUpdating}
                                 >
@@ -331,16 +333,17 @@ const AdminOrderDetails = () => {
                                 )}
                             </div>
                             <form onSubmit={handleAddNote} className="add-note-form border-top p-3 bg-light">
-                                <div className="d-flex gap-2">
+                                <div className="d-flex align-items-center gap-2">
                                     <input 
                                         type="text" 
                                         className="form-control text-sm" 
+                                        style={{ flex: 1 }}
                                         placeholder="Add an internal note..." 
                                         value={newNote}
                                         onChange={(e) => setNewNote(e.target.value)}
                                         maxLength="2000"
                                     />
-                                    <button type="submit" className="btn btn-primary p-2" disabled={!newNote.trim()}>
+                                    <button type="submit" className="btn btn-primary d-inline-flex align-items-center justify-content-center p-2.5 rounded-lg" disabled={!newNote.trim()}>
                                         <Send size={16} />
                                     </button>
                                 </div>

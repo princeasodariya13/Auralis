@@ -4,6 +4,7 @@ import { Truck, AlertTriangle, CheckCircle, Clock, PackageX, ChevronDown, Filter
 import { Link } from 'react-router-dom';
 import './AdminDashboard.css';
 import './AdminProducts.css';
+import '../../components/AdminShared.css';
 
 const AdminFulfillmentOperations = () => {
     const [exceptions, setExceptions] = useState([]);

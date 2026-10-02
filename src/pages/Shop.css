@@ -201,13 +201,13 @@
     top: 80px;
 }
 
-.filter-group {
+.shop-sidebar .filter-group {
     margin-bottom: 2rem;
     padding-bottom: 2rem;
     border-bottom: 1px solid var(--color-border);
 }
 
-.filter-group:last-child {
+.shop-sidebar .filter-group:last-child {
     border-bottom: none;
     margin-bottom: 0;
     padding-bottom: 0;

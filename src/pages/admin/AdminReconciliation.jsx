@@ -3,6 +3,8 @@ import { adminService } from '../../services/apiService';
 import { AlertCircle, FileText, CheckCircle, Search, RefreshCw, ChevronLeft, ChevronRight, AlertTriangle, XCircle, FileWarning } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import '../../assets/AdminReconciliation.css';
+import './AdminDashboard.css';
+import '../../components/AdminShared.css';
 
 const AdminReconciliation = () => {
     const [summary, setSummary] = useState(null);

@@ -2,6 +2,8 @@ import React, { useState, useEffect, Suspense } from 'react';
 import { adminService } from '../../services/apiService';
 import { RefreshCw, Search, ChevronLeft, ChevronRight, Activity, FileText, CheckCircle, XCircle, User, Info, FileCode } from 'lucide-react';
 import '../../assets/AdminAuditLogs.css';
+import './AdminDashboard.css';
+import '../../components/AdminShared.css';
 
 const AdminAuditLogs = () => {
     const [logs, setLogs] = useState([]);

@@ -5,6 +5,7 @@ import { ArrowLeft, User, Mail, Calendar, DollarSign, ShoppingBag, RotateCcw, He
 import { formatINR } from '../../utils/formatCurrency';
 import './AdminDashboard.css';
 import './AdminOrders.css';
+import '../../components/AdminShared.css';
 
 const AdminCustomerDetails = () => {
     const { id } = useParams();
